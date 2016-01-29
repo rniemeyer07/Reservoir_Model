@@ -35,7 +35,7 @@ real :: energy_x, volume_h_x, area, density, heat_c, delta_t
 real  :: flow_in_hyp_x, flow_in_epi_x, flow_out_epi_x, flow_out_hyp_x
 real  :: epix, hypox, dif_epi_x, dif_hyp_x,  flow_epi_x, flow_hyp_x, vol_x
 real :: advec_in_epix, advec_out_epix, advec_in_hypx, advec_out_hypx
-real :: delta_vol_e_x, delta_vol_h_x
+real :: delta_vol_e_x, delta_vol_h_x, flow_epi_hyp_x, advec_epi_hyp
 
 ! --------------- path and directories of input and output files -------
 CHARACTER(*), PARAMETER :: path = "/raid3/rniemeyr/practice/practice_fortran/output/" 
@@ -168,8 +168,8 @@ do  i=2,22645
          ! flow_in_epi_x = flow_in(i)*prcnt_flow_hypo
 
      ! --------------- just set flow as a constant ------------
-      flow_in_hyp_x = 35000
-      flow_in_epi_x = 15000
+      flow_in_epi_x = 50000
+      flow_in_hyp_x = 0
 
       ! ------------------ read in in VIC flow data --------------
        ! read(46, *) year(i),month(i),day(i), Q_in(i) &
@@ -179,11 +179,14 @@ do  i=2,22645
        ! flow_in_epi_x = Q_in(i)*prcnt_flow_hypo
 
 
+  ! ------------- calculate flow between epilimnion and hypolimnion  ------------------
+      flow_epi_hyp_x = flow_in_epi_x
+
   ! ---------------------- calculate streamflow exiting resevoir  ------------------
 
      ! ----------------- read in outflow file ---------------
-      flow_out_hyp_x = flow_in_hyp_x
-      flow_out_epi_x = flow_in_epi_x
+      flow_out_hyp_x = flow_epi_hyp_x
+      flow_out_epi_x = 0 
 
      ! ---------- set outflow to inflow (same out as in)  ---
        !  read(47, *) year(i),month(i),day(i), Q_out(i), stream_T_out(i),
@@ -234,9 +237,12 @@ do  i=2,22645
     ! ---------------- epilimnion -------------
          advec_in_epix  = flow_in_epi_x * density * heat_c * (flow_Tin(i))
          advec_out_epix = flow_out_epi_x * density * heat_c * (temp_epil(i-1))
+         advec_epi_hyp = flow_epi_hyp_x * density * heat_c * (temp_epil(i-1))
+         advec_out_epix = advec_out_epix + advec_epi_hyp
 
      ! ---------------- hypolimnion ------------
          advec_in_hypx = flow_in_hyp_x * density * heat_c * (flow_Tin(i))
+         advec_in_hypx = advec_in_hypx + advec_epi_hyp
          advec_out_hypx = flow_out_hyp_x * density * heat_c * (temp_hypo(i-1))
 
    ! ------------------- calculate change in temperature  ---------------------
@@ -300,7 +306,7 @@ do  i=2,22645
     temp_out_tot(i) = epix + hypox
 
   ! -------------- loop to print out data throughout the loop -----------------
- if (i==2 .or. i==3  .or. i==4 .or. i==540) then
+ if (i==2 .or. i==3  .or. i==180 .or. i==365) then
   print *, "run: ", i
   print *, "temperature change of hypol.:  ", temp_change_hyp(i)
   print *, "temp change of previous hypol: ", temp_hypo(i-1) 
