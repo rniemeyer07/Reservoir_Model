@@ -71,7 +71,7 @@ read(*,*) nd_total
 !
 ! Read some parameters
 !
-write(*,*) 'Input Inflow,Inflow Temperature,temp_epil(1),temp_hypo(1),diffusion coefficient'
+write(*,*) 'Input Inflow (m3/day),Inflow Temperature,temp_epil(1),temp_hypo(1),diffusion coefficient'
 read(*,*) Q_in_epil,Temp_in,temp_epil(1),temp_hypo(1),v_t
 !
 ! Allocate arrays
@@ -249,7 +249,7 @@ do  i=2,nd_total
        ! units are  W/m2 or Joules/m2 * sec
 !      energy_x  =  cos((i/flow_constant)+ Pi)
 !
-      energy_x = 0.0      ! Surface flux set to zero for testing JRY
+      energy_x = 0      ! Surface flux set to zero for testing JRY
 !
       energy_x =( (energy_x)*30)*delta_t_sec !converts to Joules/m2 * day
       energy_x = energy_x*area
@@ -292,7 +292,8 @@ do  i=2,nd_total
 
             ! ------------ calculate total energy ----------
             temp_change_ep(i) = advec_in_epix - advec_out_epix  + energy_x + dif_epi_x
-write(*,*) advec_in_epix,advec_out_epix,energy_x,dif_epi_x
+!  write(*,*) advec_in_epix, advec_out_epix, energy_x, dif_epi_x
+! write(*,*) dif_epi_x, temp_hypo(i-1), temp_change_hyp(i) 
             ! loop to calculate volume if Qout > volume
              if (flow_out_epi_x > volume_e_x) then
               vol_x = flow_in_epi_x
@@ -324,21 +325,26 @@ write(*,*) advec_in_epix,advec_out_epix,energy_x,dif_epi_x
 
             ! loop to calculate temperature change with Qin, IF Qout > volume_h_x
              if (flow_out_hyp_x > volume_h_x) then
-               vol_x = flow_in_hyp_x
+               vol_x = flow_epi_hyp_x
              else if (flow_out_hyp_x < volume_h_x) then
                 vol_x = volume_h_x
              end if
+                
+               write(*,*) volume_h_x, vol_x, flow_out_hyp_x,flow_epi_hyp_x, temp_change_hyp(i)
 
            temp_change_hyp(i) = temp_change_hyp(i)/(vol_x * density * heat_c)
            temp_change_hyp(i) = temp_change_hyp(i) * delta_t
 
           !----- update epilimnion volume for next time step -------
-           volume_h_x = volume_h_x + (flow_in_hyp_x - flow_out_hyp_x)
+           volume_h_x = volume_h_x + flow_in_hyp_x - flow_out_hyp_x + flow_epi_hyp_x
            temp_hypo(i) = temp_hypo(i-1) +  temp_change_hyp(i)
 !
 ! Print output to unit = 30 JRY
 !
-           write(30,*) i,temp_epil(i),temp_hypo(i)
+
+         ! write(*,*) dif_epi_x, temp_hypo(i-1), temp_change_hyp(i),advec_in_hypx,  advec_out_hypx,  dif_hyp_x 
+          write(30,*) i,temp_epil(i),temp_hypo(i), flow_Tin(i) &
+               ,  temp_change_ep(i), temp_change_hyp(i), dif_epi_x, dif_hyp_x
 !
   !---------- calculate combined (hypo. and epil.) temperature of outflow -----
     outflow_x = flow_out_epi_x + flow_out_hyp_x
@@ -347,7 +353,7 @@ write(*,*) advec_in_epix,advec_out_epix,energy_x,dif_epi_x
     temp_out_tot(i) = epix + hypox
 
   ! -------------- loop to print out data throughout the loop -----------------
- if (i==2 .or. i==3  .or. i==180 .or. i==365) then
+ if (i==2 .or. i==3  .or. i==4 .or. i==5) then
   print *, "run: ", i
   print *, "temperature change of hypol.:  ", temp_change_hyp(i)
   print *, "temp change of previous hypol: ", temp_hypo(i-1) 
@@ -362,8 +368,8 @@ write(*,*) advec_in_epix,advec_out_epix,energy_x,dif_epi_x
 !  print *, "volume of epilimnion: ", volume_e_x
 !   print *, "change in volume - epilim.: ", flow_in_epi_x -  flow_out_epi_x
 !   print *, "change in volume - hypolim.: ", flow_in_hyp_x - flow_out_hyp_x
-!   print *, "depth of epilimnion: ", volume_e_x/area
-!   print *, "depth of hypolimnion: ", volume_h_x/area
+  print *, "depth of epilimnion: ", volume_e_x/area
+   print *, "depth of hypolimnion: ", volume_h_x/area
   print *, "diffusion energy in epil.: ", dif_epi_x
   print *, "diffusion energy in hypol.: ", dif_hyp_x
   print *, "energy temp change is : ",energy_x/(volume_e_x * density * heat_c)
@@ -391,7 +397,7 @@ end  do
 !
 !-------------------------------------------------------------------------
 
-print *, x
+! print *, x
 
 ! open(unit=30, file=path//"hypo_temp_change.txt",action="write",status ="replace")
 ! open(unit=31, file=path//"epil_temp_change.txt",action="write",status="replace")
