@@ -288,7 +288,7 @@ do  i=2,nd_total
        ! ---------------- epilimnion -----------
 
           !----- calculate change in layer volume  -------
-             delta_vol_e_x = volume_e_x - (flow_in_epi_x - flow_out_epi_x)
+             delta_vol_e_x = flow_in_epi_x - flow_out_epi_x - flow_epi_hyp_x
 
             ! ------------ calculate total energy ----------
             temp_change_ep(i) = advec_in_epix - advec_out_epix  + energy_x + dif_epi_x
@@ -318,7 +318,7 @@ do  i=2,nd_total
        ! ------------------ hypolimnion ----------------
 
           !----- calculate change in layer volume  -------
-           delta_vol_h_x = volume_h_x - (flow_in_hyp_x - flow_out_hyp_x) 
+           delta_vol_h_x = flow_in_hyp_x - flow_out_hyp_x + flow_epi_hyp_x
 
           ! ------------ calculate total energy ----------
             temp_change_hyp(i) = advec_in_hypx -  advec_out_hypx  +  dif_hyp_x  
@@ -330,7 +330,7 @@ do  i=2,nd_total
                 vol_x = volume_h_x
              end if
                 
-               write(*,*) volume_h_x, vol_x, flow_out_hyp_x,flow_epi_hyp_x, temp_change_hyp(i)
+            !   write(*,*) volume_h_x, vol_x, flow_out_hyp_x,flow_epi_hyp_x, temp_change_hyp(i)
 
            temp_change_hyp(i) = temp_change_hyp(i)/(vol_x * density * heat_c)
            temp_change_hyp(i) = temp_change_hyp(i) * delta_t
@@ -342,10 +342,12 @@ do  i=2,nd_total
 ! Print output to unit = 30 JRY
 !
 
-         ! write(*,*) dif_epi_x, temp_hypo(i-1), temp_change_hyp(i),advec_in_hypx,  advec_out_hypx,  dif_hyp_x 
+!------------- write energy budget terms each time step and data to save -----
+          write(*,*) dif_epi_x, temp_hypo(i-1), temp_change_hyp(i),advec_in_hypx,  advec_out_hypx,  dif_hyp_x 
+
           write(30,*) i,temp_epil(i),temp_hypo(i), flow_Tin(i) &
                ,  temp_change_ep(i), temp_change_hyp(i), dif_epi_x, dif_hyp_x
-!
+
   !---------- calculate combined (hypo. and epil.) temperature of outflow -----
     outflow_x = flow_out_epi_x + flow_out_hyp_x
     epix = temp_epil(i)*(flow_out_epi_x/outflow_x)  ! portion of temperature from epilim. 
