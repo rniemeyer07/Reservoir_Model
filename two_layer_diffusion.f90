@@ -43,11 +43,8 @@ real  :: flow_in_hyp_x, flow_in_epi_x, flow_out_epi_x, flow_out_hyp_x
 real  :: epix, hypox, dif_epi_x, dif_hyp_x,  flow_epi_x, flow_hyp_x, vol_x
 real :: advec_in_epix, advec_out_epix, advec_in_hypx, advec_out_hypx
 real :: delta_vol_e_x, delta_vol_h_x, flow_epi_hyp_x, advec_epi_hyp
-<<<<<<< HEAD
 real :: delta_vol_e_T_x, delta_vol_h_T_x
-=======
 real :: dV_dt_epi,dV_dt_hyp
->>>>>>> d073a1e08d37f605a8f24856210510a35e7e0257
 
 ! --------------- path and directories of input and output files -------
 CHARACTER(*), PARAMETER :: path = "/raid3/rniemeyr/practice/practice_fortran/output/" 
