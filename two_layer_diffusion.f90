@@ -43,6 +43,7 @@ real  :: flow_in_hyp_x, flow_in_epi_x, flow_out_epi_x, flow_out_hyp_x
 real  :: epix, hypox, dif_epi_x, dif_hyp_x,  flow_epi_x, flow_hyp_x, vol_x
 real :: advec_in_epix, advec_out_epix, advec_in_hypx, advec_out_hypx
 real :: delta_vol_e_x, delta_vol_h_x, flow_epi_hyp_x, advec_epi_hyp
+real :: delta_vol_e_T_x, delta_vol_h_T_x
 
 ! --------------- path and directories of input and output files -------
 CHARACTER(*), PARAMETER :: path = "/raid3/rniemeyr/practice/practice_fortran/output/" 
@@ -199,7 +200,7 @@ do  i=2,nd_total
 !
 ! Use values from command line JRY
 !
-      flow_in_epi_x = Q_in_epil
+      flow_in_epi_x = Q_in_epil  * ( (1.1 +  sin(i/flow_constant))/2 )
 !
       flow_in_hyp_x = 0
 
@@ -212,7 +213,7 @@ do  i=2,nd_total
 
 
   ! ------------- calculate flow between epilimnion and hypolimnion  ------------------
-      flow_epi_hyp_x = flow_in_epi_x
+      flow_epi_hyp_x = Q_in_epil   ! flow_in_epi_x
 
   ! ---------------------- calculate streamflow exiting resevoir  ------------------
 
@@ -289,9 +290,12 @@ do  i=2,nd_total
 
           !----- calculate change in layer volume  -------
              delta_vol_e_x = flow_in_epi_x - flow_out_epi_x - flow_epi_hyp_x
+             delta_vol_e_T_x = (-1) * density * heat_c * (temp_epil(i-1)) * &
+                         delta_vol_e_x / delta_t 
 
             ! ------------ calculate total energy ----------
-            temp_change_ep(i) = advec_in_epix - advec_out_epix  + energy_x + dif_epi_x
+            temp_change_ep(i) = advec_in_epix - advec_out_epix  + energy_x + dif_epi_x - delta_vol_e_T_x
+
 !  write(*,*) advec_in_epix, advec_out_epix, energy_x, dif_epi_x
 ! write(*,*) dif_epi_x, temp_hypo(i-1), temp_change_hyp(i) 
             ! loop to calculate volume if Qout > volume
@@ -319,9 +323,10 @@ do  i=2,nd_total
 
           !----- calculate change in layer volume  -------
            delta_vol_h_x = flow_in_hyp_x - flow_out_hyp_x + flow_epi_hyp_x
-
+           delta_vol_h_T_x = (-1) * density * heat_c * (temp_hypo(i-1)) * &
+                        delta_vol_h_x / delta_t
           ! ------------ calculate total energy ----------
-            temp_change_hyp(i) = advec_in_hypx -  advec_out_hypx  +  dif_hyp_x  
+            temp_change_hyp(i) = advec_in_hypx - advec_out_hypx + dif_hyp_x + delta_vol_h_T_X 
 
             ! loop to calculate temperature change with Qin, IF Qout > volume_h_x
              if (flow_out_hyp_x > volume_h_x) then
@@ -346,7 +351,7 @@ do  i=2,nd_total
           write(*,*) dif_epi_x, temp_hypo(i-1), temp_change_hyp(i),advec_in_hypx,  advec_out_hypx,  dif_hyp_x 
 
           write(30,*) i,temp_epil(i),temp_hypo(i), flow_Tin(i) &
-               ,  temp_change_ep(i), temp_change_hyp(i), dif_epi_x, dif_hyp_x
+               ,  temp_change_ep(i), temp_change_hyp(i),delta_vol_e_x,  delta_vol_e_T_x
 
   !---------- calculate combined (hypo. and epil.) temperature of outflow -----
     outflow_x = flow_out_epi_x + flow_out_hyp_x
