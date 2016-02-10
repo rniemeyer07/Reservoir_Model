@@ -24,7 +24,7 @@ real, dimension(22645) ::  temp_epil,temp_hypo, temp_out_tot
 real, dimension(22645) :: temp_change_ep, temp_change_hyp, energy
 real, dimension(22645) :: energy_tot, diffusion_tot, T_in_tot, T_out_tot
 
-REAL, PARAMETER :: Pi = 3.1415927, prcnt_flow_epil = 0.2, prcnt_flow_hypo=0.8
+REAL, PARAMETER :: Pi = 3.1415927, prcnt_flow_epil = 0, prcnt_flow_hypo=1
 real            :: v_t      !diffusion coefficient (m/day) Input on command line JRY
 !    diffusion coefficient - based on Snodgrass, 1974
 
@@ -45,6 +45,8 @@ real  :: flow_in_hyp_x, flow_in_epi_x, flow_out_epi_x, flow_out_hyp_x
 real  :: epix, hypox, dif_epi_x, dif_hyp_x,  flow_epi_x, flow_hyp_x, vol_x
 real :: advec_in_epix, advec_out_epix, advec_in_hypx, advec_out_hypx
 real :: delta_vol_e_x, delta_vol_h_x, flow_epi_hyp_x, advec_epi_hyp
+real :: delta_vol_e_T_x, delta_vol_h_T_x
+real :: dV_dt_epi,dV_dt_hyp
 
 ! --------------- path and directories of input and output files -------
 CHARACTER(*), PARAMETER :: path = "/raid3/rniemeyr/practice/practice_fortran/output/" 
@@ -73,7 +75,7 @@ read(*,*) nd_total
 !
 ! Read some parameters
 !
-write(*,*) 'Input Inflow,Inflow Temperature,temp_epil(1),temp_hypo(1),diffusion coefficient'
+write(*,*) 'Input Inflow (m3/day),Inflow Temperature,temp_epil(1),temp_hypo(1),diffusion coefficient'
 read(*,*) Q_in_epil,Temp_in,temp_epil(1),temp_hypo(1),v_t
 !
 ! Allocate arrays
@@ -201,6 +203,8 @@ do  i=2,nd_total
 !
 ! Use values from command line JRY
 !
+!      Q_in_epil = sin(i/flow_constant)*0+30000                                      !This is only for test
+
       flow_in_epi_x = Q_in_epil
 !
       flow_in_hyp_x = 0
@@ -214,20 +218,25 @@ do  i=2,nd_total
 
 
   ! ------------- calculate flow between epilimnion and hypolimnion  ------------------
-      flow_epi_hyp_x = flow_in_epi_x
+  !    flow_epi_hyp_x = flow_in_epi_x
 
   ! ---------------------- calculate streamflow exiting resevoir  ------------------
 
      ! ----------------- read in outflow file ---------------
-      flow_out_hyp_x = flow_epi_hyp_x
-      flow_out_epi_x = 0 
+      !flow_out_hyp_x = flow_epi_hyp_x
+      !flow_out_epi_x = 0 
 
      ! ---------- set outflow to inflow (same out as in)  ---
        !  read(47, *) year(i),month(i),day(i), Q_out(i), stream_T_out(i),
            !  headw_T_out(i), air_T(i)
 
-       !  flow_out_hyp_x = Q_in(i)*prcnt_flow_epil
-       !  flow_out_epi_x = Q_in(i)*prcnt_flow_hypo
+	Q_in(i) = Q_in_epil                                                            ! For test
+
+        flow_out_hyp_x = Q_in(i)*prcnt_flow_hypo
+        flow_out_epi_x = Q_in(i)*prcnt_flow_epil
+
+! ------------- calculate flow between epilimnion and hypolimnion  ------------------
+        flow_epi_hyp_x = flow_out_hyp_x
 
   ! ------------------------- read in streamflow temperature ---------------------
 
@@ -251,7 +260,7 @@ do  i=2,nd_total
        ! units are  W/m2 or Joules/m2 * sec
 !      energy_x  =  cos((i/flow_constant)+ Pi)
 !
-      energy_x = 0.0      ! Surface flux set to zero for testing JRY
+      energy_x = 0      ! Surface flux set to zero for testing JRY
 !
       energy_x =( (energy_x)*30)*delta_t_sec !converts to Joules/m2 * day
       energy_x = energy_x*area
@@ -285,16 +294,27 @@ do  i=2,nd_total
          advec_in_hypx = advec_in_hypx + advec_epi_hyp
          advec_out_hypx = flow_out_hyp_x * density * heat_c * (temp_hypo(i-1))
 
+  ! ------------------------- calculate dV/dt ---------------------------
+    ! ---------------- epilimnion -------------
+	 dV_dt_epi = (flow_in_epi_x - flow_out_epi_x - flow_epi_hyp_x) * density * heat_c * (temp_epil(i-1))
+    
+
+    ! ---------------- hypolimnion ------------
+	 dV_dt_hyp = (flow_in_hyp_x + flow_epi_hyp_x - flow_out_hyp_x)  * density * heat_c * (temp_hypo(i-1))
+
    ! ------------------- calculate change in temperature  ---------------------
 
        ! ---------------- epilimnion -----------
 
           !----- calculate change in layer volume  -------
-             delta_vol_e_x = volume_e_x - (flow_in_epi_x - flow_out_epi_x)
+             delta_vol_e_x = flow_in_epi_x - flow_out_epi_x - flow_epi_hyp_x
+             delta_vol_e_T_x = (-1) * density * heat_c * (temp_epil(i-1)) * &
+                         delta_vol_e_x / delta_t 
 
             ! ------------ calculate total energy ----------
-            temp_change_ep(i) = advec_in_epix - advec_out_epix  + energy_x + dif_epi_x
-write(*,*) advec_in_epix,advec_out_epix,energy_x,dif_epi_x
+            temp_change_ep(i) = advec_in_epix - advec_out_epix  + energy_x + dif_epi_x - dV_dt_epi
+!  write(*,*) advec_in_epix, advec_out_epix, energy_x, dif_epi_x
+! write(*,*) dif_epi_x, temp_hypo(i-1), temp_change_hyp(i) 
             ! loop to calculate volume if Qout > volume
              if (flow_out_epi_x > volume_e_x) then
               vol_x = flow_in_epi_x
@@ -319,28 +339,37 @@ write(*,*) advec_in_epix,advec_out_epix,energy_x,dif_epi_x
        ! ------------------ hypolimnion ----------------
 
           !----- calculate change in layer volume  -------
-           delta_vol_h_x = volume_h_x - (flow_in_hyp_x - flow_out_hyp_x) 
+           delta_vol_h_x = flow_in_hyp_x - flow_out_hyp_x + flow_epi_hyp_x
+           delta_vol_h_T_x = (-1) * density * heat_c * (temp_hypo(i-1)) * &
+                        delta_vol_h_x / delta_t
 
           ! ------------ calculate total energy ----------
-            temp_change_hyp(i) = advec_in_hypx -  advec_out_hypx  +  dif_hyp_x  
+            temp_change_hyp(i) = advec_in_hypx -  advec_out_hypx  +  dif_hyp_x -dV_dt_hyp 
 
             ! loop to calculate temperature change with Qin, IF Qout > volume_h_x
              if (flow_out_hyp_x > volume_h_x) then
-               vol_x = flow_in_hyp_x
+               vol_x = flow_epi_hyp_x
              else if (flow_out_hyp_x < volume_h_x) then
                 vol_x = volume_h_x
              end if
+                
+            !   write(*,*) volume_h_x, vol_x, flow_out_hyp_x,flow_epi_hyp_x, temp_change_hyp(i)
 
            temp_change_hyp(i) = temp_change_hyp(i)/(vol_x * density * heat_c)
            temp_change_hyp(i) = temp_change_hyp(i) * delta_t
 
           !----- update epilimnion volume for next time step -------
-           volume_h_x = volume_h_x + (flow_in_hyp_x - flow_out_hyp_x)
+           volume_h_x = volume_h_x + flow_in_hyp_x - flow_out_hyp_x + flow_epi_hyp_x
            temp_hypo(i) = temp_hypo(i-1) +  temp_change_hyp(i)
 !
 ! Print output to unit = 30 JRY
 !
-           write(30,*) i,temp_epil(i),temp_hypo(i)
+
+!------------- write energy budget terms each time step and data to save -----
+          write(*,*) dif_epi_x, temp_hypo(i-1), temp_change_hyp(i),advec_in_hypx,  advec_out_hypx,  dif_hyp_x 
+
+          write(30,*) i,temp_epil(i),temp_hypo(i), flow_Tin(i) &
+               ,  temp_change_ep(i), temp_change_hyp(i), advec_in_hypx, advec_out_hypx,dV_dt_hyp,flow_epi_hyp_x
 !
   !---------- calculate combined (hypo. and epil.) temperature of outflow -----
     outflow_x = flow_out_epi_x + flow_out_hyp_x
@@ -349,7 +378,7 @@ write(*,*) advec_in_epix,advec_out_epix,energy_x,dif_epi_x
     temp_out_tot(i) = epix + hypox
 
   ! -------------- loop to print out data throughout the loop -----------------
- if (i==2 .or. i==3  .or. i==180 .or. i==365) then
+ if (i==2 .or. i==3  .or. i==4 .or. i==5) then
   print *, "run: ", i
   print *, "temperature change of hypol.:  ", temp_change_hyp(i)
   print *, "temp change of previous hypol: ", temp_hypo(i-1) 
@@ -364,8 +393,8 @@ write(*,*) advec_in_epix,advec_out_epix,energy_x,dif_epi_x
 !  print *, "volume of epilimnion: ", volume_e_x
 !   print *, "change in volume - epilim.: ", flow_in_epi_x -  flow_out_epi_x
 !   print *, "change in volume - hypolim.: ", flow_in_hyp_x - flow_out_hyp_x
-!   print *, "depth of epilimnion: ", volume_e_x/area
-!   print *, "depth of hypolimnion: ", volume_h_x/area
+  print *, "depth of epilimnion: ", volume_e_x/area
+   print *, "depth of hypolimnion: ", volume_h_x/area
   print *, "diffusion energy in epil.: ", dif_epi_x
   print *, "diffusion energy in hypol.: ", dif_hyp_x
   print *, "energy temp change is : ",energy_x/(volume_e_x * density * heat_c)
@@ -393,16 +422,16 @@ end  do
 !
 !-------------------------------------------------------------------------
 
-print *, x
+! print *, x
 
-! open(unit=30, file=path//"hypo_temp_change.txt",action="write",status ="replace")
-! open(unit=31, file=path//"epil_temp_change.txt",action="write",status="replace")
-! open(unit=40, file=path//"temperature_epil.txt",action="write",status="replace")
-! open(unit=41, file=path//"temperature_hypo.txt",action="write",status="replace")
-! open(unit=42, file=path//"flow_in.txt", action="write", status="replace") 
-! open(unit=43, file=path//"stream_T_in.txt", action="write", status="replace") 
-! open(unit=44, file=path//"headw_T_in.txt", action="write", status="replace") 
-! open(unit=55, file=path//"stream_T_out.txt", action="write", status="replace") 
+! open(unit=30, file=path//"./hypo_temp_change.txt",action="write",status ="replace")
+! open(unit=31, file=path//"./epil_temp_change.txt",action="write",status="replace")
+! open(unit=40, file=path//"./temperature_epil.txt",action="write",status="replace")
+! open(unit=41, file=path//"./temperature_hypo.txt",action="write",status="replace")
+! open(unit=42, file=path//"./flow_in.txt", action="write", status="replace") 
+! open(unit=43, file=path//"./stream_T_in.txt", action="write", status="replace") 
+! open(unit=44, file=path//"./headw_T_in.txt", action="write", status="replace") 
+! open(unit=55, file=path//"./stream_T_out.txt", action="write", status="replace") 
 
 ! write(30,*),temp_change_hyp
 ! write(31,*),temp_change_ep
