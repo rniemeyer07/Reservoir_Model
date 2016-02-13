@@ -8,7 +8,8 @@ module Block_Reservoir
         real, dimension(22645) :: temp_change_ep, temp_change_hyp, energy
         real, dimension(22645) :: energy_tot, diffusion_tot, T_in_tot, T_out_tot
 
-        REAL, PARAMETER :: Pi = 3.1415927, prcnt_flow_epil = 0,prcnt_flow_hypo=1
+        REAL, PARAMETER ::  prcnt_flow_epil = 0,prcnt_flow_hypo=1
+        REAL, PARAMETER :: density = 1000, heat_c = 4180
         real          :: v_t    !diffusion coefficient (m/day) Input on command line JRY
         !    diffusion coefficient - based on Snodgrass, 1974
 
@@ -23,8 +24,8 @@ module Block_Reservoir
 
         real :: x,  x1, x2, x3
 
-        real  :: depth_total, depth_e, depth_h, width, length, volume_e_x,outflow_x
-        real :: energy_x, volume_h_x, area, density, heat_c, delta_t
+        real  :: depth_total, depth_e, depth_h, width, length,outflow_x
+        real :: energy_x, area, delta_t
         real  :: flow_in_hyp_x, flow_in_epi_x, flow_out_epi_x, flow_out_hyp_x
         real  :: epix, hypox, dif_epi_x, dif_hyp_x,  flow_epi_x, flow_hyp_x,vol_x
         real :: advec_in_epix, advec_out_epix, advec_in_hypx, advec_out_hypx
@@ -54,8 +55,8 @@ module Block_Reservoir
         real, dimension(:),     allocatable :: day
 
         ! ----------------------- constants --------------------------
-        density = 1000 !  density of water in kg / m3
-        heat_c = 4180  !  heat capacity of water in joules/ kg * C
+        !density = 1000 !  density of water in kg / m3
+        !heat_c = 4180  !  heat capacity of water in joules/ kg * C
 
 end module Block_Reservoir
 
