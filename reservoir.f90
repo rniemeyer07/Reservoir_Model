@@ -18,8 +18,12 @@ program reservoir
 
 ! use Block_Reservoir  
 use Block_Energy
+use Block_Reservoir
 
 implicit none
+
+real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x
+integer :: nd
 
 ! --------------- allocate arrays ------------------
 allocate (Q_in(nd_total))
@@ -83,25 +87,26 @@ v_t = 0.4  ! set the diffusion coeff.
 !
 ! ----- read in inflow file -----
   read(45, '(A)') inflow_file
-  open(unit=46, file=TRIM(inflow_file), ACCESS='SEQUENTIAL', FORM='FORMATTED',
-STATUS='old')
+  open(unit=46, file=TRIM(inflow_file), ACCESS='SEQUENTIAL', FORM='FORMATTED',STATUS='old')
 
 ! ------- read in outflow file -------
   read(45, '(A)') outflow_file
-  open(unit=47, file=TRIM(outflow_file), ACCESS='SEQUENTIAL', FORM='FORMATTED',
-STATUS='old')
+  open(unit=47, file=TRIM(outflow_file), ACCESS='SEQUENTIAL', FORM='FORMATTED',STATUS='old')
 
 ! ------- read in energy file -------
   read(45, '(A)') energy_file
-  open(unit=48, file=TRIM(energy_file), ACCESS='SEQUENTIAL', FORM='FORMATTED',
-STATUS='old')
+  open(unit=48, file=TRIM(energy_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
 !
 ! ------- read in observed stream temperature file -------
   read(45, '(A)') observed_stream_temp_file
-  open(unit=49, file=TRIM(observed_stream_temp_file), ACCESS='SEQUENTIAL',
-FORM='FORMATTED' &
-         ,  STATUS='old')
+  open(unit=49, file=TRIM(observed_stream_temp_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
 
+   read(46, *) year(1),month(1),day(1), Q_in(1) &
+              , stream_T_in(1), headw_T_in(1), air_T(1)
+
+
+    read(47, *) year(1),month(1),day(1), Q_out(1), stream_T_out(1) &
+               , headw_T_out(1), air_T(1)
 
 
 !*************************************************************************
@@ -111,11 +116,11 @@ FORM='FORMATTED' &
 !*************************************************************************
 
 ! -------- set initial temperatures -------------
-t1 = 15
-t2 = 15
+!t1 = 15
+!t2 = 15
 
 ! ------------ start loop ---------------------
-do  nd=1,nd_total
+do  nd=2,nd_total
 
 
 
@@ -141,7 +146,7 @@ do  nd=1,nd_total
         flow_out_epi_x = Q_out(i)*prcnt_flow_epil
 
       ! ------------- flow between epilim. and hypolim. ---------
-        flow_epi_hyp_x = flow_in_epi_x
+        flow_epi_hyp_x = flow_out_hyp_x
 
       ! ------------- read in stream temperature data --------
 
@@ -162,13 +167,13 @@ do  nd=1,nd_total
         !        ,  headw_T_in(i), air_T(i)
 
     ! call energy(T_0,q_surf,nncell)
-            q_dot=(q_surf/(z*rfac))
-            T_0=T_0+q_dot*dt_calc
-            if(T_0.lt.0.0) T_0=0.0
+    !        q_dot=(q_surf/(z*rfac))
+    !        T_0=T_0+q_dot*dt_calc
+    !        if(T_0.lt.0.0) T_0=0.0
 
 
        x = i
-      energy_x  =  cos(((x)/flow_constant)+ Pi )
+      energy_x  =  cos(((x)/flow_constant)+ pi )
 !
 !      energy_x = 0      ! Surface flux set to zero for testing JRY
 !
@@ -181,9 +186,9 @@ do  nd=1,nd_total
 !*************************************************************************
 
      ! ---------- set outflow to inflow (same out as in)  ---
-         read(47, *) year(i),month(i),day(i), Q_out(i), stream_T_out(i) &
-            ,  headw_T_out(i), air_T(i)
-
+!         read(47, *) year(i),month(i),day(i), Q_out(i), stream_T_out(i) &
+!            ,  headw_T_out(i), air_T(i)
+!!!!!! Is this a repeat?
 
 
 !*************************************************************************
@@ -195,8 +200,13 @@ do  nd=1,nd_total
 !      call reservoir subroutine
 !*************************************************************************
 
-   call reservoir_subroutine (ALL PARAMETERS AND VARIABLES needed to SIMULATE TEMPERATURES)
+   T_epil_temp = temp_epil(i-1)
+   T_hypo_temp = temp_hypo(i-1)
 
+   call reservoir_subroutine ( volume_e_x, volume_h_x)
+   
+   temp_epil(i) = T_epil_temp
+   temp_hypo(i) = T_hypo_temp 
 
 
 
@@ -206,7 +216,7 @@ do  nd=1,nd_total
 
 
     write(30,*) i,temp_epil(i),temp_hypo(i),temp_out_tot(i), flow_Tin(i) &
-               , temp_change_ep(i), temp_change_hyp(i),advec_in_hypxi &
+               , temp_change_ep(i), temp_change_hyp(i),advec_in_hypx &
                , advec_out_hypx,dV_dt_hyp, flow_epi_hyp_x, volume_e_x & 
                , volume_h_x, flow_in_epi_x, flow_out_hyp_x
 
@@ -217,11 +227,11 @@ do  nd=1,nd_total
 
 !
 ! Update temperatures for next time step, for example:
-         temp_epil(1) = temp_epil(2)
-         temp_hypo(1) = temp_hypo(2)
+!         temp_epil(1) = temp_epil(2)
+!         temp_hypo(1) = temp_hypo(2)
 ! Or, better (1=epilimnion,2=hypolimnion)
-         T_res(1,1)   = T_res(1,2)
-         T_res(2,1)   = T_res(2,2)
+!         T_res(1,1)   = T_res(1,2)
+!         T_res(2,1)   = T_res(2,2)
 !
 end do
 
