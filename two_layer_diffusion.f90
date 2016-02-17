@@ -68,13 +68,15 @@ real, dimension(:),     allocatable :: day
 !
 ! Read total number of days to simulate JRY 
 !
-write(*,*) 'Total number of days of simulation'
-read(*,*) nd_total
-!
+!  write(*,*) 'Total number of days of simulation'
+! read(*,*) nd_total
+
+ nd_total = 22645
+
 ! Read some parameters
 !
-write(*,*) 'Input Inflow (m3/day),Inflow Temperature,temp_epil(1),temp_hypo(1),diffusion coefficient'
-read(*,*) Q_in_epil,Temp_in,temp_epil(1),temp_hypo(1),v_t
+!  write(*,*) 'Input Inflow (m3/day),Inflow Temperature,temp_epil(1),temp_hypo(1),diffusion coefficient'
+!  read(*,*) Q_in_epil,Temp_in,temp_epil(1),temp_hypo(1),v_t
 !
 ! Allocate arrays
 !
@@ -127,25 +129,25 @@ flow_constant = 365/(2*Pi)
 !
 ! ----------------------- flow and energy (from VIC simulations) --------
 !
-!OPEN(UNIT=45, FILE=TRIM(input_file), status='old')
-!read(45, *)  ! skip first line
+ OPEN(UNIT=45, FILE=TRIM(input_file), status='old')
+   read(45, *)  ! skip first line
 !
 ! ----- read in inflow file -----
-!read(45, '(A)') inflow_file
-!open(unit=46, file=TRIM(inflow_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
+  read(45, '(A)') inflow_file
+  open(unit=46, file=TRIM(inflow_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
 
 ! ------- read in outflow file -------
-! read(45, '(A)') outflow_file
-! open(unit=47, file=TRIM(outflow_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
+  read(45, '(A)') outflow_file
+  open(unit=47, file=TRIM(outflow_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
 
 ! ------- read in energy file -------
-! read(45, '(A)') energy_file
-! open(unit=48, file=TRIM(energy_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
+  read(45, '(A)') energy_file
+  open(unit=48, file=TRIM(energy_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
 !
 ! ------- read in observed stream temperature file -------
-! read(45, '(A)') observed_stream_temp_file 
-! open(unit=49, file=TRIM(observed_stream_temp_file), ACCESS='SEQUENTIAL', FORM='FORMATTED' &
-!        ,  STATUS='old')
+  read(45, '(A)') observed_stream_temp_file 
+  open(unit=49, file=TRIM(observed_stream_temp_file), ACCESS='SEQUENTIAL', FORM='FORMATTED' &
+         ,  STATUS='old')
 
 
 !-------------------------------------------------------------------------
@@ -164,10 +166,13 @@ volume_h_x = area*depth_h
 !
 ! Just to make sure JRY
 !
-write(*,*) 'Starting temperature - ',temp_epil(1),temp_hypo(1)
+! write(*,*) 'Starting temperature - ',temp_epil(1),temp_hypo(1)
 !
-!temp_epil(1) = 15 ! starting epilimnion temperature at 5 C
-!temp_hypo(1) = 15 ! starting hypolimnion temperature at 5 C
+ temp_epil(1) = 15 ! starting epilimnion temperature at 5 C
+ temp_hypo(1) = 15 ! starting hypolimnion temperature at 5 C
+
+
+v_t = 0.4
 
 ! --------- constant flow paramaeter -------
 ! constant  to change day of flow to go "up and down" with sin wave, 
@@ -203,16 +208,16 @@ do  i=2,nd_total
 !
 !      Q_in_epil = sin(i/flow_constant)*0+30000                                      !This is only for test
 
-      flow_in_epi_x = Q_in_epil
+!!!      flow_in_epi_x = Q_in_epil
 !
-      flow_in_hyp_x = 0
+!!!      flow_in_hyp_x = 0
 
       ! ------------------ read in in VIC flow data --------------
-       ! read(46, *) year(i),month(i),day(i), Q_in(i) &
-       !       , stream_T_in(i), headw_T_in(i), air_T(i)
+        read(46, *) year(i),month(i),day(i), Q_in(i) &
+              , stream_T_in(i), headw_T_in(i), air_T(i)
 
-       ! flow_in_hyp_x = Q_in(i)*prcnt_flow_epil
-       ! flow_in_epi_x = Q_in(i)*prcnt_flow_hypo
+        flow_in_hyp_x = Q_in(i)*prcnt_flow_epil
+        flow_in_epi_x = Q_in(i)*prcnt_flow_hypo
 
 
   ! ------------- calculate flow between epilimnion and hypolimnion  ------------------
@@ -225,16 +230,16 @@ do  i=2,nd_total
       !flow_out_epi_x = 0 
 
      ! ---------- set outflow to inflow (same out as in)  ---
-       !  read(47, *) year(i),month(i),day(i), Q_out(i), stream_T_out(i),
-           !  headw_T_out(i), air_T(i)
+         read(47, *) year(i),month(i),day(i), Q_out(i), stream_T_out(i) &
+            ,  headw_T_out(i), air_T(i)
 
-	Q_in(i) = Q_in_epil                                                            ! For test
+!	Q_in(i) = Q_in_epil                                                            ! For test
 
-        flow_out_hyp_x = Q_in(i)*prcnt_flow_hypo
-        flow_out_epi_x = Q_in(i)*prcnt_flow_epil
+        flow_out_hyp_x = Q_out(i)*prcnt_flow_hypo
+        flow_out_epi_x = Q_out(i)*prcnt_flow_epil
 
 ! ------------- calculate flow between epilimnion and hypolimnion  ------------------
-        flow_epi_hyp_x = flow_out_hyp_x
+        flow_epi_hyp_x = flow_in_epi_x
 
   ! ------------------------- read in streamflow temperature ---------------------
 
@@ -246,7 +251,12 @@ do  i=2,nd_total
 !
 !  Using value of inflow from command line JRY
 !
-     flow_Tin(i) = Temp_in
+!     flow_Tin(i) = Temp_in
+
+    ! ----------------- read in from VIC data -------------------
+
+     flow_Tin(i) = stream_T_in(i)
+
 
   ! ------------------  calculate incoming net energ to epilimnion ------------
 
@@ -256,11 +266,12 @@ do  i=2,nd_total
        ! " +0.5)*120":  -60 to 180 W/m2
        ! " +0.2)*100": -80 to 120 W/m2
        ! units are  W/m2 or Joules/m2 * sec
-!      energy_x  =  cos((i/flow_constant)+ Pi)
+       x = i 
+      energy_x  =  cos(((x)/flow_constant)+ Pi )
 !
-      energy_x = 0      ! Surface flux set to zero for testing JRY
+!      energy_x = 0      ! Surface flux set to zero for testing JRY
 !
-      energy_x =( (energy_x)*30)*delta_t_sec !converts to Joules/m2 * day
+      energy_x =( (energy_x)*150)*delta_t_sec !converts to Joules/m2 * day
       energy_x = energy_x*area
 
     ! ------- ulpload ENERGY subroutine and read in VIC energy ----
@@ -363,17 +374,20 @@ do  i=2,nd_total
 ! Print output to unit = 30 JRY
 !
 
-!------------- write energy budget terms each time step and data to save -----
-          write(*,*) dif_epi_x, temp_hypo(i-1), temp_change_hyp(i),advec_in_hypx,  advec_out_hypx,  dif_hyp_x 
 
-          write(30,*) i,temp_epil(i),temp_hypo(i), flow_Tin(i) &
-               ,  temp_change_ep(i), temp_change_hyp(i), advec_in_hypx, advec_out_hypx,dV_dt_hyp,flow_epi_hyp_x
-!
   !---------- calculate combined (hypo. and epil.) temperature of outflow -----
     outflow_x = flow_out_epi_x + flow_out_hyp_x
     epix = temp_epil(i)*(flow_out_epi_x/outflow_x)  ! portion of temperature from epilim. 
     hypox= temp_hypo(i)*(flow_out_hyp_x/outflow_x)  ! portion of temperature from hypol.
     temp_out_tot(i) = epix + hypox
+
+!------------- write energy budget terms each time step and data to save -----
+          write(*,*) dif_epi_x, temp_hypo(i-1), temp_change_hyp(i),advec_in_hypx,  advec_out_hypx,  dif_hyp_x 
+
+          write(30,*) i,temp_epil(i),temp_hypo(i),temp_out_tot(i), flow_Tin(i)  &
+               ,  temp_change_ep(i), temp_change_hyp(i), advec_in_hypx, advec_out_hypx,dV_dt_hyp & 
+                , flow_epi_hyp_x, volume_e_x, volume_h_x, flow_in_epi_x, flow_out_hyp_x
+!
 
   ! -------------- loop to print out data throughout the loop -----------------
  if (i==2 .or. i==3  .or. i==4 .or. i==5) then
