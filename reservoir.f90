@@ -74,9 +74,12 @@ flow_constant = 365/(2*Pi)
 ! ------------------- initial variables ---------------
 volume_e_x = area*depth_e
 volume_h_x = area*depth_h
+
+T_epil_temp = 15
+T_hypo_temp = 15
  
-temp_epil(1) = 15 ! starting epilimnion temperature at 5 C
-temp_hypo(1) = 15 ! starting hypolimnion temperature at 5 C
+temp_epil(1) = T_epil_temp ! starting epilimnion temperature at 5 C
+temp_hypo(1) = T_hypo_temp ! starting hypolimnion temperature at 5 C
 v_t = 0.4  ! set the diffusion coeff.
 
 ! -------------------- Upload files in input file -----------------
@@ -121,7 +124,8 @@ v_t = 0.4  ! set the diffusion coeff.
 
 ! ------------ start loop ---------------------
 do  nd=2,nd_total
-
+      
+      print *, T_epil_temp
 
 
 !*************************************************************************
@@ -129,21 +133,24 @@ do  nd=2,nd_total
 !*************************************************************************
 
       ! ------------------ read in in VIC flow data --------------
-        read(46, *) year(i),month(i),day(i), Q_in(i) &
-              , stream_T_in(i), headw_T_in(i), air_T(i)
+        read(46, *) year(nd),month(nd),day(nd), Q_in(nd) &
+              , stream_T_in(nd), headw_T_in(nd), air_T(nd)
 
-        flow_in_hyp_x = Q_in(i)*prcnt_flow_epil
-        flow_in_epi_x = Q_in(i)*prcnt_flow_hypo
+print *, "trial1"
+
+       flow_in_hyp_x = Q_in(nd)*prcnt_flow_epil
+        flow_in_epi_x = Q_in(nd)*prcnt_flow_hypo
 
      ! ---------- set outflow to inflow (same out as in)  ---
-         read(47, *) year(i),month(i),day(i), Q_out(i), stream_T_out(i) &
-            ,  headw_T_out(i), air_T(i)
+         read(47, *) year(nd),month(nd),day(nd), Q_out(nd), stream_T_out(nd) &
+            ,  headw_T_out(nd), air_T(nd)
+print *, "trial new"
 
 !       Q_in(i) = Q_in_epil
 !       ! For test
 
-        flow_out_hyp_x = Q_out(i)*prcnt_flow_hypo
-        flow_out_epi_x = Q_out(i)*prcnt_flow_epil
+        flow_out_hyp_x = Q_out(nd)*prcnt_flow_hypo
+        flow_out_epi_x = Q_out(nd)*prcnt_flow_epil
 
       ! ------------- flow between epilim. and hypolim. ---------
         flow_epi_hyp_x = flow_out_hyp_x
@@ -156,7 +163,7 @@ do  nd=2,nd_total
 
       ! ----------------- read in from VIC data -------------------
 
-      flow_Tin(i) = stream_T_in(i)
+      flow_Tin(nd) = stream_T_in(nd)
 
 !*************************************************************************
 ! read forcings for energy from VIC
@@ -171,13 +178,13 @@ do  nd=2,nd_total
     !        T_0=T_0+q_dot*dt_calc
     !        if(T_0.lt.0.0) T_0=0.0
 
-
-       x = i
+print *, "trial new1"
+       x = nd
       energy_x  =  cos(((x)/flow_constant)+ pi )
 !
 !      energy_x = 0      ! Surface flux set to zero for testing JRY
 !
-      energy_x =( (energy_x)*150)*delta_t_sec !converts to Joules/m2 * day
+      energy_x =( (energy_x)*150)*delta_t !converts to Joules/m2 * day
       energy_x = energy_x*area
 
 
@@ -194,31 +201,30 @@ do  nd=2,nd_total
 !*************************************************************************
 !      read inflow and river temperature from rbm simulations
 !*************************************************************************
-
+print *, "trial 2"
 
 !*************************************************************************
 !      call reservoir subroutine
 !*************************************************************************
 
-   T_epil_temp = temp_epil(i-1)
-   T_hypo_temp = temp_hypo(i-1)
-
-   call reservoir_subroutine ( volume_e_x, volume_h_x)
-   
-   temp_epil(i) = T_epil_temp
-   temp_hypo(i) = T_hypo_temp 
-
-
+   call reservoir_subroutine (T_epil_temp,T_hypo_temp, volume_e_x, volume_h_x,nd)
+        T_epil_temp = T_epil_temp
+        T_hypo_temp = T_hypo_temp
+        volume_e_x = volume_e_x
+        volume_h_x = volume_h_x   
+        temp_epil(nd) = T_epil_temp 
+        temp_hypo(nd) = T_hypo_temp
 
 !*************************************************************************
 !          write output
 !*************************************************************************
 
 
-    write(30,*) i,temp_epil(i),temp_hypo(i),temp_out_tot(i), flow_Tin(i) &
-               , temp_change_ep(i), temp_change_hyp(i),advec_in_hypx &
+    write(30,*) nd,temp_epil(nd),temp_hypo(nd),temp_out_tot(nd), flow_Tin(nd) &
+               , temp_change_ep(nd), temp_change_hyp(nd),advec_in_hypx &
                , advec_out_hypx,dV_dt_hyp, flow_epi_hyp_x, volume_e_x & 
                , volume_h_x, flow_in_epi_x, flow_out_hyp_x
+
 
 
 !*************************************************************************

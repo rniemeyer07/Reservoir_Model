@@ -14,7 +14,7 @@ module Block_Reservoir
         !    diffusion coefficient - based on Snodgrass, 1974
 
         real  :: flow_constant
-        integer  :: i,i_inflow, no_flow, no_heat !  year, month, day
+        integer  :: i_inflow, no_flow, no_heat !  year, month, day
         !
         ! Added some variables JRY
         !
