@@ -23,19 +23,25 @@ use Block_Reservoir
 implicit none
 
 real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x
+real :: year, month, day, Q_in, headw_T_in, stream_T_out
+real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo
 integer :: nd
 
 ! --------------- allocate arrays ------------------
-allocate (Q_in(nd_total))
-allocate (stream_T_in(nd_total))
-allocate (headw_T_in(nd_total))
-allocate (Q_out(nd_total))
-allocate (stream_T_out(nd_total))
-allocate (headw_T_out(nd_total))
-allocate (air_T(nd_total))
-allocate (year(nd_total))
-allocate (month(nd_total))
-allocate (day(nd_total))
+!allocate (Q_in(nd_total))
+!allocate (stream_T_in(nd_total))
+!allocate (headw_T_in(nd_total))
+!allocate (Q_out(nd_total))
+!allocate (stream_T_out(nd_total))
+!allocate (headw_T_out(nd_total))
+!allocate (air_T(nd_total))
+!allocate (year(nd_total))
+!allocate (month(nd_total))
+!allocate (day(nd_total))
+!allocate (temp_epil(nd_total))
+!allocate (temp_hypo(nd_total))
+!allocate (temp_out_tot(nd_total))
+
 
 ! -------------------- to read in variables from comman line ---------
 !
@@ -78,8 +84,8 @@ volume_h_x = area*depth_h
 T_epil_temp = 15
 T_hypo_temp = 15
  
-temp_epil(1) = T_epil_temp ! starting epilimnion temperature at 5 C
-temp_hypo(1) = T_hypo_temp ! starting hypolimnion temperature at 5 C
+temp_epil = T_epil_temp ! starting epilimnion temperature at 5 C
+temp_hypo = T_hypo_temp ! starting hypolimnion temperature at 5 C
 v_t = 0.4  ! set the diffusion coeff.
 
 ! -------------------- Upload files in input file -----------------
@@ -104,12 +110,12 @@ v_t = 0.4  ! set the diffusion coeff.
   read(45, '(A)') observed_stream_temp_file
   open(unit=49, file=TRIM(observed_stream_temp_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
 
-   read(46, *) year(1),month(1),day(1), Q_in(1) &
-              , stream_T_in(1), headw_T_in(1), air_T(1)
+   read(46, *) year,month,day, Q_in &
+              , stream_T_in, headw_T_in, air_T
 
 
-    read(47, *) year(1),month(1),day(1), Q_out(1), stream_T_out(1) &
-               , headw_T_out(1), air_T(1)
+    read(47, *) year,month,day, Q_out, stream_T_out &
+               , headw_T_out, air_T
 
 
 !*************************************************************************
@@ -125,7 +131,7 @@ v_t = 0.4  ! set the diffusion coeff.
 ! ------------ start loop ---------------------
 do  nd=2,nd_total
       
-      print *, T_epil_temp
+      print *, T_epil_temp,nd
 
 
 !*************************************************************************
@@ -133,24 +139,24 @@ do  nd=2,nd_total
 !*************************************************************************
 
       ! ------------------ read in in VIC flow data --------------
-        read(46, *) year(nd),month(nd),day(nd), Q_in(nd) &
-              , stream_T_in(nd), headw_T_in(nd), air_T(nd)
+        read(46, *) year,month,day, Q_in &
+              , stream_T_in, headw_T_in, air_T
 
 print *, "trial1"
 
-       flow_in_hyp_x = Q_in(nd)*prcnt_flow_epil
-        flow_in_epi_x = Q_in(nd)*prcnt_flow_hypo
+       flow_in_hyp_x = Q_in*prcnt_flow_epil
+        flow_in_epi_x = Q_in*prcnt_flow_hypo
 
      ! ---------- set outflow to inflow (same out as in)  ---
-         read(47, *) year(nd),month(nd),day(nd), Q_out(nd), stream_T_out(nd) &
-            ,  headw_T_out(nd), air_T(nd)
+         read(47, *) year,month,day, Q_out, stream_T_out &
+            ,  headw_T_out, air_T
 print *, "trial new"
 
 !       Q_in(i) = Q_in_epil
 !       ! For test
 
-        flow_out_hyp_x = Q_out(nd)*prcnt_flow_hypo
-        flow_out_epi_x = Q_out(nd)*prcnt_flow_epil
+        flow_out_hyp_x = Q_out*prcnt_flow_hypo
+        flow_out_epi_x = Q_out*prcnt_flow_epil
 
       ! ------------- flow between epilim. and hypolim. ---------
         flow_epi_hyp_x = flow_out_hyp_x
@@ -163,7 +169,7 @@ print *, "trial new"
 
       ! ----------------- read in from VIC data -------------------
 
-      flow_Tin(nd) = stream_T_in(nd)
+      !flow_Tin(nd) = stream_T_in(nd)
 
 !*************************************************************************
 ! read forcings for energy from VIC
@@ -208,22 +214,29 @@ print *, "trial 2"
 !*************************************************************************
 
    call reservoir_subroutine (T_epil_temp,T_hypo_temp, volume_e_x, volume_h_x,nd)
-        T_epil_temp = T_epil_temp
-        T_hypo_temp = T_hypo_temp
-        volume_e_x = volume_e_x
-        volume_h_x = volume_h_x   
-        temp_epil(nd) = T_epil_temp 
-        temp_hypo(nd) = T_hypo_temp
+!        T_epil_temp = T_epil_temp
+!        T_hypo_temp = T_hypo_temp
+!        volume_e_x = volume_e_x
+!        volume_h_x = volume_h_x   
+        temp_epil = T_epil_temp 
+        temp_hypo = T_hypo_temp
 
 !*************************************************************************
 !          write output
 !*************************************************************************
 
 
-    write(30,*) nd,temp_epil(nd),temp_hypo(nd),temp_out_tot(nd), flow_Tin(nd) &
-               , temp_change_ep(nd), temp_change_hyp(nd),advec_in_hypx &
+    write(30,*) nd,temp_epil,temp_hypo,temp_out_tot, stream_T_in &
+               , temp_change_ep, temp_change_hyp,advec_in_hypx &
                , advec_out_hypx,dV_dt_hyp, flow_epi_hyp_x, volume_e_x & 
                , volume_h_x, flow_in_epi_x, flow_out_hyp_x
+
+print *,nd,temp_epil,temp_hypo,temp_out_tot, stream_T_in &
+               , temp_change_ep, temp_change_hyp,advec_in_hypx &
+               , advec_out_hypx,dV_dt_hyp, flow_epi_hyp_x, volume_e_x &
+               , volume_h_x, flow_in_epi_x, flow_out_hyp_x
+
+
 
 
 
