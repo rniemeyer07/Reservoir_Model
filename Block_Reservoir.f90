@@ -3,10 +3,10 @@ module Block_Reservoir
         implicit none
 
         ! 1-dim. real array for 10 years
-        real, dimension(22645) :: flow_in,flow_out,flow_eout,flow_hout, flow_Tin
-        real, dimension(22645) ::  temp_epil,temp_hypo, temp_out_tot
-        real, dimension(22645) :: temp_change_ep, temp_change_hyp, energy
-        real, dimension(22645) :: energy_tot, diffusion_tot, T_in_tot, T_out_tot
+        !real :: flow_in,flow_out,flow_eout,flow_hout
+        !real ::  temp_epil,temp_hypo, temp_out_tot
+        real :: temp_change_ep, temp_change_hyp, energy,stream_T_in
+        real :: energy_tot, diffusion_tot, T_in_tot, T_out_tot,temp_out_tot
 
         REAL, PARAMETER ::  prcnt_flow_epil = 0,prcnt_flow_hypo=1
         REAL, PARAMETER :: density = 1000, heat_c = 4180
@@ -14,7 +14,7 @@ module Block_Reservoir
         !    diffusion coefficient - based on Snodgrass, 1974
 
         real  :: flow_constant
-        integer  :: i,i_inflow, no_flow, no_heat !  year, month, day
+        integer  :: i_inflow, no_flow, no_heat !  year, month, day
         !
         ! Added some variables JRY
         !
@@ -43,16 +43,21 @@ module Block_Reservoir
         character(len=300 ) :: input_file
 
         ! --------------------- allocatable variables --------------------
-        real, dimension(:),     allocatable :: Q_in
-        real, dimension(:),     allocatable :: stream_T_in
-        real, dimension(:),     allocatable :: headw_T_in
-        real, dimension(:),     allocatable :: Q_out
-        real, dimension(:),     allocatable :: stream_T_out
-        real, dimension(:),     allocatable :: headw_T_out
-        real, dimension(:),     allocatable :: air_T
-        real, dimension(:),     allocatable :: year
-        real, dimension(:),     allocatable :: month
-        real, dimension(:),     allocatable :: day
+        !real, dimension(:),     allocatable :: Q_in
+        !real, dimension(:),     allocatable :: stream_T_in
+        !real, dimension(:),     allocatable :: headw_T_in
+        !real, dimension(:),     allocatable :: Q_out
+        !real, dimension(:),     allocatable :: stream_T_out
+        !real, dimension(:),     allocatable :: headw_T_out
+        !real, dimension(:),     allocatable :: air_T
+        !real, dimension(:),     allocatable :: year
+        !real, dimension(:),     allocatable :: month
+        !real, dimension(:),     allocatable :: day
+        !real, dimension(:),     allocatable :: temp_epil
+        !real, dimension(:),     allocatable :: temp_hypo
+        !real, dimension(:),     allocatable :: temp_out_tot
+
+
 
         ! ----------------------- constants --------------------------
         !density = 1000 !  density of water in kg / m3
