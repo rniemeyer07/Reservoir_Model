@@ -86,7 +86,7 @@ T_hypo_temp = 15
  
 temp_epil = T_epil_temp ! starting epilimnion temperature at 5 C
 temp_hypo = T_hypo_temp ! starting hypolimnion temperature at 5 C
-v_t = 0.4  ! set the diffusion coeff.
+v_t = 0.1  ! set the diffusion coeff.
 
 ! -------------------- Upload files in input file -----------------
 ! NOTE: once incorporated into RBM, these data will already be called in 
@@ -144,6 +144,8 @@ do  nd=2,nd_total
 
 print *, "trial1"
 
+        Q_in = Q_in * 2446.7 ! converts ft3/sec to m3/day
+
        flow_in_hyp_x = Q_in*prcnt_flow_epil
         flow_in_epi_x = Q_in*prcnt_flow_hypo
 
@@ -154,6 +156,9 @@ print *, "trial new"
 
 !       Q_in(i) = Q_in_epil
 !       ! For test
+
+       Q_out = Q_out * 2446.7 ! converts ft3/sec to m3/day
+
 
         flow_out_hyp_x = Q_out*prcnt_flow_hypo
         flow_out_epi_x = Q_out*prcnt_flow_epil
@@ -186,7 +191,7 @@ print *, "trial new"
 
 print *, "trial new1"
        x = nd
-      energy_x  =  cos(((x)/flow_constant)+ pi )
+      energy_x  =  cos(((x)/flow_constant) + pi ) * 50
 !
 !      energy_x = 0      ! Surface flux set to zero for testing JRY
 !
