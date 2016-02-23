@@ -8,7 +8,7 @@ module Block_Reservoir
         real :: temp_change_ep, temp_change_hyp, energy,stream_T_in
         real :: energy_tot, diffusion_tot, T_in_tot, T_out_tot,temp_out_tot
 
-        REAL, PARAMETER ::  prcnt_flow_epil = 0,prcnt_flow_hypo=1
+        REAL, PARAMETER ::  prcnt_flow_epil = 0.7, prcnt_flow_hypo = 0.3
         REAL, PARAMETER :: density = 1000, heat_c = 4180
         real          :: v_t    !diffusion coefficient (m/day) Input on command line JRY
         !    diffusion coefficient - based on Snodgrass, 1974

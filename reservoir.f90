@@ -146,8 +146,8 @@ print *, "trial1"
 
         Q_in = Q_in * 2446.7 ! converts ft3/sec to m3/day
 
-       flow_in_hyp_x = Q_in*prcnt_flow_epil
-        flow_in_epi_x = Q_in*prcnt_flow_hypo
+        flow_in_hyp_x = Q_in*prcnt_flow_hypo
+        flow_in_epi_x = Q_in*prcnt_flow_epil
 
      ! ---------- set outflow to inflow (same out as in)  ---
          read(47, *) year,month,day, Q_out, stream_T_out &
@@ -157,14 +157,16 @@ print *, "trial new"
 !       Q_in(i) = Q_in_epil
 !       ! For test
 
-       Q_out = Q_out * 2446.7 ! converts ft3/sec to m3/day
+        Q_out = Q_out * 2446.7 ! converts ft3/sec to m3/day
 
 
-        flow_out_hyp_x = Q_out*prcnt_flow_hypo
-        flow_out_epi_x = Q_out*prcnt_flow_epil
+      !  flow_out_hyp_x = Q_out * prcnt_flow_hypo
+      !  flow_out_epi_x = Q_out*prcnt_flow_epil
+        flow_out_hyp_x = flow_in_hyp_x + flow_in_epi_x
+        flow_out_epi_x = 0
 
       ! ------------- flow between epilim. and hypolim. ---------
-        flow_epi_hyp_x = flow_out_hyp_x
+        flow_epi_hyp_x = flow_in_epi_x
 
       ! ------------- read in stream temperature data --------
 
@@ -191,12 +193,12 @@ print *, "trial new"
 
 print *, "trial new1"
        x = nd
-      energy_x  =  cos(((x)/flow_constant) + pi ) * 50
+      energy_x  =  cos(((x)/flow_constant) + pi ) * 100
 !
 !      energy_x = 0      ! Surface flux set to zero for testing JRY
 !
-      energy_x =( (energy_x)*150)*delta_t !converts to Joules/m2 * day
-      energy_x = energy_x*area
+      energy_x = energy_x * delta_t_sec  ! converts W/m2 to Joules/m2 * day
+      energy_x = energy_x * area
 
 
 !***********************************************************************

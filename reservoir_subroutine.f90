@@ -37,7 +37,7 @@ real :: volume_e_x, volume_h_x, T_epil_temp, T_hypo_temp
           temp_change_ep = temp_change_ep/(vol_x * density * heat_c)
           temp_change_ep = temp_change_ep * delta_t
          !----- update epilimnion volume for next time step -------
-          volume_e_x = volume_e_x + (flow_in_epi_x - flow_out_epi_x + flow_epi_hyp_x ) *delta_t
+          volume_e_x = volume_e_x + (flow_in_epi_x - flow_out_epi_x - flow_epi_hyp_x ) *delta_t
           T_epil_temp = T_epil_temp +  temp_change_ep
 
       ! ------------------ hypolimnion ----------------
