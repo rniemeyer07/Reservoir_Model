@@ -25,7 +25,7 @@ implicit none
 real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x
 real :: year, month, day, Q_in, headw_T_in, stream_T_out
 real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo
-integer :: nd
+integer :: nd,ncell,atm_density,q_surf
 
 ! --------------- allocate arrays ------------------
 !allocate (Q_in(nd_total))
@@ -43,6 +43,16 @@ integer :: nd
 !allocate (temp_out_tot(nd_total))
 
 
+allocate (dbt(ncell))
+allocate (ea(ncell))
+allocate (q_ns(ncell))
+allocate (q_na(ncell))
+allocate (press(ncell))
+allocate (wind(ncell))
+
+
+
+
 ! -------------------- to read in variables from comman line ---------
 !
 ! Read total number of days to simulate JRY 
@@ -51,6 +61,8 @@ integer :: nd
 ! read(*,*) nd_total
 
  nd_total = 22645
+ ncell = 1
+
 
 ! Read some parameters
 !
@@ -114,8 +126,11 @@ v_t = 0.1  ! set the diffusion coeff.
               , stream_T_in, headw_T_in, air_T
 
 
-    read(47, *) year,month,day, Q_out, stream_T_out &
+   read(47, *) year,month,day, Q_out, stream_T_out &
                , headw_T_out, air_T
+  
+   read(48, *) dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
+                ,  press(1), wind(1)
 
 
 !*************************************************************************
@@ -183,21 +198,32 @@ print *, "trial new"
 !*************************************************************************
 
     ! ------- ulpload ENERGY subroutine and read in VIC energy ----
-        ! read(48, *) year(i),month(i),day(i), Q_in(i), stream_T_in(i)  &
-        !        ,  headw_T_in(i), air_T(i)
+         read(48, *) dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
+                ,  press(1), wind(1)
+    !---------units transform--------------------------------------
+          
+        q_ns(1) = 0.00023885*q_ns(1)  ! W/m**2 to kcal/m**2/sec  
+        q_na(1) = 0.00023885*q_na(1)  ! W/m**2 to kcal/m**2/sec  
+        ea(1) = 0.1*ea(1)             !kPa to mb 
+        press(1) = 0.1*ea(1)          !kPa to mb 
 
-    ! call energy(T_0,q_surf,nncell)
-    !        q_dot=(q_surf/(z*rfac))
-    !        T_0=T_0+q_dot*dt_calc
-    !        if(T_0.lt.0.0) T_0=0.0
+
+     call energy(stream_T_in,q_surf,ncell)
+     !----------------unit transform---------------------------------
+        q_surf = q_surf*4186.8        !kcal/m**2/sec to W/m**2     
+
+
+!       q_dot=(q_surf/(z*rfac))
+     !       T_0=T_0+q_dot*dt_calc
+     !       if(T_0.lt.0.0) T_0=0.0
 
 print *, "trial new1"
-       x = nd
-      energy_x  =  cos(((x)/flow_constant) + pi ) * 100
+!       x = nd
+!      energy_x  =  cos(((x)/flow_constant) + pi ) * 100
 !
 !      energy_x = 0      ! Surface flux set to zero for testing JRY
 !
-      energy_x = energy_x * delta_t_sec  ! converts W/m2 to Joules/m2 * day
+      energy_x = q_surf * delta_t_sec  ! converts W/m2 to Joules/m2 * day
       energy_x = energy_x * area
 
 
