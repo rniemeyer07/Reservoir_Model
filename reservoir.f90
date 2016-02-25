@@ -41,18 +41,15 @@ integer :: nd,ncell,atm_density,q_surf
 !allocate (temp_epil(nd_total))
 !allocate (temp_hypo(nd_total))
 !allocate (temp_out_tot(nd_total))
-
-
+!
+ ncell = 100
+!
 allocate (dbt(ncell))
 allocate (ea(ncell))
 allocate (q_ns(ncell))
 allocate (q_na(ncell))
 allocate (press(ncell))
 allocate (wind(ncell))
-
-
-
-
 ! -------------------- to read in variables from comman line ---------
 !
 ! Read total number of days to simulate JRY 
@@ -61,7 +58,6 @@ allocate (wind(ncell))
 ! read(*,*) nd_total
 
  nd_total = 22645
- ncell = 1
 
 
 ! Read some parameters
@@ -208,7 +204,7 @@ print *, "trial new"
         press(1) = 0.1*ea(1)          !kPa to mb 
 
 
-     call energy(stream_T_in,q_surf,ncell)
+     call surf_energy(stream_T_in,q_surf,ncell)
      !----------------unit transform---------------------------------
         q_surf = q_surf*4186.8        !kcal/m**2/sec to W/m**2     
 
