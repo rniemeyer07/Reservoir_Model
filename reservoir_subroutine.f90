@@ -1,9 +1,9 @@
-SUBROUTINE reservoir_subroutine(T_epil_temp,T_hypo_temp, volume_e_x,volume_h_x)
+SUBROUTINE reservoir_subroutine(T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x,stream_T_in)
    use Block_Reservoir
 
 implicit none
 
-real :: volume_e_x, volume_h_x, T_epil_temp, T_hypo_temp
+real :: volume_e_x, volume_h_x, T_epil_temp, T_hypo_temp,stream_T_in
 
   ! -------------------- calculate temperature term  -------------------------
       dif_epi_x  = v_t * area * density * heat_c * (T_hypo_temp - T_epil_temp)

@@ -25,7 +25,6 @@ Energy.o: block_energy.mod Energy.f90
 	$(f90comp) -c Energy.f90
 reservoir_subroutine.o: block_reservoir.mod reservoir_subroutine.f90
 	$(f90comp) -c reservoir_subroutine.f90
-
 reservoir.o: block_energy.mod block_reservoir.mod reservoir.f90
 	$(f90comp) -c reservoir.f90
 

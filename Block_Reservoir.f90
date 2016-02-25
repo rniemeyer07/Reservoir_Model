@@ -5,7 +5,7 @@ module Block_Reservoir
         ! 1-dim. real array for 10 years
         !real :: flow_in,flow_out,flow_eout,flow_hout
         !real ::  temp_epil,temp_hypo, temp_out_tot
-        real :: temp_change_ep, temp_change_hyp, energy,stream_T_in
+        real :: temp_change_ep, temp_change_hyp, energy
         real :: energy_tot, diffusion_tot, T_in_tot, T_out_tot,temp_out_tot
 
         REAL, PARAMETER ::  prcnt_flow_epil = 0.7, prcnt_flow_hypo = 0.3

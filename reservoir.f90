@@ -25,7 +25,8 @@ implicit none
 real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x
 real :: year, month, day, Q_in, headw_T_in, stream_T_out
 real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo
-integer :: nd,ncell,atm_density,q_surf
+real :: q_surf,stream_T_in
+integer :: nd,ncell,atm_density
 
 ! --------------- allocate arrays ------------------
 !allocate (Q_in(nd_total))
@@ -208,7 +209,7 @@ print *, "trial new"
         press(1) = 0.1*ea(1)          !kPa to mb 
 
 
-     call energy(stream_T_in,q_surf,ncell)
+     call Energy(stream_T_in,q_surf,ncell)
      !----------------unit transform---------------------------------
         q_surf = q_surf*4186.8        !kcal/m**2/sec to W/m**2     
 
@@ -246,7 +247,7 @@ print *, "trial 2"
 !      call reservoir subroutine
 !*************************************************************************
 
-   call reservoir_subroutine (T_epil_temp,T_hypo_temp, volume_e_x, volume_h_x,nd)
+   call reservoir_subroutine (T_epil_temp,T_hypo_temp, volume_e_x, volume_h_x,stream_T_in)
 !        T_epil_temp = T_epil_temp
 !        T_hypo_temp = T_hypo_temp
 !        volume_e_x = volume_e_x
