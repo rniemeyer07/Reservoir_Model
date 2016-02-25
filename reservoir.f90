@@ -24,8 +24,8 @@ implicit none
 
 real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x
 real :: year, month, day, Q_in, headw_T_in, stream_T_out
-real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo
-integer :: nd,ncell,atm_density,q_surf
+real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo, atm_density
+integer :: nd,ncell,q_surf
 
 ! --------------- allocate arrays ------------------
 !allocate (Q_in(nd_total))
@@ -125,7 +125,7 @@ v_t = 0.1  ! set the diffusion coeff.
    read(47, *) year,month,day, Q_out, stream_T_out &
                , headw_T_out, air_T
   
-   read(48, *) dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
+   read(48, *) year, month, day,  dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
                 ,  press(1), wind(1)
 
 
