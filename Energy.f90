@@ -1,4 +1,4 @@
-SUBROUTINE Energy(T_surf,q_surf,ncell)
+SUBROUTINE surf_energy(T_surf,q_surf,ncell)
    use Block_Energy
    implicit none
    integer::i,ncell,nd
@@ -34,4 +34,4 @@ SUBROUTINE Energy(T_surf,q_surf,ncell)
 !               Return to Subroutine RIVMOD
 !     ******************************************************
 !
-END Subroutine Energy
+END Subroutine Surf_Energy

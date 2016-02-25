@@ -15,7 +15,7 @@ reservoir: $(objects)
 	$(f90comp) -o reservoir $(objects)
 Block_Energy.o: Block_Energy.f90
 	$(f90comp) -c Block_Energy.f90
-block_energy.mod: Block_Energy.f90
+block_energy.mod: Block_Energy.o Block_Energy.f90
 	$(f90comp) -c Block_Energy.f90
 Block_Reservoir.o: Block_Reservoir.f90
 	$(f90comp) -c Block_Reservoir.f90

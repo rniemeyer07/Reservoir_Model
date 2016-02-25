@@ -24,9 +24,8 @@ implicit none
 
 real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x
 real :: year, month, day, Q_in, headw_T_in, stream_T_out
-real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo
-real :: q_surf,stream_T_in
-integer :: nd,ncell,atm_density
+real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo, atm_density
+integer :: nd,ncell,q_surf
 
 ! --------------- allocate arrays ------------------
 !allocate (Q_in(nd_total))
@@ -42,18 +41,15 @@ integer :: nd,ncell,atm_density
 !allocate (temp_epil(nd_total))
 !allocate (temp_hypo(nd_total))
 !allocate (temp_out_tot(nd_total))
-
-
+!
+ ncell = 100
+!
 allocate (dbt(ncell))
 allocate (ea(ncell))
 allocate (q_ns(ncell))
 allocate (q_na(ncell))
 allocate (press(ncell))
 allocate (wind(ncell))
-
-
-
-
 ! -------------------- to read in variables from comman line ---------
 !
 ! Read total number of days to simulate JRY 
@@ -62,7 +58,6 @@ allocate (wind(ncell))
 ! read(*,*) nd_total
 
  nd_total = 22645
- ncell = 1
 
 
 ! Read some parameters
@@ -130,7 +125,7 @@ v_t = 0.1  ! set the diffusion coeff.
    read(47, *) year,month,day, Q_out, stream_T_out &
                , headw_T_out, air_T
   
-   read(48, *) dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
+   read(48, *) year, month, day,  dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
                 ,  press(1), wind(1)
 
 
@@ -209,7 +204,7 @@ print *, "trial new"
         press(1) = 0.1*ea(1)          !kPa to mb 
 
 
-     call Energy(stream_T_in,q_surf,ncell)
+     call surf_energy(stream_T_in,q_surf,ncell)
      !----------------unit transform---------------------------------
         q_surf = q_surf*4186.8        !kcal/m**2/sec to W/m**2     
 
