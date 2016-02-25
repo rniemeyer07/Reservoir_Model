@@ -208,7 +208,7 @@ print *, "trial new"
         press(1) = 0.1*ea(1)          !kPa to mb 
 
 
-     call energy(stream_T_in,q_surf,ncell)
+     call Energy(stream_T_in,q_surf,ncell)
      !----------------unit transform---------------------------------
         q_surf = q_surf*4186.8        !kcal/m**2/sec to W/m**2     
 
