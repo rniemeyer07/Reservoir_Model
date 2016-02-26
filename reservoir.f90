@@ -25,7 +25,7 @@ implicit none
 real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x
 real :: year, month, day, Q_in, headw_T_in, stream_T_out
 real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo, atm_density
-integer :: nd,ncell,q_surf
+integer :: nd,ncell
 
 ! --------------- allocate arrays ------------------
 !allocate (Q_in(nd_total))
@@ -42,7 +42,7 @@ integer :: nd,ncell,q_surf
 !allocate (temp_hypo(nd_total))
 !allocate (temp_out_tot(nd_total))
 !
- ncell = 100
+ ncell = 2
 !
 allocate (dbt(ncell))
 allocate (ea(ncell))
@@ -206,21 +206,19 @@ print *, "trial new"
 
      call surf_energy(stream_T_in,q_surf,ncell)
      !----------------unit transform---------------------------------
-        q_surf = q_surf*4186.8        !kcal/m**2/sec to W/m**2     
+ !       q_surf = q_surf*4186.8        !kcal/m**2/sec to W/m**2     
 
-
-!       q_dot=(q_surf/(z*rfac))
-     !       T_0=T_0+q_dot*dt_calc
-     !       if(T_0.lt.0.0) T_0=0.0
+!        if(T_0.lt.0.0) T_0=0.0 ! might need to add this below
 
 print *, "trial new1"
 !       x = nd
 !      energy_x  =  cos(((x)/flow_constant) + pi ) * 100
 !
 !      energy_x = 0      ! Surface flux set to zero for testing JRY
-!
-      energy_x = q_surf * delta_t_sec  ! converts W/m2 to Joules/m2 * day
-      energy_x = energy_x * area
+
+!      energy_x =(q_surf/(depth_e*rfac))     ! 
+!      energy_x = energy_x !  delta_t_sec  ! converts W/m2 to Joules/m2 * day
+!      energy_x = energy_x * area
 
 
 !***********************************************************************
@@ -258,7 +256,7 @@ print *, "trial 2"
     write(30,*) nd,temp_epil,temp_hypo,temp_out_tot, stream_T_in &
                , temp_change_ep, temp_change_hyp,advec_in_hypx &
                , advec_out_hypx,dV_dt_hyp, flow_epi_hyp_x, volume_e_x & 
-               , volume_h_x, flow_in_epi_x, flow_out_hyp_x
+               , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x
 
 print *,nd,temp_epil,temp_hypo,temp_out_tot, stream_T_in &
                , temp_change_ep, temp_change_hyp,advec_in_hypx &

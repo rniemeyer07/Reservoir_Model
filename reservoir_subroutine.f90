@@ -25,6 +25,7 @@ real :: volume_e_x, volume_h_x, T_epil_temp, T_hypo_temp
   ! ------------------- calculate change in temperature  ---------------------
       ! ---------------- epilimnion -----------
          ! ------------ calculate total energy ----------
+          energy_x = ( q_surf / (depth_e * rfac))
           temp_change_ep = advec_in_epix - advec_out_epix  + energy_x + dif_epi_x - dV_dt_epi
 
             ! loop to calculate volume if Qout > volume_e_x

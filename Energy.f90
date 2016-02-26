@@ -1,13 +1,13 @@
-SUBROUTINE surf_energy(T_surf,q_surf,ncell)
+SUBROUTINE surf_energy(stream_T_in,q_surf,ncell)
    use Block_Energy
    implicit none
    integer::i,ncell,nd
-   real::A,B,e0,q_surf,q_conv,q_evap,q_ws,td,T_surf
+   real::A,B,e0,q_surf,q_conv,q_evap,q_ws,td,stream_T_in
    real, dimension(2):: q_fit, T_fit
 !
    td=nd
-   T_fit(1)=T_surf-1.0
-   T_fit(2)=T_surf+1.0
+   T_fit(1)=stream_T_in-1.0
+   T_fit(2)=stream_T_in+1.0
    do i=1,2
       e0=2.1718E8*EXP(-4157.0/(T_fit(i)+239.09))
       rb=pf*(dbt(ncell)-T_fit(i))
