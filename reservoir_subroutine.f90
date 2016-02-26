@@ -25,17 +25,19 @@ real :: volume_e_x, volume_h_x, T_epil_temp, T_hypo_temp
   ! ------------------- calculate change in temperature  ---------------------
       ! ---------------- epilimnion -----------
          ! ------------ calculate total energy ----------
-          energy_x = ( q_surf / (depth_e * rfac))
-          temp_change_ep = advec_in_epix - advec_out_epix  + energy_x + dif_epi_x - dV_dt_epi
+         energy_x = ( (q_surf * delta_t_sec )  / (depth_e * heat_c_kcal * density)) ! temp change due to energy
+          temp_change_ep = advec_in_epix - advec_out_epix +   dif_epi_x - dV_dt_epi
 
             ! loop to calculate volume if Qout > volume_e_x
-            if (flow_out_epi_x > volume_e_x) then
-              vol_x = flow_in_epi_x
-            else if (flow_out_epi_x < volume_e_x) then
+    !        if (flow_out_epi_x > volume_e_x) then
+     !         vol_x = flow_in_epi_x
+      !      else if (flow_out_epi_x < volume_e_x) then
               vol_x = volume_e_x
-            end if
+      !      end if
 
           temp_change_ep = temp_change_ep/(vol_x * density * heat_c)
+         ! energy_x = ( q_surf / (depth_e * rfac)) ! temp change due to energy
+          temp_change_ep = temp_change_ep + energy_x
           temp_change_ep = temp_change_ep * delta_t
          !----- update epilimnion volume for next time step -------
           volume_e_x = volume_e_x + (flow_in_epi_x - flow_out_epi_x - flow_epi_hyp_x ) *delta_t
@@ -46,11 +48,11 @@ real :: volume_e_x, volume_h_x, T_epil_temp, T_hypo_temp
            temp_change_hyp = advec_in_hypx -  advec_out_hypx  +  dif_hyp_x - dV_dt_hyp
 
             ! loop to calculate volume if Qout >  volume_h_x
-            if (flow_out_hyp_x > volume_h_x) then
-               vol_x = flow_epi_hyp_x
-            else if (flow_out_hyp_x < volume_h_x) then
+   !         if (flow_out_hyp_x > volume_h_x) then
+  !             vol_x = flow_epi_hyp_x
+ !           else if (flow_out_hyp_x < volume_h_x) then
                vol_x = volume_h_x
-            end if
+!            end if
 
           temp_change_hyp = temp_change_hyp/(vol_x * density * heat_c)
           temp_change_hyp = temp_change_hyp * delta_t

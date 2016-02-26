@@ -94,7 +94,7 @@ T_hypo_temp = 15
  
 temp_epil = T_epil_temp ! starting epilimnion temperature at 5 C
 temp_hypo = T_hypo_temp ! starting hypolimnion temperature at 5 C
-v_t = 0.1  ! set the diffusion coeff.
+v_t = 0.5  ! set the diffusion coeff.
 
 ! -------------------- Upload files in input file -----------------
 ! NOTE: once incorporated into RBM, these data will already be called in 
@@ -194,14 +194,14 @@ print *, "trial new"
 !*************************************************************************
 
     ! ------- ulpload ENERGY subroutine and read in VIC energy ----
-         read(48, *) dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
+         read(48, *) year, month, day, dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
                 ,  press(1), wind(1)
     !---------units transform--------------------------------------
           
         q_ns(1) = 0.00023885*q_ns(1)  ! W/m**2 to kcal/m**2/sec  
         q_na(1) = 0.00023885*q_na(1)  ! W/m**2 to kcal/m**2/sec  
-        ea(1) = 0.1*ea(1)             !kPa to mb 
-        press(1) = 0.1*ea(1)          !kPa to mb 
+        ea(1) = 10 * ea(1)             !kPa to mb 
+        press(1) = 10 * ea(1)          !kPa to mb 
 
 
      call surf_energy(stream_T_in,q_surf,ncell)
@@ -253,10 +253,11 @@ print *, "trial 2"
 !*************************************************************************
 
 
-    write(30,*) nd,temp_epil,temp_hypo,temp_out_tot, stream_T_in &
-               , temp_change_ep, temp_change_hyp,advec_in_hypx &
-               , advec_out_hypx,dV_dt_hyp, flow_epi_hyp_x, volume_e_x & 
-               , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x
+    write(30,*) nd, temp_epil, temp_hypo, temp_out_tot, stream_T_in &
+               , temp_change_ep, temp_change_hyp, advec_in_hypx &
+               , advec_out_hypx, dV_dt_hyp, flow_epi_hyp_x, volume_e_x & 
+               , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x &
+               , wind(1)
 
 print *,nd,temp_epil,temp_hypo,temp_out_tot, stream_T_in &
                , temp_change_ep, temp_change_hyp,advec_in_hypx &
