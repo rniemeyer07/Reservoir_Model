@@ -94,7 +94,7 @@ T_hypo_temp = 15
  
 temp_epil = T_epil_temp ! starting epilimnion temperature at 5 C
 temp_hypo = T_hypo_temp ! starting hypolimnion temperature at 5 C
-v_t = 0.5  ! set the diffusion coeff.
+v_t = 0.01  ! set the diffusion coeff. in m^2/day
 
 ! -------------------- Upload files in input file -----------------
 ! NOTE: once incorporated into RBM, these data will already be called in 
