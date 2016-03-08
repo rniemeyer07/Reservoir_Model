@@ -25,7 +25,7 @@ real :: volume_e_x, volume_h_x, T_epil_temp, T_hypo_temp, energy_x2
   ! ------------------- calculate change in temperature  ---------------------
       ! ---------------- epilimnion -----------
          ! ------------ calculate total energy ----------
-          energy_x  = (q_surf * area) / (density * kcal_to_J) ! kcal/sec*m2 to m3*C/sec
+          energy_x  = (q_surf * area * kcal_to_J) / (density * heat_c ) ! kcal/sec*m2 to m3*C/sec
           temp_change_ep = advec_in_epix - advec_out_epix +   dif_epi_x - dV_dt_epi + energy_x
           temp_change_ep = temp_change_ep * delta_t / volume_e_x
          !----- update epilimnion volume for next time step -------
