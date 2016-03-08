@@ -67,9 +67,8 @@ width = 1377  ! in meters
 length = 86904 ! in meters
 area = width*length
 delta_t_sec = 84600.   ! Delta t in seconds
-delta_t = 1 ! time is days,  assumes all units in equations are in days
+delta_t = 84600 ! time is days,  assumes all units in equations are in days
 
-flow_constant = 365/(2*Pi)
 ! ------------------- initial variables ---------------
 volume_e_x = area*depth_e
 volume_h_x = area*depth_h
@@ -79,7 +78,7 @@ T_hypo_temp = 15
  
 temp_epil = T_epil_temp ! starting epilimnion temperature at 5 C
 temp_hypo = T_hypo_temp ! starting hypolimnion temperature at 5 C
-v_t = 0.005  ! set the diffusion coeff. in m^2/day
+v_t = 5.7E-8 ! set the diffusion coeff. in m^2/sec
 v_t = v_t / (depth_e/2)  ! divide by approximate thickness of thermocline 
 
 ! -------------------- Upload files in input file -----------------
@@ -141,7 +140,7 @@ do  nd=2,nd_total
 
 print *, "trial1"
 
-        Q_in = Q_in * 2446.7 ! converts ft3/sec to m3/day
+        Q_in = Q_in * 0.0283168 ! converts ft^3/sec to m^3/sec
 
         flow_in_hyp_x = Q_in*prcnt_flow_hypo
         flow_in_epi_x = Q_in*prcnt_flow_epil
@@ -154,7 +153,7 @@ print *, "trial new"
 !       Q_in(i) = Q_in_epil
 !       ! For test
 
-        Q_out = Q_out * 2446.7 ! converts ft3/sec to m3/day
+        Q_out = Q_out * 0.0283168 ! converts ft^3/sec to m^3/day
 
 
       !  flow_out_hyp_x = Q_out * prcnt_flow_hypo
@@ -165,15 +164,6 @@ print *, "trial new"
       ! ------------- flow between epilim. and hypolim. ---------
                 flow_epi_hyp_x = flow_in_epi_x
 
-              ! ------------- read in stream temperature data --------
-
-              !  Using value of inflow from command line JRY
-              !
-              !     flow_Tin(i) = Temp_in
-
-              ! ----------------- read in from VIC data -------------------
-
-              !flow_Tin(nd) = stream_T_in(nd)
 
         !*************************************************************************
         ! read forcings for energy from VIC
@@ -211,11 +201,7 @@ print *, "trial new"
         ! read flow schedule (spill and turbine outflows)
         !*************************************************************************
 
-             ! ---------- set outflow to inflow (same out as in)  ---
-        !         read(47, *) year(i),month(i),day(i), Q_out(i), stream_T_out(i) &
-        !            ,  headw_T_out(i), air_T(i)
-        !!!!!! Is this a repeat?
-
+        !read in any flow from spillway or turbines
 
         !*************************************************************************
         !      read inflow and river temperature from rbm simulations
@@ -238,10 +224,10 @@ print *, "trial new"
         ! match
 
         if (  abs(T_epil_temp -  T_hypo_temp) .lt. 1 .and.  month > 8 .or. month < 4 ) then
-                v_t = 0.9
+                v_t = 1.04E-5  ! set high v_t when turnover occurs
         else if(month == 4)  then ! on april 1st, reset diffusion to low value 
-                v_t = 0.005  ! set the diffusion coeff. in m^2/day
-                v_t = v_t / 5 ! divide by approximate thickness of thermocline 
+                v_t = 5.78E-8  ! set the diffusion coeff. in m^2/day
+                v_t = v_t / (depth_e/2) ! divide by approximate thickness of thermocline 
         end if
 
         !*************************************************************************
@@ -253,7 +239,7 @@ print *, "trial new"
                        , temp_change_ep, advec_in_epix &
                        , advec_out_epix,dif_epi_x,energy_x2, dV_dt_epi, flow_epi_hyp_x, volume_e_x & 
                , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x &
-               , wind(1)
+               , wind(1) 
 
             write(32,*) nd, temp_epil, temp_hypo
 

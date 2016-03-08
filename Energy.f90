@@ -23,7 +23,7 @@ SUBROUTINE surf_energy(stream_T_in,q_surf,ncell)
 
 
     write(31,*) e0, rb, pf, lvp,evap_coeff,wind(ncell), stream_T_in, q_surf, q_fit(1), q_fit(2)  &
-               , q_ns(ncell), q_na(ncell), q_ws, q_evap, q_conv
+               , q_ns(1), q_na(1), q_ws, q_evap, q_conv
 
 !
 !     q=AT+B

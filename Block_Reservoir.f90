@@ -11,6 +11,7 @@ module Block_Reservoir
         REAL, PARAMETER ::  prcnt_flow_epil = 0.7, prcnt_flow_hypo = 0.3
         REAL, PARAMETER :: density = 1000, heat_c = 4180, rfac = 304.8
         REAL, PARAMETER :: heat_c_kcal = 1  ! heat capacity in kcal/kg*C
+        REAL, PARAMETER :: kcal_to_J = 4180 
         real          :: v_t    !diffusion coefficient (m/day) Input on command line JRY
         !    diffusion coefficient - based on Snodgrass, 1974
 
