@@ -24,26 +24,11 @@ implicit none
 
 real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x
 real :: year, month, day, Q_in, headw_T_in, stream_T_out
-real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo, atm_density
+real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo, atm_density, energy_x2
 integer :: nd,ncell
 
-! --------------- allocate arrays ------------------
-!allocate (Q_in(nd_total))
-!allocate (stream_T_in(nd_total))
-!allocate (headw_T_in(nd_total))
-!allocate (Q_out(nd_total))
-!allocate (stream_T_out(nd_total))
-!allocate (headw_T_out(nd_total))
-!allocate (air_T(nd_total))
-!allocate (year(nd_total))
-!allocate (month(nd_total))
-!allocate (day(nd_total))
-!allocate (temp_epil(nd_total))
-!allocate (temp_hypo(nd_total))
-!allocate (temp_out_tot(nd_total))
-!
- ncell = 2
-!
+ncell = 2
+
 allocate (dbt(ncell))
 allocate (ea(ncell))
 allocate (q_ns(ncell))
@@ -94,7 +79,8 @@ T_hypo_temp = 15
  
 temp_epil = T_epil_temp ! starting epilimnion temperature at 5 C
 temp_hypo = T_hypo_temp ! starting hypolimnion temperature at 5 C
-v_t = 0.01  ! set the diffusion coeff. in m^2/day
+v_t = 0.005  ! set the diffusion coeff. in m^2/day
+v_t = v_t / (depth_e/2)  ! divide by approximate thickness of thermocline 
 
 ! -------------------- Upload files in input file -----------------
 ! NOTE: once incorporated into RBM, these data will already be called in 
@@ -177,87 +163,100 @@ print *, "trial new"
         flow_out_epi_x = 0
 
       ! ------------- flow between epilim. and hypolim. ---------
-        flow_epi_hyp_x = flow_in_epi_x
+                flow_epi_hyp_x = flow_in_epi_x
 
-      ! ------------- read in stream temperature data --------
+              ! ------------- read in stream temperature data --------
 
-      !  Using value of inflow from command line JRY
-      !
-      !     flow_Tin(i) = Temp_in
+              !  Using value of inflow from command line JRY
+              !
+              !     flow_Tin(i) = Temp_in
 
-      ! ----------------- read in from VIC data -------------------
+              ! ----------------- read in from VIC data -------------------
 
-      !flow_Tin(nd) = stream_T_in(nd)
+              !flow_Tin(nd) = stream_T_in(nd)
 
-!*************************************************************************
-! read forcings for energy from VIC
-!*************************************************************************
+        !*************************************************************************
+        ! read forcings for energy from VIC
+        !*************************************************************************
 
-    ! ------- ulpload ENERGY subroutine and read in VIC energy ----
-         read(48, *) year, month, day, dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
-                ,  press(1), wind(1)
-    !---------units transform--------------------------------------
-          
-        q_ns(1) = 0.00023885*q_ns(1)  ! W/m**2 to kcal/m**2/sec  
-        q_na(1) = 0.00023885*q_na(1)  ! W/m**2 to kcal/m**2/sec  
-        ea(1) = 10 * ea(1)             !kPa to mb 
-        press(1) = 10 * ea(1)          !kPa to mb 
-
-
-     call surf_energy(stream_T_in,q_surf,ncell)
-     !----------------unit transform---------------------------------
- !       q_surf = q_surf*4186.8        !kcal/m**2/sec to W/m**2     
-
-!        if(T_0.lt.0.0) T_0=0.0 ! might need to add this below
-
-print *, "trial new1"
-!       x = nd
-!      energy_x  =  cos(((x)/flow_constant) + pi ) * 100
-!
-!      energy_x = 0      ! Surface flux set to zero for testing JRY
-
-!      energy_x =(q_surf/(depth_e*rfac))     ! 
-!      energy_x = energy_x !  delta_t_sec  ! converts W/m2 to Joules/m2 * day
-!      energy_x = energy_x * area
+            ! ------- ulpload ENERGY subroutine and read in VIC energy ----
+                 read(48, *) year, month, day, dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
+                        ,  press(1), wind(1)
+            !---------units transform--------------------------------------
+                  
+                q_ns(1) = 0.00023885*q_ns(1)  ! W/m**2 to kcal/m**2/sec  
+                q_na(1) = 0.00023885*q_na(1)  ! W/m**2 to kcal/m**2/sec  
+                ea(1) = 10 * ea(1)             !kPa to mb 
+                press(1) = 10 * ea(1)          !kPa to mb 
 
 
-!***********************************************************************
-! read flow schedule (spill and turbine outflows)
-!*************************************************************************
+             call surf_energy(stream_T_in,q_surf,ncell)
+             !----------------unit transform---------------------------------
+         !       q_surf = q_surf*4186.8        !kcal/m**2/sec to W/m**2     
 
-     ! ---------- set outflow to inflow (same out as in)  ---
-!         read(47, *) year(i),month(i),day(i), Q_out(i), stream_T_out(i) &
-!            ,  headw_T_out(i), air_T(i)
-!!!!!! Is this a repeat?
+        !        if(T_0.lt.0.0) T_0=0.0 ! might need to add this below
 
+        print *, "trial new1"
+        !       x = nd
+        !      energy_x  =  cos(((x)/flow_constant) + pi ) * 100
+        !
+        !      energy_x = 0      ! Surface flux set to zero for testing JRY
 
-!*************************************************************************
-!      read inflow and river temperature from rbm simulations
-!*************************************************************************
-print *, "trial 2"
-
-!*************************************************************************
-!      call reservoir subroutine
-!*************************************************************************
-
-   call reservoir_subroutine (T_epil_temp,T_hypo_temp, volume_e_x, volume_h_x,nd)
-!        T_epil_temp = T_epil_temp
-!        T_hypo_temp = T_hypo_temp
-!        volume_e_x = volume_e_x
-!        volume_h_x = volume_h_x   
-        temp_epil = T_epil_temp 
-        temp_hypo = T_hypo_temp
-
-!*************************************************************************
-!          write output
-!*************************************************************************
+        !      energy_x =(q_surf/(depth_e*rfac))     ! 
+        !      energy_x = energy_x !  delta_t_sec  ! converts W/m2 to Joules/m2 * day
+        !      energy_x = energy_x * area
 
 
-    write(30,*) nd, temp_epil, temp_hypo, temp_out_tot, stream_T_in &
-               , temp_change_ep, temp_change_hyp, advec_in_hypx &
-               , advec_out_hypx, dV_dt_hyp, flow_epi_hyp_x, volume_e_x & 
+        !***********************************************************************
+        ! read flow schedule (spill and turbine outflows)
+        !*************************************************************************
+
+             ! ---------- set outflow to inflow (same out as in)  ---
+        !         read(47, *) year(i),month(i),day(i), Q_out(i), stream_T_out(i) &
+        !            ,  headw_T_out(i), air_T(i)
+        !!!!!! Is this a repeat?
+
+
+        !*************************************************************************
+        !      read inflow and river temperature from rbm simulations
+        !*************************************************************************
+        print *, "trial 2"
+
+        !*************************************************************************
+        !      call reservoir subroutine
+        !*************************************************************************
+
+           call reservoir_subroutine (T_epil_temp,T_hypo_temp, volume_e_x, volume_h_x,energy_x2)
+        !        T_epil_temp = T_epil_temp
+        !        T_hypo_temp = T_hypo_temp
+        !        volume_e_x = volume_e_x
+        !        volume_h_x = volume_h_x   
+                temp_epil = T_epil_temp 
+                temp_hypo = T_hypo_temp
+
+        ! loop to increase diffusion in fall when epil and hypo temperatures
+        ! match
+
+        if (  abs(T_epil_temp -  T_hypo_temp) .lt. 1 .and.  month > 8 .or. month < 4 ) then
+                v_t = 0.9
+        else if(month == 4)  then ! on april 1st, reset diffusion to low value 
+                v_t = 0.005  ! set the diffusion coeff. in m^2/day
+                v_t = v_t / 5 ! divide by approximate thickness of thermocline 
+        end if
+
+        !*************************************************************************
+        !          write output
+        !*************************************************************************
+
+
+            write(30,*) nd, temp_epil, temp_hypo, temp_out_tot, stream_T_in &
+                       , temp_change_ep, advec_in_epix &
+                       , advec_out_epix,dif_epi_x,energy_x2, dV_dt_epi, flow_epi_hyp_x, volume_e_x & 
                , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x &
                , wind(1)
+
+            write(32,*) nd, temp_epil, temp_hypo
+
 
 print *,nd,temp_epil,temp_hypo,temp_out_tot, stream_T_in &
                , temp_change_ep, temp_change_hyp,advec_in_hypx &
