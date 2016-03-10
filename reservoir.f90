@@ -61,9 +61,9 @@ allocate (wind(ncell))
 
 ! ------------   data for the Cherokee Reservoir (36.1875, -83.4375)
 depth_total = 15 ! in meters
-depth_e = depth_total * 0.2
-depth_h = depth_total * 0.8
-width = 1377  ! in meters
+depth_e = depth_total * 0.4
+depth_h = depth_total * 0.6
+width = 1377  ! in meters 
 length = 86904 ! in meters
 area = width*length
 delta_t_sec = 84600.   ! Delta t in seconds
@@ -239,7 +239,7 @@ print *, "trial new"
                        , temp_change_ep, advec_in_epix &
                        , advec_out_epix,dif_epi_x,energy_x2, dV_dt_epi, flow_epi_hyp_x, volume_e_x & 
                , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x &
-               , wind(1) 
+               , advec_out_hypx, advec_in_hypx, temp_change_hyp 
 
             write(32,*) nd, temp_epil, temp_hypo
 
