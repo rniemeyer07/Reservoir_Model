@@ -34,7 +34,7 @@ real :: volume_e_x, volume_h_x, T_epil_temp, T_hypo_temp, energy_x2
 
       ! ------------------ hypolimnion ----------------
          ! ------------ calculate total energy ----------
-          temp_change_hyp = advec_in_hypx -  advec_out_hypx  +  dif_hyp_x - dV_dt_hyp
+          temp_change_hyp = advec_in_hypx -  advec_out_hypx  +  dif_hyp_x ! - dV_dt_hyp
           temp_change_hyp = temp_change_hyp * delta_t / volume_h_x
          !----- update epilimnion volume for next time step -------
           volume_h_x = volume_h_x + (flow_in_hyp_x - flow_out_hyp_x + flow_epi_hyp_x) * delta_t
