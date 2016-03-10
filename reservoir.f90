@@ -66,8 +66,8 @@ depth_h = depth_total * 0.6
 width = 1377  ! in meters 
 length = 86904 ! in meters
 area = width*length
-delta_t_sec = 84600.   ! Delta t in seconds
-delta_t = 84600 ! time is days,  assumes all units in equations are in days
+delta_t_sec = 86400.   ! Delta t in seconds
+delta_t = 86400 ! time is days,  assumes all units in equations are in days
 
 ! ------------------- initial variables ---------------
 volume_e_x = area*depth_e
