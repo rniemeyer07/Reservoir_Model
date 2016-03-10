@@ -223,12 +223,12 @@ print *, "trial new"
         ! loop to increase diffusion in fall when epil and hypo temperatures
         ! match
 
-        if (  abs(T_epil_temp -  T_hypo_temp) .lt. 1 .and.  month > 8 .or. month < 4 ) then
-                v_t = 1.04E-5  ! set high v_t when turnover occurs
-        else if(month == 4)  then ! on april 1st, reset diffusion to low value 
-                v_t = 5.78E-8  ! set the diffusion coeff. in m^2/day
-                v_t = v_t / (depth_e/2) ! divide by approximate thickness of thermocline 
-        end if
+     !   if (  abs(T_epil_temp -  T_hypo_temp) .lt. 1 .and.  month > 8 .or. month < 4 ) then
+     !           v_t = 1.04E-5  ! set high v_t when turnover occurs
+     !   else if(month == 4)  then ! on april 1st, reset diffusion to low value 
+     !           v_t = 5.78E-8  ! set the diffusion coeff. in m^2/day
+     !           v_t = v_t / (depth_e/2) ! divide by approximate thickness of thermocline 
+     !    end if
 
         !*************************************************************************
         !          write output
