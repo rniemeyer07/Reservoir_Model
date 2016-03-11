@@ -22,7 +22,7 @@ use Block_Reservoir
 
 implicit none
 
-real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x
+real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x, q_equil
 real :: year, month, day, Q_in, headw_T_in, stream_T_out
 real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo, atm_density, energy_x2
 integer :: nd,ncell
@@ -42,7 +42,7 @@ allocate (wind(ncell))
 !  write(*,*) 'Total number of days of simulation'
 ! read(*,*) nd_total
 
- nd_total = 200 ! 22645
+ nd_total = 22645
 
 
 ! Read some parameters
@@ -123,9 +123,10 @@ v_t = v_t / (depth_e/2)  ! divide by approximate thickness of thermocline
 ! ------------ start loop ---------------------
 do  nd=2,nd_total
       
-!*************************************************************************
-! read forcings for energy and flow from VIC and RVIC
-!*************************************************************************
+      !*************************************************************************
+      !      read inflow from vic/rvic simulations
+      !*************************************************************************
+
 
       ! ------------------ read in in VIC flow data --------------
         read(46, *) year,month,day, Q_in &
@@ -149,7 +150,7 @@ do  nd=2,nd_total
         flow_out_epi_x = 0
 
       ! ------------- flow between epilim. and hypolim. ---------
-                flow_epi_hyp_x = flow_in_epi_x
+        flow_epi_hyp_x = flow_in_epi_x
 
 
         !*************************************************************************
@@ -167,17 +168,13 @@ do  nd=2,nd_total
                 press(1) = 10 * ea(1)          !kPa to mb 
 
 
-             call surf_energy(stream_T_in,q_surf,ncell)
+             call surf_energy(stream_T_in,q_surf,q_equil,ncell)
 
         !***********************************************************************
         ! read flow schedule (spill and turbine outflows)
         !*************************************************************************
 
         !read in any flow from spillway or turbines
-
-        !*************************************************************************
-        !      read inflow and river temperature from rbm simulations
-        !*************************************************************************
 
         !*************************************************************************
         !      call reservoir subroutine
@@ -212,10 +209,10 @@ do  nd=2,nd_total
                , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x &
                , advec_out_hypx, advec_in_hypx, temp_change_hyp 
 
-            write(32,*) nd, temp_epil, temp_hypo
+            write(32,*) nd, temp_epil, temp_hypo, q_equil
 
 
-print *,nd,temp_epil,temp_hypo
+print *,nd,temp_epil,temp_hypo,q_surf, q_equil
 
 
 
