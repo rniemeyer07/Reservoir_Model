@@ -146,11 +146,14 @@ do  nd=2,nd_total
 
       !  flow_out_hyp_x = Q_out * prcnt_flow_hypo
       !  flow_out_epi_x = Q_out*prcnt_flow_epil
-        flow_out_hyp_x = flow_in_hyp_x + flow_in_epi_x
-        flow_out_epi_x = 0
+      !  flow_out_hyp_x = flow_in_hyp_x + flow_in_epi_x
+      !  flow_out_epi_x = 0
+        flow_out_hyp_x = 0
+        flow_out_epi_x = flow_in_epi_x
 
       ! ------------- flow between epilim. and hypolim. ---------
-        flow_epi_hyp_x = flow_in_epi_x
+       !  flow_epi_hyp_x = flow_in_epi_x
+         flow_epi_hyp_x = 0
 
 
         !*************************************************************************
@@ -212,7 +215,7 @@ do  nd=2,nd_total
             write(32,*) nd, temp_epil, temp_hypo, q_equil
 
 
-print *,nd,temp_epil,temp_hypo,q_surf, q_equil
+print *,nd,temp_epil,temp_hypo,q_surf, energy_x
 
 
 

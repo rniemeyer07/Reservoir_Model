@@ -8,7 +8,7 @@ module Block_Reservoir
         real :: temp_change_ep, temp_change_hyp, energy,stream_T_in
         real :: energy_tot, diffusion_tot, T_in_tot, T_out_tot,temp_out_tot
 
-        REAL, PARAMETER ::  prcnt_flow_epil = 0.4, prcnt_flow_hypo = 0.6
+        REAL, PARAMETER ::  prcnt_flow_epil = 1, prcnt_flow_hypo = 0
         REAL, PARAMETER :: density = 1000, heat_c = 4180, rfac = 304.8
         REAL, PARAMETER :: heat_c_kcal = 1  ! heat capacity in kcal/kg*C
         REAL, PARAMETER :: kcal_to_J = 4180 
