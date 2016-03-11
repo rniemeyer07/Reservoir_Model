@@ -9,7 +9,8 @@ module Block_Reservoir
         real :: energy_tot, diffusion_tot, T_in_tot, T_out_tot,temp_out_tot
 
         REAL, PARAMETER ::  prcnt_flow_epil = 0.7, prcnt_flow_hypo = 0.3
-        REAL, PARAMETER :: density = 1000, heat_c = 4180
+        REAL, PARAMETER :: density = 1000, heat_c = 4180, rfac = 304.8
+        REAL, PARAMETER :: heat_c_kcal = 1  ! heat capacity in kcal/kg*C
         real          :: v_t    !diffusion coefficient (m/day) Input on command line JRY
         !    diffusion coefficient - based on Snodgrass, 1974
 
@@ -25,7 +26,7 @@ module Block_Reservoir
         real :: x,  x1, x2, x3
 
         real  :: depth_total, depth_e, depth_h, width, length,outflow_x
-        real :: energy_x, area, delta_t
+        real :: energy_x, area, delta_t, q_surf
         real  :: flow_in_hyp_x, flow_in_epi_x, flow_out_epi_x, flow_out_hyp_x
         real  :: epix, hypox, dif_epi_x, dif_hyp_x,  flow_epi_x, flow_hyp_x,vol_x
         real :: advec_in_epix, advec_out_epix, advec_in_hypx, advec_out_hypx
