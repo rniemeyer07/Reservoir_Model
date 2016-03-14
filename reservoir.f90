@@ -64,8 +64,8 @@ depth_total = 15 ! in meters
 depth_e = depth_total * 0.4
 depth_h = depth_total * 0.6
 width = 1377  ! in meters 
-length = 86904 ! in meters
-area = width*length
+length = 86904! in meters
+area = width*length/4
 delta_t_sec = 86400.   ! Delta t in seconds
 delta_t = 86400 ! time is days,  assumes all units in equations are in days
 
@@ -146,14 +146,14 @@ do  nd=2,nd_total
 
       !  flow_out_hyp_x = Q_out * prcnt_flow_hypo
       !  flow_out_epi_x = Q_out*prcnt_flow_epil
-      !  flow_out_hyp_x = flow_in_hyp_x + flow_in_epi_x
-      !  flow_out_epi_x = 0
-        flow_out_hyp_x = 0
-        flow_out_epi_x = flow_in_epi_x
+         flow_out_hyp_x = flow_in_hyp_x + flow_in_epi_x
+         flow_out_epi_x = 0
+      !  flow_out_hyp_x = 0
+      !  flow_out_epi_x = flow_in_epi_x
 
       ! ------------- flow between epilim. and hypolim. ---------
-       !  flow_epi_hyp_x = flow_in_epi_x
-         flow_epi_hyp_x = 0
+         flow_epi_hyp_x = flow_in_epi_x
+       !  flow_epi_hyp_x = 0
 
 
         !*************************************************************************
@@ -165,8 +165,8 @@ do  nd=2,nd_total
                         ,  press(1), wind(1)
             !---------units transform--------------------------------------
                   
-                q_ns(1) = 0.00023885*q_ns(1)  ! W/m**2 to kcal/m**2/sec  
-                q_na(1) = 0.00023885*q_na(1)  ! W/m**2 to kcal/m**2/sec  
+                q_ns(1) = q_ns(1) * 0.00023885 ! convert [W/m2] to [mm*K/s]   
+                q_na(1) = q_na(1) * 0.00023885 ! W/m**2 to kcal/m**2/sec  
                 ea(1) = 10 * ea(1)             !kPa to mb 
                 press(1) = 10 * ea(1)          !kPa to mb 
 
@@ -212,7 +212,7 @@ do  nd=2,nd_total
                , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x &
                , advec_out_hypx, advec_in_hypx, temp_change_hyp 
 
-            write(32,*) nd, temp_epil, temp_hypo, q_equil
+            write(32,*) nd, temp_epil, temp_hypo, dbt(1)
 
 
 print *,nd,temp_epil,temp_hypo,q_surf, energy_x

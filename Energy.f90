@@ -33,7 +33,7 @@ SUBROUTINE surf_energy(stream_T_in,q_surf,q_equil,ncell)
 !     temperature and linear rate constant.
 !
    A=(q_fit(1)-q_fit(2))/(T_fit(1)-T_fit(2))
-    q_surf=0.5*(q_fit(1)+q_fit(2))
+   q_surf=0.5*(q_fit(1)+q_fit(2))
    B=(q_surf/A)-((T_fit(1)+T_fit(2))/2) 
    q_equil = A * ((T_fit(1)+T_fit(2))/2) + B
 !     ******************************************************
