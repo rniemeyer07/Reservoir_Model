@@ -22,7 +22,7 @@ use Block_Reservoir
 
 implicit none
 
-real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x, q_equil
+real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x
 real :: year, month, day, Q_in, headw_T_in, stream_T_out
 real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo, atm_density, energy_x2
 integer :: nd,ncell
@@ -65,7 +65,7 @@ depth_e = depth_total * 0.4
 depth_h = depth_total * 0.6
 width = 1377  ! in meters 
 length = 86904! in meters
-area = width*length/4
+area = width*length
 delta_t_sec = 86400.   ! Delta t in seconds
 delta_t = 86400 ! time is days,  assumes all units in equations are in days
 
@@ -78,7 +78,7 @@ T_hypo_temp = 15
  
 temp_epil = T_epil_temp ! starting epilimnion temperature at 5 C
 temp_hypo = T_hypo_temp ! starting hypolimnion temperature at 5 C
-v_t = 5.7E-8 ! set the diffusion coeff. in m^2/sec
+v_t = 1E-7 ! set the diffusion coeff. in m^2/sec
 v_t = v_t / (depth_e/2)  ! divide by approximate thickness of thermocline 
 
 ! -------------------- Upload files in input file -----------------
@@ -147,15 +147,17 @@ do  nd=2,nd_total
       !  flow_out_hyp_x = Q_out * prcnt_flow_hypo
       !  flow_out_epi_x = Q_out*prcnt_flow_epil
          flow_out_hyp_x = flow_in_hyp_x + flow_in_epi_x
-         flow_out_epi_x = 0
+        flow_out_epi_x = 0
       !  flow_out_hyp_x = 0
       !  flow_out_epi_x = flow_in_epi_x
 
       ! ------------- flow between epilim. and hypolim. ---------
          flow_epi_hyp_x = flow_in_epi_x
-       !  flow_epi_hyp_x = 0
+      !    flow_epi_hyp_x = 0
 
 
+       !  stream_T_in = 15
+       !  headw_T_in = 15
         !*************************************************************************
         ! read forcings for energy from VIC
         !*************************************************************************
@@ -171,7 +173,7 @@ do  nd=2,nd_total
                 press(1) = 10 * ea(1)          !kPa to mb 
 
 
-             call surf_energy(stream_T_in,q_surf,q_equil,ncell)
+             call surf_energy(stream_T_in,q_surf,ncell)
 
         !***********************************************************************
         ! read flow schedule (spill and turbine outflows)
