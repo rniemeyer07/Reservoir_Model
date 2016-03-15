@@ -1,4 +1,4 @@
-SUBROUTINE surf_energy(stream_T_in,q_surf,q_equil,ncell)
+SUBROUTINE surf_energy(stream_T_in,q_surf,ncell)
    use Block_Energy
    implicit none
    integer::i,ncell,nd

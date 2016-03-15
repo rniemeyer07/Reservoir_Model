@@ -15,17 +15,14 @@ program reservoir
 !
 !*************************************************************************
 
-
-! use Block_Reservoir  
 use Block_Energy
 use Block_Reservoir
 
 implicit none
 
-real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x, q_equil
+real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x
 real :: year, month, day, Q_in, headw_T_in, stream_T_out
-real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo, atm_density, energy_x2
-integer :: nd,ncell
+real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo, atm_density
 
 ncell = 2
 
@@ -35,21 +32,8 @@ allocate (q_ns(ncell))
 allocate (q_na(ncell))
 allocate (press(ncell))
 allocate (wind(ncell))
-! -------------------- to read in variables from comman line ---------
-!
-! Read total number of days to simulate JRY 
-!
-!  write(*,*) 'Total number of days of simulation'
-! read(*,*) nd_total
 
  nd_total = 22645
-
-
-! Read some parameters
-!
-!  write(*,*) 'Input Inflow (m3/day),Inflow
-!  Temperature,temp_epil(1),temp_hypo(1),diffusion coefficient'
-!  read(*,*) Q_in_epil,Temp_in,temp_epil(1),temp_hypo(1),v_t
 
 ! ----------------- read in input file -------
 ! Note: the input_file should be entered with fortran executable:
@@ -66,7 +50,6 @@ depth_h = depth_total * 0.6
 width = 1377  ! in meters 
 length = 86904 ! in meters
 area = width*length
-delta_t_sec = 86400.   ! Delta t in seconds
 delta_t = 86400 ! time is days,  assumes all units in equations are in days
 
 ! ------------------- initial variables ---------------
@@ -106,13 +89,11 @@ v_t = v_t / (depth_e/2)  ! divide by approximate thickness of thermocline
    read(46, *) year,month,day, Q_in &
               , stream_T_in, headw_T_in, air_T
 
-
    read(47, *) year,month,day, Q_out, stream_T_out &
                , headw_T_out, air_T
   
    read(48, *) year, month, day,  dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
                 ,  press(1), wind(1)
-
 
 !*************************************************************************
 !
@@ -132,107 +113,84 @@ do  nd=2,nd_total
         read(46, *) year,month,day, Q_in &
               , stream_T_in, headw_T_in, air_T
 
-        Q_in = Q_in * 0.0283168 ! converts ft^3/sec to m^3/sec
+        Q_in = Q_in * ftsec_to_msec ! converts ft^3/sec to m^3/sec
 
         flow_in_hyp_x = Q_in*prcnt_flow_hypo
         flow_in_epi_x = Q_in*prcnt_flow_epil
 
-     ! ---------- set outflow to inflow (same out as in)  ---
+      ! ---------- set outflow to inflow (same out as in)  ---
          read(47, *) year,month,day, Q_out, stream_T_out &
             ,  headw_T_out, air_T
 
-        Q_out = Q_out * 0.0283168 ! converts ft^3/sec to m^3/day
+         Q_out = Q_out * ftsec_to_msec ! converts ft^3/sec to m^3/day
 
-
-      !  flow_out_hyp_x = Q_out * prcnt_flow_hypo
-      !  flow_out_epi_x = Q_out*prcnt_flow_epil
+       !  flow_out_hyp_x = Q_out * prcnt_flow_hypo
+       !  flow_out_epi_x = Q_out*prcnt_flow_epil
         flow_out_hyp_x = flow_in_hyp_x + flow_in_epi_x
         flow_out_epi_x = 0
-      !  flow_out_hyp_x = 0
-      !  flow_out_epi_x = flow_in_epi_x
+       !  flow_out_hyp_x = 0
+       !  flow_out_epi_x = flow_in_epi_x
 
       ! ------------- flow between epilim. and hypolim. ---------
          flow_epi_hyp_x = flow_in_epi_x
        !  flow_epi_hyp_x = 0
 
 
-        !*************************************************************************
-        ! read forcings for energy from VIC
-        !*************************************************************************
+      !*************************************************************************
+      ! read forcings for energy from VIC
+      !*************************************************************************
 
-            ! ------- ulpload ENERGY subroutine and read in VIC energy ----
-                 read(48, *) year, month, day, dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
-                        ,  press(1), wind(1)
-            !---------units transform--------------------------------------
-                  
-                q_ns(1) = 0.00023885*q_ns(1)  ! W/m**2 to kcal/m**2/sec  
-                q_na(1) = 0.00023885*q_na(1)  ! W/m**2 to kcal/m**2/sec  
-                ea(1) = 10 * ea(1)             !kPa to mb 
-                press(1) = 10 * ea(1)          !kPa to mb 
+      ! ------- ulpload ENERGY subroutine and read in VIC energy ----
+         read(48, *) year, month, day, dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
+                  ,  press(1), wind(1)
+      !---------units transform--------------------------------------
+          q_ns(1) = J_to_kcal*q_ns(1)  ! W/m**2 to kcal/m**2/sec  
+          q_na(1) = J_to_kcal*q_na(1)  ! W/m**2 to kcal/m**2/sec  
+          ea(1) = kPa_to_mb * ea(1)             !kPa to mb 
+          press(1) = kPa_to_mb * ea(1)          !kPa to mb 
 
+          call surf_energy(stream_T_in,q_surf,ncell)
 
-             call surf_energy(stream_T_in,q_surf,q_equil,ncell)
-
-        !***********************************************************************
-        ! read flow schedule (spill and turbine outflows)
-        !*************************************************************************
+      !***********************************************************************
+      ! read flow schedule (spill and turbine outflows)
+      !*************************************************************************
 
         !read in any flow from spillway or turbines
 
-        !*************************************************************************
-        !      call reservoir subroutine
-        !*************************************************************************
+      !*************************************************************************
+      !      call reservoir subroutine
+      !*************************************************************************
 
-           call reservoir_subroutine (T_epil_temp,T_hypo_temp, volume_e_x, volume_h_x,energy_x2)
-        !        T_epil_temp = T_epil_temp
-        !        T_hypo_temp = T_hypo_temp
-        !        volume_e_x = volume_e_x
-        !        volume_h_x = volume_h_x   
-                temp_epil = T_epil_temp 
-                temp_hypo = T_hypo_temp
+        call reservoir_subroutine (T_epil_temp,T_hypo_temp, volume_e_x, volume_h_x)
+             temp_epil = T_epil_temp 
+             temp_hypo = T_hypo_temp
 
-        ! loop to increase diffusion in fall when epil and hypo temperatures
-        ! match
+      ! -------------------- turnover loop ------------------------------
+      ! loop to increase diffusion in fall when epil and hypo temperatures match
 
-     !   if (  abs(T_epil_temp -  T_hypo_temp) .lt. 1 .and.  month > 8 .or. month < 4 ) then
-     !           v_t = 1.04E-5  ! set high v_t when turnover occurs
-     !   else if(month == 4)  then ! on april 1st, reset diffusion to low value 
-     !           v_t = 5.78E-8  ! set the diffusion coeff. in m^2/day
-     !           v_t = v_t / (depth_e/2) ! divide by approximate thickness of thermocline 
-     !    end if
+       !   if (  abs(T_epil_temp -  T_hypo_temp) .lt. 1 .and.  month > 8 .or. month < 4 ) then
+       !           v_t = 1.04E-5  ! set high v_t when turnover occurs
+       !   else if(month == 4)  then ! on april 1st, reset diffusion to low value 
+       !           v_t = 5.78E-8  ! set the diffusion coeff. in m^2/day
+       !           v_t = v_t / (depth_e/2) ! divide by approximate thickness of thermocline 
+       !    end if
 
-        !*************************************************************************
-        !          write output
-        !*************************************************************************
+      !*************************************************************************
+      !          write output
+      !*************************************************************************
 
 
             write(30,*) nd, temp_epil, temp_hypo, temp_out_tot, stream_T_in &
                        , temp_change_ep, advec_in_epix &
-                       , advec_out_epix,dif_epi_x,energy_x2, dV_dt_epi, flow_epi_hyp_x, volume_e_x & 
+                       , advec_out_epix,dif_epi_x, dV_dt_epi, flow_epi_hyp_x, volume_e_x & 
                , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x &
                , advec_out_hypx, advec_in_hypx, temp_change_hyp 
 
             write(32,*)  temp_epil, temp_hypo, dbt
 
 
-print *,nd,temp_epil,temp_hypo,q_surf, energy_x
+print *,nd,temp_epil,temp_hypo  ! print the run & layer temperatures in console
 
-
-
-
-
-!*************************************************************************
-!               update temperatures 
-!*************************************************************************
-
-!
-! Update temperatures for next time step, for example:
-!         temp_epil(1) = temp_epil(2)
-!         temp_hypo(1) = temp_hypo(2)
-! Or, better (1=epilimnion,2=hypolimnion)
-!         T_res(1,1)   = T_res(1,2)
-!         T_res(2,1)   = T_res(2,2)
-!
 end do
 
 
