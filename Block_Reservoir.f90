@@ -15,6 +15,9 @@ module Block_Reservoir
         real  :: depth_total, depth_e, depth_h, width, length,outflow_x
         real :: delta_vol_e_x, delta_vol_h_x, flow_epi_hyp_x
         real :: delta_vol_e_T_x, delta_vol_h_T_x, dV_dt_epi,dV_dt_hyp
+      !  real :: T_epil,T_hypo,volume_e_x,volume_h_x
+        real :: year, month, day, Q_in, headw_T_in, stream_T_out
+        real :: air_T, headw_T_out, Q_out, atm_density
 
         ! -------------------- energy terms -----------
         real :: energy_x, area, delta_t, q_surf

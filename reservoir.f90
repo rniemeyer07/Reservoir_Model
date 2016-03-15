@@ -20,9 +20,9 @@ use Block_Reservoir
 
 implicit none
 
-real :: T_epil_temp,T_hypo_temp,volume_e_x,volume_h_x
-real :: year, month, day, Q_in, headw_T_in, stream_T_out
-real :: air_T, headw_T_out, Q_out, temp_epil, temp_hypo, atm_density
+real :: T_epil,T_hypo,volume_e_x,volume_h_x
+!real :: year, month, day, Q_in, headw_T_in, stream_T_out
+!real :: air_T, headw_T_out, Q_out, atm_density
 
 ncell = 2
 
@@ -56,11 +56,11 @@ delta_t = 86400 ! time is days,  assumes all units in equations are in days
 volume_e_x = area*depth_e
 volume_h_x = area*depth_h
 
-T_epil_temp = 15
-T_hypo_temp = 15
+T_epil = 15
+T_hypo = 15
  
-temp_epil = T_epil_temp ! starting epilimnion temperature at 5 C
-temp_hypo = T_hypo_temp ! starting hypolimnion temperature at 5 C
+! temp_epil = T_epil_temp ! starting epilimnion temperature at 5 C
+! temp_hypo = T_hypo_temp ! starting hypolimnion temperature at 5 C
 v_t = 5.7E-8 ! set the diffusion coeff. in m^2/sec
 v_t = v_t / (depth_e/2)  ! divide by approximate thickness of thermocline 
 
@@ -86,15 +86,6 @@ v_t = v_t / (depth_e/2)  ! divide by approximate thickness of thermocline
   read(45, '(A)') observed_stream_temp_file
   open(unit=49, file=TRIM(observed_stream_temp_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
 
-   read(46, *) year,month,day, Q_in &
-              , stream_T_in, headw_T_in, air_T
-
-   read(47, *) year,month,day, Q_out, stream_T_out &
-               , headw_T_out, air_T
-  
-   read(48, *) year, month, day,  dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
-                ,  press(1), wind(1)
-
 !*************************************************************************
 !
 !       run through loop
@@ -102,7 +93,7 @@ v_t = v_t / (depth_e/2)  ! divide by approximate thickness of thermocline
 !*************************************************************************
 
 ! ------------ start loop ---------------------
-do  nd=2,nd_total
+do  nd=1, nd_total
       
       !*************************************************************************
       !      read inflow from vic/rvic simulations
@@ -161,9 +152,9 @@ do  nd=2,nd_total
       !      call reservoir subroutine
       !*************************************************************************
 
-        call reservoir_subroutine (T_epil_temp,T_hypo_temp, volume_e_x, volume_h_x)
-             temp_epil = T_epil_temp 
-             temp_hypo = T_hypo_temp
+        call reservoir_subroutine (T_epil,T_hypo, volume_e_x, volume_h_x)
+  !           temp_epil = T_epil_temp 
+  !           temp_hypo = T_hypo_temp
 
       ! -------------------- turnover loop ------------------------------
       ! loop to increase diffusion in fall when epil and hypo temperatures match
@@ -180,16 +171,16 @@ do  nd=2,nd_total
       !*************************************************************************
 
 
-            write(30,*) nd, temp_epil, temp_hypo, temp_out_tot, stream_T_in &
+            write(30,*) nd, T_epil, T_hypo, temp_out_tot, stream_T_in &
                        , temp_change_ep, advec_in_epix &
                        , advec_out_epix,dif_epi_x, dV_dt_epi, flow_epi_hyp_x, volume_e_x & 
                , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x &
                , advec_out_hypx, advec_in_hypx, temp_change_hyp 
 
-            write(32,*)  temp_epil, temp_hypo, dbt
+            write(32,*)  T_epil, T_hypo, dbt
 
 
-print *,nd,temp_epil,temp_hypo  ! print the run & layer temperatures in console
+print *,nd,T_epil,T_hypo  ! print the run & layer temperatures in console
 
 end do
 
