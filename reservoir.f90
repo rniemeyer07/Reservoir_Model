@@ -140,7 +140,7 @@ do  nd=1, nd_total
           ea(1) = kPa_to_mb * ea(1)             !kPa to mb 
           press(1) = kPa_to_mb * ea(1)          !kPa to mb 
 
-          call surf_energy(stream_T_in,q_surf,ncell)
+          call surf_energy(T_epil, q_surf, ncell)
 
       !***********************************************************************
       ! read flow schedule (spill and turbine outflows)
