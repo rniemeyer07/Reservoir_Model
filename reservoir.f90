@@ -73,8 +73,8 @@ delta_t = 86400 ! time is days,  assumes all units in equations are in days
 volume_e_x = area*depth_e
 volume_h_x = area*depth_h
 
-T_epil_temp = 15
-T_hypo_temp = 15
+T_epil_temp = 5
+T_hypo_temp = 5
  
 temp_epil = T_epil_temp ! starting epilimnion temperature at 5 C
 temp_hypo = T_hypo_temp ! starting hypolimnion temperature at 5 C

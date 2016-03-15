@@ -33,7 +33,7 @@ module Block_Reservoir
         real :: advec_in_epix, advec_out_epix, advec_in_hypx, advec_out_hypx
         real :: delta_vol_e_x, delta_vol_h_x, flow_epi_hyp_x, advec_epi_hyp
         real :: delta_vol_e_T_x, delta_vol_h_T_x
-        real :: dV_dt_epi,dV_dt_hyp
+        real :: dV_dt_epi,dV_dt_hyp,stream_T_in
 
         ! --------------- path and directories of input and output files -------
 
