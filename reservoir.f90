@@ -113,32 +113,35 @@ do  nd=1, nd_total
 
 
       ! ------------------ read in in VIC flow data --------------
-        read(46, *) year,month,day, Q_in &
-              , stream_T_in, headw_T_in, air_T
+  !      read(46, *) year,month,day, Q_in &
+  !            , stream_T_in, headw_T_in, air_T
 
-        Q_in = Q_in * ftsec_to_msec ! converts ft^3/sec to m^3/sec
+  !      Q_in = Q_in * ftsec_to_msec ! converts ft^3/sec to m^3/sec
 
-        flow_in_hyp_x = Q_in*prcnt_flow_hypo
-        flow_in_epi_x = Q_in*prcnt_flow_epil
+  !      flow_in_hyp_x = Q_in*prcnt_flow_hypo
+  !      flow_in_epi_x = Q_in*prcnt_flow_epil
 
       ! ---------- set outflow to inflow (same out as in)  ---
-         read(47, *) year,month,day, Q_out, stream_T_out &
-            ,  headw_T_out, air_T
+  !       read(47, *) year,month,day, Q_out, stream_T_out &
+  !          ,  headw_T_out, air_T
 
-         Q_out = Q_out * ftsec_to_msec ! converts ft^3/sec to m^3/day
+   !      Q_out = Q_out * ftsec_to_msec ! converts ft^3/sec to m^3/day
 
        !  flow_out_hyp_x = Q_out * prcnt_flow_hypo
        !  flow_out_epi_x = Q_out*prcnt_flow_epil
-        flow_out_hyp_x = flow_in_hyp_x + flow_in_epi_x
-        flow_out_epi_x = 0
+   !     flow_out_hyp_x = flow_in_hyp_x + flow_in_epi_x
+   !     flow_out_epi_x = 0
        !  flow_out_hyp_x = 0
        !  flow_out_epi_x = flow_in_epi_x
 
       ! ------------- flow between epilim. and hypolim. ---------
-         flow_epi_hyp_x = flow_in_epi_x
+  !       flow_epi_hyp_x = flow_in_epi_x
        !  flow_epi_hyp_x = 0
 
+      call flow_vol_subroutine( flow_in_epi_x &
+                , flow_in_hyp_x, flow_epi_hyp_x, flow_out_epi_x, flow_out_hyp_x)
 
+     !   call continuity_sub(volume_e_x, volume_h_x,  dV_dt_epi, dV_dt_hyp)
       !*************************************************************************
       ! read forcings for energy from VIC
       !*************************************************************************

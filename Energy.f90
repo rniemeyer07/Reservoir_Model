@@ -1,6 +1,5 @@
 SUBROUTINE surf_energy(T_epil, q_surf, ncell)
    use Block_Energy
-!   use Block_Reservoir 
 
    implicit none
    integer::i,ncell,nd
