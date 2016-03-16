@@ -21,8 +21,6 @@ use Block_Reservoir
 implicit none
 
 real :: T_epil,T_hypo,volume_e_x,volume_h_x
-!real :: year, month, day, Q_in, headw_T_in, stream_T_out
-!real :: air_T, headw_T_out, Q_out, atm_density
 
 ncell = 2
 
@@ -33,7 +31,7 @@ allocate (q_na(ncell))
 allocate (press(ncell))
 allocate (wind(ncell))
 
- nd_total = 22645
+ nd_total =  22645
 
 ! ----------------- read in input file -------
 ! Note: the input_file should be entered with fortran executable:
@@ -43,27 +41,41 @@ allocate (wind(ncell))
  call getarg (1, input_file)
  input_file = TRIM(input_file)
 
-! ------------   data for the Cherokee Reservoir (36.1875, -83.4375)
-depth_total = 15 ! in meters
-depth_e = depth_total * 0.4
-depth_h = depth_total * 0.6
-width = 1377  ! in meters 
-length = 86904 ! in meters
-area = width*length
-delta_t = 86400 ! time is days,  assumes all units in equations are in days
+ call getarg (2, reservoir_file)
+ reservoir_file = TRIM(reservoir_file)
 
-! ------------------- initial variables ---------------
-volume_e_x = area*depth_e
-volume_h_x = area*depth_h
+delta_t = 86400 ! timestep in seconds,  assumes all units in equations are in seconds
 
+! ------------------- initial temperature ---------------
 T_epil = 15
 T_hypo = 15
  
-! temp_epil = T_epil_temp ! starting epilimnion temperature at 5 C
-! temp_hypo = T_hypo_temp ! starting hypolimnion temperature at 5 C
-v_t = 5.7E-8 ! set the diffusion coeff. in m^2/sec
-v_t = v_t / (depth_e/2)  ! divide by approximate thickness of thermocline 
+K_z = 5.7E-8 ! set the diffusion coeff. in m^2/sec
+K_z = K_z / (depth_e/2)  ! divide by approximate thickness of thermocline 
 
+! ------------------ read in reservoir data ---------------------
+ ! ----- which reservoir to read ----
+ nres = 4  ! which reservoir to read
+ nres_skip = nres - 1
+
+ OPEN(UNIT=55, FILE=TRIM(reservoir_file), status='old')
+   read(55, *)  !skip the first line
+
+ ! ----- skip reservoirs not modeling ----
+ do i=1,nres_skip
+   read(55,*)
+ end do
+
+ ! ----- read in reservoir ------
+ read(55, *) dam_number, dam_name, grid_lat, grid_lon, surface_area, length2 &
+       ,  depth,  width2, start_node, end_node
+  print *, dam_name, dam_number
+
+depth_e = depth * depth_e_frac
+depth_h = depth * depth_h_frac
+volume_e_x = surface_area * depth_e
+volume_h_x = surface_area * depth_h
+area = surface_area * depth
 ! -------------------- Upload files in input file -----------------
 ! NOTE: once incorporated into RBM, these data will already be called in 
 !       the model 
@@ -152,19 +164,17 @@ do  nd=1, nd_total
       !      call reservoir subroutine
       !*************************************************************************
 
-        call reservoir_subroutine (T_epil,T_hypo, volume_e_x, volume_h_x)
-  !           temp_epil = T_epil_temp 
-  !           temp_hypo = T_hypo_temp
-
       ! -------------------- turnover loop ------------------------------
       ! loop to increase diffusion in fall when epil and hypo temperatures match
 
-       !   if (  abs(T_epil_temp -  T_hypo_temp) .lt. 1 .and.  month > 8 .or. month < 4 ) then
-       !           v_t = 1.04E-5  ! set high v_t when turnover occurs
-       !   else if(month == 4)  then ! on april 1st, reset diffusion to low value 
-       !           v_t = 5.78E-8  ! set the diffusion coeff. in m^2/day
-       !           v_t = v_t / (depth_e/2) ! divide by approximate thickness of thermocline 
-       !    end if
+        if (  abs(T_epil -  T_hypo) .lt. 1 .and.  month > 6 .or. month < 4 ) then
+                  K_z = 0.1 ! set high K_z when turnover occurs
+          else if(month == 4)  then ! on april 1st, reset diffusion to low value 
+                  K_z = 5.78E-8  ! set the diffusion coeff. in m^2/day
+                  K_z = K_z / (depth_e/2) ! divide by approximate thickness of thermocline 
+           end if
+
+        call reservoir_subroutine (T_epil,T_hypo, volume_e_x, volume_h_x)
 
       !*************************************************************************
       !          write output
@@ -177,10 +187,10 @@ do  nd=1, nd_total
                , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x &
                , advec_out_hypx, advec_in_hypx, temp_change_hyp 
 
-            write(32,*)  T_epil, T_hypo, dbt
+            write(32,*)  T_epil, T_hypo
 
 
-print *,nd,T_epil,T_hypo  ! print the run & layer temperatures in console
+ print *,nd,T_epil,T_hypo  ! print the run & layer temperatures in console
 
 end do
 

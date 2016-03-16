@@ -7,17 +7,23 @@ module Block_Reservoir
         real, parameter :: density = 1000, heat_c = 4180, ftsec_to_msec = 0.0283168 
         real, parameter :: J_to_kcal = 0.00023885, kPa_to_mb = 10
         real, parameter :: heat_c_kcal = 1  ! heat capacity in kcal/kg*C
-        real            :: v_t    !diffusion coefficient (m^2/sec)
+        real            :: K_z    !diffusion coefficient (m^2/sec)
         integer  :: nd_total, nd, ncell  ! total simulation days, index for simulations, etc.
 
-        ! -------------------- temperature and depth change variables ------
+        ! -------------------- temperature and meterological variables ------
         real :: temp_change_ep, temp_change_hyp, energy, stream_T_in, temp_out_tot
-        real  :: depth_total, depth_e, depth_h, width, length,outflow_x
-        real :: delta_vol_e_x, delta_vol_h_x, flow_epi_hyp_x
-        real :: delta_vol_e_T_x, delta_vol_h_T_x, dV_dt_epi,dV_dt_hyp
       !  real :: T_epil,T_hypo,volume_e_x,volume_h_x
         real :: year, month, day, Q_in, headw_T_in, stream_T_out
         real :: air_T, headw_T_out, Q_out, atm_density
+
+        ! -------------------- reservoinr information --------------
+        integer :: nres, nres_skip, dam_number, start_node, end_node, i
+        character(len=300 ) ::  dam_name
+        real ::  grid_lat, grid_lon, surface_area, length2, depth, width2
+        real  :: depth_total, depth_e, depth_h, width, length,outflow_x
+        real :: delta_vol_e_x, delta_vol_h_x, flow_epi_hyp_x
+        real :: delta_vol_e_T_x, delta_vol_h_T_x, dV_dt_epi,dV_dt_hyp
+        real, parameter :: depth_e_frac=0.4, depth_h_frac=0.6
 
         ! -------------------- energy terms -----------
         real :: energy_x, area, delta_t, q_surf
@@ -32,6 +38,7 @@ module Block_Reservoir
         character(len=300 ) :: energy_file
         character(len=300 ) :: observed_stream_temp_file
         character(len=300 ) :: input_file
+        character(len=300 ) :: reservoir_file
 
 end module Block_Reservoir
 
