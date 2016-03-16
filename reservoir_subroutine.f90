@@ -6,8 +6,8 @@ implicit none
   real :: volume_e_x, volume_h_x, T_epil, T_hypo
 
   ! -------------------- calculate temperature terms  -------------------------
-      dif_epi_x  = v_t * area *  (T_hypo - T_epil) / volume_e_x
-      dif_hyp_x  = v_t * area *  (T_epil - T_hypo) / volume_h_x
+      dif_epi_x  = K_z * area *  (T_hypo - T_epil) / volume_e_x
+      dif_hyp_x  = K_z * area *  (T_epil - T_hypo) / volume_h_x
 
   ! --------------------- calculate advection terms --------------------------- 
          advec_in_epix  = flow_in_epi_x * (stream_T_in - T_epil) * delta_t / volume_e_x
