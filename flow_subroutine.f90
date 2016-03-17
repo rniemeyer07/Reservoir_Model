@@ -16,8 +16,8 @@ implicit none
 
 
       ! ------------------ read in in VIC flow data --------------
-     !   read(46, *) year,month,day, Q_in &
-     !         , stream_T_in, headw_T_in, air_T
+       read(46, *) year,month,day, Q_in &
+             , stream_T_in, headw_T_in, air_T
 
         Q_in = Q_in * ftsec_to_msec ! converts ft^3/sec to m^3/sec
 
