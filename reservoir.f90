@@ -182,19 +182,18 @@ do  nd=1, nd_total
       !            K_z = K_z / (depth_e/2) ! divide by approximate thickness of thermocline 
       !     end if
 
+      
+     ! ---------------- turnover loop driven only by T_epil and T_hyp ----------
         if (T_epil .lt.  T_hypo) then
                 if( (T_hypo - T_epil) .lt. 2) then
-                         K_z = 1E-7 ! set moderate K_z when moderately unstable
+                         K_z = 5E-7 ! set moderate K_z when moderately unstable
                 else 
-                         K_z = 1E-6 ! set high K_z when system is unstable
+                         K_z = 5E-6 ! set high K_z when system is unstable
                 end if
         else ! if T_epil greater than T_hypo
                   K_z = 5.7E-8  ! set the diffusion coeff. in m^2/day
                   K_z = K_z / (depth_e/2) ! divide by approx thickness of thermocl.
         end if
-
-
-
 
         call reservoir_subroutine (T_epil,T_hypo, volume_e_x, volume_h_x)
 
