@@ -7,7 +7,7 @@
 #
 objects = reservoir.o\
           Block_Energy.o Block_Reservoir.o\
-	  Energy.o reservoir_subroutine.o
+	  Energy.o reservoir_subroutine.o flow_subroutine.o
 	 	  
 f90comp = gfortran
 # Makefile
@@ -21,7 +21,7 @@ Block_Reservoir.o: Block_Reservoir.f90
 	$(f90comp) -c Block_Reservoir.f90
 block_reservoir.mod: Block_Reservoir.o Block_Reservoir.f90
 	$(f90comp) -c Block_Reservoir.f90
-flow_subroutine.o: block_reservoir.mod block_energy.mod flow_subroutine.f90
+flow_subroutine.o: flow_subroutine.f90
 	$(f90comp) -c flow_subroutine.f90
 Energy.o: block_energy.mod Energy.f90
 	$(f90comp) -c Energy.f90

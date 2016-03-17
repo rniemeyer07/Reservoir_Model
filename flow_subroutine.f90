@@ -1,13 +1,14 @@
-SUBROUTINE flow_vol_subroutine ( flow_in_epi_x &
-                , flow_in_hyp_x, flow_epi_hyp_x, flow_out_epi_x, flow_out_hyp_x)
+SUBROUTINE flow_subroutine ( flow_in_epi_x , flow_in_hyp_x, flow_epi_hyp_x, flow_out_epi_x, flow_out_hyp_x)
 
-   use Block_Reservoir
-   use Block_Energy 
+!  use Block_Reservoir
+!  use Block_Energy 
 
 implicit none
 
-  real :: volume_e_x, volume_h_x
-
+  real :: flow_in_epi_x, flow_in_hyp_x, flow_epi_hyp_x, flow_out_hyp_x,flow_out_epi_x, outflow_x 
+  real :: Q_in,Q_out, ftsec_to_msec, prcnt_flow_hypo, prcnt_flow_epil
+  real :: stream_T_in, stream_T_out, headw_T_in, headw_T_out, air_T
+  integer :: year, month, day
 
       !*************************************************************************
       !      read inflow from vic/rvic simulations
@@ -43,4 +44,4 @@ implicit none
   !---------- calculate combined (hypo. and epil.) outflow -----
     outflow_x = flow_out_epi_x + flow_out_hyp_x
 
-end subroutine flow_vol_subroutine
+END SUBROUTINE flow_subroutine
