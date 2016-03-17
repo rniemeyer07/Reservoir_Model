@@ -115,7 +115,8 @@ do  nd=1, nd_total
       !      loop to read in flows, calculate volume change
       !*************************************************************************
 
-       call flow_subroutine( flow_in_epi_x, flow_in_hyp_x, flow_epi_hyp_x, flow_out_epi_x, flow_out_hyp_x)
+       call flow_subroutine( flow_in_epi_x, flow_in_hyp_x, flow_epi_hyp_x &
+                , flow_out_epi_x, flow_out_hyp_x, volume_e_x, volume_h_x)
 
       !*************************************************************************
       ! read forcings for energy from VIC
