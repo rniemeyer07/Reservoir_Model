@@ -17,10 +17,12 @@ program reservoir
 
 use Block_Energy
 use Block_Reservoir
+use Block_Flow
 
 implicit none
 
-real :: T_epil,T_hypo,volume_e_x,volume_h_x
+ real :: T_epil,T_hypo,volume_e_x,volume_h_x
+! real :: flow_in_epi_x , flow_in_hyp_x, flow_epi_hyp_x, flow_out_epi_x, flow_out_hyp_x
 
 ncell = 2
 
@@ -46,13 +48,6 @@ allocate (wind(ncell))
 
 delta_t = 86400 ! timestep in seconds,  assumes all units in equations are in seconds
 
-! ------------------- initial temperature ---------------
-T_epil = 15
-T_hypo = 15
- 
-K_z = 5.7E-8 ! set the diffusion coeff. in m^2/sec
-K_z = K_z / (depth_e/2)  ! divide by approximate thickness of thermocline 
-
 ! ------------------ read in reservoir data ---------------------
  ! ----- which reservoir to read ----
  nres = 4  ! which reservoir to read
@@ -76,6 +71,7 @@ depth_h = depth * depth_h_frac
 volume_e_x = surface_area * depth_e
 volume_h_x = surface_area * depth_h
 area = surface_area * depth
+
 ! -------------------- Upload files in input file -----------------
 ! NOTE: once incorporated into RBM, these data will already be called in 
 !       the model 
@@ -98,6 +94,14 @@ area = surface_area * depth
   read(45, '(A)') observed_stream_temp_file
   open(unit=49, file=TRIM(observed_stream_temp_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
 
+
+! ------------------- initial temperature ---------------
+T_epil = 15
+T_hypo = 15
+
+K_z = 5.7E-8 ! set the diffusion coeff. in m^2/sec
+K_z = K_z / (depth_e/2)  ! divide by approximate thickness of thermocline
+
 !*************************************************************************
 !
 !       run through loop
@@ -108,40 +112,12 @@ area = surface_area * depth
 do  nd=1, nd_total
       
       !*************************************************************************
-      !      read inflow from vic/rvic simulations
+      !      loop to read in flows, calculate volume change
       !*************************************************************************
 
+       call flow_subroutine( flow_in_epi_x, flow_in_hyp_x, flow_epi_hyp_x &
+                , flow_out_epi_x, flow_out_hyp_x, volume_e_x, volume_h_x)
 
-      ! ------------------ read in in VIC flow data --------------
-  !      read(46, *) year,month,day, Q_in &
-  !            , stream_T_in, headw_T_in, air_T
-
-  !      Q_in = Q_in * ftsec_to_msec ! converts ft^3/sec to m^3/sec
-
-  !      flow_in_hyp_x = Q_in*prcnt_flow_hypo
-  !      flow_in_epi_x = Q_in*prcnt_flow_epil
-
-      ! ---------- set outflow to inflow (same out as in)  ---
-  !       read(47, *) year,month,day, Q_out, stream_T_out &
-  !          ,  headw_T_out, air_T
-
-   !      Q_out = Q_out * ftsec_to_msec ! converts ft^3/sec to m^3/day
-
-       !  flow_out_hyp_x = Q_out * prcnt_flow_hypo
-       !  flow_out_epi_x = Q_out*prcnt_flow_epil
-   !     flow_out_hyp_x = flow_in_hyp_x + flow_in_epi_x
-   !     flow_out_epi_x = 0
-       !  flow_out_hyp_x = 0
-       !  flow_out_epi_x = flow_in_epi_x
-
-      ! ------------- flow between epilim. and hypolim. ---------
-  !       flow_epi_hyp_x = flow_in_epi_x
-       !  flow_epi_hyp_x = 0
-
-      call flow_vol_subroutine( flow_in_epi_x &
-                , flow_in_hyp_x, flow_epi_hyp_x, flow_out_epi_x, flow_out_hyp_x)
-
-     !   call continuity_sub(volume_e_x, volume_h_x,  dV_dt_epi, dV_dt_hyp)
       !*************************************************************************
       ! read forcings for energy from VIC
       !*************************************************************************
@@ -150,12 +126,12 @@ do  nd=1, nd_total
          read(48, *) year, month, day, dbt(1), ea(1), q_ns(1), q_na(1), atm_density  &
                   ,  press(1), wind(1)
       !---------units transform--------------------------------------
-          q_ns(1) = J_to_kcal*q_ns(1)  ! W/m**2 to kcal/m**2/sec  
-          q_na(1) = J_to_kcal*q_na(1)  ! W/m**2 to kcal/m**2/sec  
-          ea(1) = kPa_to_mb * ea(1)             !kPa to mb 
-          press(1) = kPa_to_mb * ea(1)          !kPa to mb 
+            q_ns(1) = J_to_kcal*q_ns(1)  ! W/m**2 to kcal/m**2/sec  
+            q_na(1) = J_to_kcal*q_na(1)  ! W/m**2 to kcal/m**2/sec  
+            ea(1) = kPa_to_mb * ea(1)             !kPa to mb 
+            press(1) = kPa_to_mb * ea(1)          !kPa to mb 
 
-          call surf_energy(T_epil, q_surf, ncell)
+       call surf_energy(T_epil, q_surf, ncell)
 
       !***********************************************************************
       ! read flow schedule (spill and turbine outflows)
@@ -164,18 +140,35 @@ do  nd=1, nd_total
         !read in any flow from spillway or turbines
 
       !*************************************************************************
-      !      call reservoir subroutine
+      !      turnover loop
       !*************************************************************************
 
       ! -------------------- turnover loop ------------------------------
       ! loop to increase diffusion in fall when epil and hypo temperatures match
 
-        if (  abs(T_epil -  T_hypo) .lt. 1 .and.  month > 6 .or. month < 4 ) then
-                  K_z = 0.1 ! set high K_z when turnover occurs
-          else if(month == 4)  then ! on april 1st, reset diffusion to low value 
-                  K_z = 5.78E-8  ! set the diffusion coeff. in m^2/day
-                  K_z = K_z / (depth_e/2) ! divide by approximate thickness of thermocline 
-           end if
+      !  if (  abs(T_epil -  T_hypo) .lt. 1 .and.  month > 6 .or. month < 4 ) then
+      !            K_z = 1E-6 ! set high K_z when turnover occurs
+      !    else if(month == 4)  then ! on april 1st, reset diffusion to low value 
+      !            K_z = 5.7E-8  ! set the diffusion coeff. in m^2/day
+      !            K_z = K_z / (depth_e/2) ! divide by approximate thickness of thermocline 
+      !     end if
+
+      
+     ! ---------------- turnover loop driven only by T_epil and T_hyp ----------
+        if (T_epil .lt.  T_hypo) then
+                if( (T_hypo - T_epil) .lt. 2) then
+                         K_z = 5E-7 ! set moderate K_z when moderately unstable
+                else 
+                         K_z = 5E-6 ! set high K_z when system is unstable
+                end if
+        else ! if T_epil greater than T_hypo
+                  K_z = 5.7E-8  ! set the diffusion coeff. in m^2/day
+                  K_z = K_z / (depth_e/2) ! divide by approx thickness of thermocl.
+        end if
+
+      !*************************************************************************
+      !      call reservoir subroutine
+      !*************************************************************************
 
         call reservoir_subroutine (T_epil,T_hypo, volume_e_x, volume_h_x)
 
@@ -188,12 +181,12 @@ do  nd=1, nd_total
                        , temp_change_ep, advec_in_epix &
                        , advec_out_epix,dif_epi_x, dV_dt_epi, flow_epi_hyp_x, volume_e_x & 
                , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x &
-               , advec_out_hypx, advec_in_hypx, temp_change_hyp 
+               , advec_out_hypx, advec_in_hypx, advec_epi_hyp, temp_change_hyp 
 
-            write(32,*)  T_epil, T_hypo
+           write(32,*)  T_epil, T_hypo
 
 
- print *,nd,T_epil,T_hypo  ! print the run & layer temperatures in console
+  print *,nd,T_epil,T_hypo, dif_epi_x ! print the run & layer temperatures in console
 
 end do
 
