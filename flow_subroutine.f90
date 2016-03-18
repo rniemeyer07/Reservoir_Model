@@ -1,8 +1,8 @@
-SUBROUTINE flow_vol_subroutine ( flow_in_epi_x &
+SUBROUTINE flow_vol_subroutine( flow_in_epi_x &
                 , flow_in_hyp_x, flow_epi_hyp_x, flow_out_epi_x, flow_out_hyp_x)
 
    use Block_Reservoir
-   use Block_Energy 
+   !use Block_Energy 
 
 implicit none
 
