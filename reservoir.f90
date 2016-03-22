@@ -147,28 +147,17 @@ do  nd=1, nd_total
       !      turnover loop
       !*************************************************************************
 
-      ! -------------------- turnover loop ------------------------------
-      ! loop to increase diffusion in fall when epil and hypo temperatures match
-
-      !  if (  abs(T_epil -  T_hypo) .lt. 1 .and.  month > 6 .or. month < 4 ) then
-      !            K_z = 1E-6 ! set high K_z when turnover occurs
-      !    else if(month == 4)  then ! on april 1st, reset diffusion to low value 
-      !            K_z = 5.7E-8  ! set the diffusion coeff. in m^2/day
-      !            K_z = K_z / (depth_e/2) ! divide by approximate thickness of thermocline 
-      !     end if
-
-      
      ! ---------------- turnover loop driven only by T_epil and T_hyp ----------
-        if ( (T_hypo - T_epil) .lt. (-4)  ) then
-                if( (T_hypo - T_epil) .lt. (-1) ) then
-                         K_z = 5E-7 ! set moderate K_z when moderately unstable
-                else 
-                         K_z = 5E-6 ! set high K_z when system is unstable
-                end if
-        else ! if T_epil greater than T_hypo
-                  K_z = 5.7E-8  ! set the diffusion coeff. in m^2/day
-                  K_z = K_z / (depth_e/2) ! divide by approx thickness of thermocl.
-        end if
+     !   if ( (T_hypo - T_epil) .lt. (-4)  ) then
+     !           if( (T_hypo - T_epil) .lt. (-1) ) then
+     !                    K_z = 5E-7 ! set moderate K_z when moderately unstable
+     !           else 
+     !                    K_z = 5E-6 ! set high K_z when system is unstable
+     !           end if
+     !   else ! if T_epil greater than T_hypo
+     !             K_z = 5.7E-8  ! set the diffusion coeff. in m^2/day
+     !             K_z = K_z / (depth_e/2) ! divide by approx thickness of thermocl.
+     !   end if
 
       !*************************************************************************
       !      call reservoir subroutine
@@ -188,7 +177,7 @@ do  nd=1, nd_total
                , advec_out_hypx, advec_in_hypx, advec_epi_hyp, temp_change_hyp
 
 
-           write(32,*)  T_epil, T_hypo, flow_in_epi_x, flow_out_epi_x, flow_epi_hyp_x, flow_out_hyp_x
+           write(32,*)  T_epil, T_hypo ! , flow_in_epi_x, flow_out_epi_x, flow_epi_hyp_x, flow_out_hyp_x
 
 
   ! print *,nd,T_epil,T_hypo ! , flow_out_hyp_x, flow_out_epi_x, volume_e_x,volume_h_x ! print  temperatures in console

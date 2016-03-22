@@ -56,7 +56,7 @@ implicit none
       !     flow_epi_hyp_x = flow_in_epi_x
       !  end if
 
-print *, nd, flow_in_epi_x, flow_out_epi_x, flow_epi_hyp_x, flow_out_hyp_x
+! print *, nd, flow_in_epi_x, flow_out_epi_x, flow_epi_hyp_x, flow_out_hyp_x
 
 !        flow_out_hyp_x = flow_in_hyp_x + flow_in_epi_x
 !        flow_out_epi_x = 0

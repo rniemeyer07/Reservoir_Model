@@ -7,15 +7,27 @@ implicit none
   real :: volume_e_x, volume_h_x, T_epil, T_hypo
 !  real :: flow_in_epi_x , flow_in_hyp_x, flow_epi_hyp_x, flow_out_epi_x, flow_out_hyp_x
 
+ ! ---------------- turnover loop driven only by T_epil and T_hyp ----------
+        if ( ( T_epil - T_hypo) .lt. (2)  ) then
+                if( (T_epil - T_hypo) .lt. (0) ) then
+                         K_z = 10 ! set high K_z when moderately unstable
+                else
+                         K_z = 0.1 ! set moderate K_z when system is unstable
+                end if
+        else ! if T_epil greater than T_hypo
+                  K_z = 0.001  ! set the diffusion coeff. in m^2/day
+                  K_z = K_z / (depth_e/2) ! divide by approx thickness of thermocl.
+        end if
   ! -------------------- calculate temperature terms  -------------------------
-      dif_epi_x  = K_z * area *  (T_hypo - T_epil) * delta_t / volume_e_x
-      dif_hyp_x  = K_z * area *  (T_epil - T_hypo) * delta_t / volume_h_x
+      dif_epi_x  = K_z * surface_area *  (T_hypo - T_epil) / volume_e_x
+      dif_hyp_x  = K_z * surface_area *  (T_epil - T_hypo) / volume_h_x
 
   ! --------------------- calculate advection terms --------------------------- 
          advec_in_epix  = flow_in_epi_x * (stream_T_in - T_epil) * delta_t / volume_e_x
          advec_epi_hyp = flow_epi_hyp_x *  (T_epil - T_hypo) * delta_t / volume_e_x
          advec_in_hypx = flow_in_hyp_x * (stream_T_in - T_hypo) * delta_t / volume_h_x
         ! advec_out_hypx = flow_out_hyp_x * T_hypo_temp
+ print *, K_z, T_epil, T_hypo, dif_epi_x, advec_in_epix
 
   ! ------------------- calculate change in temperature  ---------------------
       ! ---------------- epilimnion -----------
