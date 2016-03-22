@@ -64,13 +64,16 @@ delta_t = 86400 ! timestep in seconds,  assumes all units in equations are in se
  ! ----- read in reservoir ------
  read(55, *) dam_number, dam_name, grid_lat, grid_lon, surface_area, length2 &
        ,  depth,  width2, start_node, end_node
-  print *, dam_name, dam_number
+ ! print *, dam_name, dam_number
 
 depth_e = depth * depth_e_frac
 depth_h = depth * depth_h_frac
 volume_e_x = surface_area * depth_e
 volume_h_x = surface_area * depth_h
-area = surface_area * depth
+depth_e_inital = depth_e
+volume_e_initial = volume_e_x
+depth_h_inital = depth_h
+volume_h_initial = volume_h_x
 
 ! -------------------- Upload files in input file -----------------
 ! NOTE: once incorporated into RBM, these data will already be called in 
@@ -91,8 +94,14 @@ area = surface_area * depth
   open(unit=48, file=TRIM(energy_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
 !
 ! ------- read in observed stream temperature file -------
-  read(45, '(A)') observed_stream_temp_file
-  open(unit=49, file=TRIM(observed_stream_temp_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
+  read(45, *) ! skip the observed data
+! read(45, '(A)') observed_stream_temp_file
+!  open(unit=49, file=TRIM(observed_stream_temp_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
+
+! ------- read in observed stream temperature file -------
+  read(45, '(A)') releases_file
+  open(unit=56, file=TRIM(releases_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
+   read(56, *)  !skip the first line of releases file
 
 
 ! ------------------- initial temperature ---------------
@@ -116,7 +125,8 @@ do  nd=1, nd_total
       !*************************************************************************
 
        call flow_subroutine( flow_in_epi_x, flow_in_hyp_x, flow_epi_hyp_x &
-                , flow_out_epi_x, flow_out_hyp_x, volume_e_x, volume_h_x)
+                , flow_out_epi_x, flow_out_hyp_x, volume_e_x, volume_h_x &
+                , ratio_sp, ratio_pen)
 
       !*************************************************************************
       ! read forcings for energy from VIC
@@ -133,39 +143,6 @@ do  nd=1, nd_total
 
        call surf_energy(T_epil, q_surf, ncell)
 
-      !***********************************************************************
-      ! read flow schedule (spill and turbine outflows)
-      !*************************************************************************
-
-        !read in any flow from spillway or turbines
-
-      !*************************************************************************
-      !      turnover loop
-      !*************************************************************************
-
-      ! -------------------- turnover loop ------------------------------
-      ! loop to increase diffusion in fall when epil and hypo temperatures match
-
-      !  if (  abs(T_epil -  T_hypo) .lt. 1 .and.  month > 6 .or. month < 4 ) then
-      !            K_z = 1E-6 ! set high K_z when turnover occurs
-      !    else if(month == 4)  then ! on april 1st, reset diffusion to low value 
-      !            K_z = 5.7E-8  ! set the diffusion coeff. in m^2/day
-      !            K_z = K_z / (depth_e/2) ! divide by approximate thickness of thermocline 
-      !     end if
-
-      
-     ! ---------------- turnover loop driven only by T_epil and T_hyp ----------
-        if (T_epil .lt.  T_hypo) then
-                if( (T_hypo - T_epil) .lt. 2) then
-                         K_z = 5E-7 ! set moderate K_z when moderately unstable
-                else 
-                         K_z = 5E-6 ! set high K_z when system is unstable
-                end if
-        else ! if T_epil greater than T_hypo
-                  K_z = 5.7E-8  ! set the diffusion coeff. in m^2/day
-                  K_z = K_z / (depth_e/2) ! divide by approx thickness of thermocl.
-        end if
-
       !*************************************************************************
       !      call reservoir subroutine
       !*************************************************************************
@@ -181,12 +158,13 @@ do  nd=1, nd_total
                        , temp_change_ep, advec_in_epix &
                        , advec_out_epix,dif_epi_x, dV_dt_epi, flow_epi_hyp_x, volume_e_x & 
                , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x &
-               , advec_out_hypx, advec_in_hypx, advec_epi_hyp, temp_change_hyp 
-
-           write(32,*)  T_epil, T_hypo
+               , advec_out_hypx, advec_in_hypx, advec_epi_hyp, temp_change_hyp
 
 
-  print *,nd,T_epil,T_hypo, dif_epi_x ! print the run & layer temperatures in console
+           write(32,*)  T_epil, T_hypo ! , flow_in_epi_x, flow_out_epi_x, flow_epi_hyp_x, flow_out_hyp_x
+
+
+  ! print *,nd,T_epil,T_hypo ! , flow_out_hyp_x, flow_out_epi_x, volume_e_x,volume_h_x ! print  temperatures in console
 
 end do
 

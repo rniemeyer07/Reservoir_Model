@@ -24,6 +24,8 @@ module Block_Reservoir
         real :: delta_vol_e_x, delta_vol_h_x
         real :: delta_vol_e_T_x, delta_vol_h_T_x, dV_dt_epi,dV_dt_hyp
         real, parameter :: depth_e_frac=0.4, depth_h_frac=0.6
+        real :: Q_tot, Q_pen, Q_spill
+        real :: depth_e_inital, volume_e_initial, depth_h_inital, volume_h_initial
 
         ! -------------------- energy terms -----------
         real :: energy_x, area, delta_t, q_surf
@@ -40,6 +42,8 @@ module Block_Reservoir
         character(len=300 ) :: observed_stream_temp_file
         character(len=300 ) :: input_file
         character(len=300 ) :: reservoir_file
+        character(len=300 ) :: releases_file
+        character(len=100 ) :: datetime
 
 end module Block_Reservoir
 
