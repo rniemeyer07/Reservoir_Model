@@ -144,22 +144,6 @@ do  nd=1, nd_total
        call surf_energy(T_epil, q_surf, ncell)
 
       !*************************************************************************
-      !      turnover loop
-      !*************************************************************************
-
-     ! ---------------- turnover loop driven only by T_epil and T_hyp ----------
-     !   if ( (T_hypo - T_epil) .lt. (-4)  ) then
-     !           if( (T_hypo - T_epil) .lt. (-1) ) then
-     !                    K_z = 5E-7 ! set moderate K_z when moderately unstable
-     !           else 
-     !                    K_z = 5E-6 ! set high K_z when system is unstable
-     !           end if
-     !   else ! if T_epil greater than T_hypo
-     !             K_z = 5.7E-8  ! set the diffusion coeff. in m^2/day
-     !             K_z = K_z / (depth_e/2) ! divide by approx thickness of thermocl.
-     !   end if
-
-      !*************************************************************************
       !      call reservoir subroutine
       !*************************************************************************
 
