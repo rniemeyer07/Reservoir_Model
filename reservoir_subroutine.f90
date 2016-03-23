@@ -45,6 +45,7 @@ implicit none
          !----- update epilimnion volume for next time step -------
           T_hypo = T_hypo +  temp_change_hyp
 
+
   !---------- calculate combined (hypo. and epil.) temperature of outflow -----
     epix = T_epil*(flow_out_epi_x/outflow_x)  ! portion of temperature from epilim. 
     hypox= T_hypo*(flow_out_hyp_x/outflow_x)  ! portion of temperature from hypol.

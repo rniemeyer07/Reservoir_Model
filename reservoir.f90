@@ -22,6 +22,7 @@ use Block_Flow
 implicit none
 
  real :: T_epil,T_hypo,volume_e_x,volume_h_x
+ real :: density_epil, density_hypo, density_in
 ! real :: flow_in_epi_x , flow_in_hyp_x, flow_epi_hyp_x, flow_out_epi_x, flow_out_hyp_x
 
 ncell = 2
@@ -124,9 +125,16 @@ do  nd=1, nd_total
       !      loop to read in flows, calculate volume change
       !*************************************************************************
 
+      read(46, *) year,month,day, Q_in &
+             , stream_T_in, headw_T_in, air_T
+      
+      print *, T_epil, T_hypo
+
+      call stream_density(T_epil, T_hypo, stream_T_in, density_epil, density_hypo, density_in)
+ 
        call flow_subroutine( flow_in_epi_x, flow_in_hyp_x, flow_epi_hyp_x &
                 , flow_out_epi_x, flow_out_hyp_x, volume_e_x, volume_h_x &
-                , ratio_sp, ratio_pen)
+                , ratio_sp, ratio_pen,density_epil, density_hypo, density_in)
 
       !*************************************************************************
       ! read forcings for energy from VIC

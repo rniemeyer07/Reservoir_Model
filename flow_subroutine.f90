@@ -1,5 +1,5 @@
 SUBROUTINE flow_subroutine ( flow_in_epi_x , flow_in_hyp_x, flow_epi_hyp_x, flow_out_epi_x, flow_out_hyp_x &
-        ,  volume_e_x, volume_h_x, ratio_sp, ratio_pen)
+        ,  volume_e_x, volume_h_x, ratio_sp, ratio_pen, density_epil, density_hypo, density_in)
 
    use Block_Reservoir
    !use Block_Energy 
@@ -7,7 +7,7 @@ SUBROUTINE flow_subroutine ( flow_in_epi_x , flow_in_hyp_x, flow_epi_hyp_x, flow
 implicit none
 
   real :: flow_in_epi_x, flow_in_hyp_x, flow_epi_hyp_x, flow_out_hyp_x,flow_out_epi_x,volume_e_x, volume_h_x 
-  real :: T_epil, T_hypo, ratio_sp, ratio_pen
+  real :: T_epil, T_hypo, ratio_sp, ratio_pen, density_epil, density_hypo, density_in
  ! real :: Q_in,Q_out, ftsec_to_msec, prcnt_flow_hypo, prcnt_flow_epil
  ! real :: stream_T_in, stream_T_out, headw_T_in, headw_T_out, air_T
  ! integer :: year, month, day
@@ -18,13 +18,18 @@ implicit none
 
 
       ! ------------------ read in in VIC flow data --------------
-       read(46, *) year,month,day, Q_in &
-             , stream_T_in, headw_T_in, air_T
+      ! read(46, *) year,month,day, Q_in &
+      !       , stream_T_in, headw_T_in, air_T
 
         Q_in = Q_in * ftsec_to_msec ! converts ft^3/sec to m^3/sec
 
-         flow_in_hyp_x = Q_in*prcnt_flow_hypo
-         flow_in_epi_x = Q_in*prcnt_flow_epil
+        if ( density_in .le. density_hypo ) then
+                flow_in_hyp_x = 0 
+                flow_in_epi_x = Q_in
+        else
+                flow_in_hyp_x = Q_in
+                flow_in_epi_x = 0
+        end if
 
       !-------------- measured releases (penstock and spillway) ---------------
         read(56, *) datetime,Q_tot, Q_pen, Q_spill
