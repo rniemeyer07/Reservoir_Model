@@ -85,6 +85,10 @@ volume_h_initial = volume_h_x
   read(45, '(A)') inflow_file
   open(unit=46, file=TRIM(inflow_file), ACCESS='SEQUENTIAL', FORM='FORMATTED',STATUS='old')
 
+! ------- read second inflow file (tributary/local flow) ------
+  read(45, '(A)') inflow_file2
+  open(unit=57, file=TRIM(inflow_file2), ACCESS='SEQUENTIAL', FORM='FORMATTED',STATUS='old')
+
 ! ------- read in outflow file -------
   read(45, '(A)') outflow_file
   open(unit=47, file=TRIM(outflow_file), ACCESS='SEQUENTIAL', FORM='FORMATTED',STATUS='old')
@@ -164,7 +168,7 @@ do  nd=1, nd_total
            write(32,*)  T_epil, T_hypo ! , flow_in_epi_x, flow_out_epi_x, flow_epi_hyp_x, flow_out_hyp_x
 
 
-  ! print *,nd,T_epil,T_hypo ! , flow_out_hyp_x, flow_out_epi_x, volume_e_x,volume_h_x ! print  temperatures in console
+   print *,nd,T_epil,T_hypo ! , flow_out_hyp_x, flow_out_epi_x, volume_e_x,volume_h_x ! print  temperatures in console
 
 end do
 

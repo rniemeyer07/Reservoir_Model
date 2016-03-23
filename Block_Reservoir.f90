@@ -13,7 +13,7 @@ module Block_Reservoir
         ! -------------------- temperature and meterological variables ------
         real :: temp_change_ep, temp_change_hyp, energy, stream_T_in, temp_out_tot
         ! real :: T_epil,T_hypo,volume_e_x,volume_h_x
-        real :: year, month, day, Q_in, headw_T_in, stream_T_out
+        real :: year, month, day, Q_in,Q_in2, headw_T_in, stream_T_out
         real :: air_T, headw_T_out, Q_out, atm_density
 
         ! -------------------- reservoinr information --------------
@@ -37,6 +37,7 @@ module Block_Reservoir
 
         ! --------------- path and directories of input and output files -------
         character(len=300 ) :: inflow_file
+        character(len=300 ) :: inflow_file2
         character(len=300 ) :: outflow_file
         character(len=300 ) :: energy_file
         character(len=300 ) :: observed_stream_temp_file

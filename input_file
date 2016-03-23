@@ -1,5 +1,6 @@
 input file for two_layer code: 1) inflow, 2) outflow, 3) energy flux, 4) measured stream temperature
 /raid2/ymao/VIC_RBM_east_RIPS/RIPS/model_run/output/RBM/Maurer_8th/Tennessee/hist_1949_2010.from_RVIC.calibrated_1961_1970.Mohs_v1.Leop_v1.reservoir/Tennessee/36.3125_-83.3125/36.3125_-83.3125_reach299_seg2
+/raid2/ymao/VIC_RBM_east_RIPS/RIPS/model_run/output/RBM/Maurer_8th/Tennessee/hist_1949_2010.from_RVIC.calibrated_1961_1970.Mohs_v1.Leop_v1.reservoir/Tennessee/36.3125_-83.3125/36.3125_-83.3125_reach287_seg2
 /raid2/ymao/VIC_RBM_east_RIPS/RIPS/model_run/output/RBM/Maurer_8th/Tennessee/hist_1949_2010.from_RVIC.calibrated_1961_1970.Mohs_v1.Leop_v1.reservoir/Tennessee/36.1875_-83.4375/36.1875_-83.4375_reach299_seg2
 /raid2/ymao/VIC_RBM_east_RIPS/RIPS/model_run/output/vic/Tennessee.calibrated_1961_1970/run_1949_2010.Tennessee.21dams.adjust_negative.bug_fixed/energy_36.1875_-83.4375
 /raid3/rniemeyr/RBM/two_layer_model/03495500.txt
