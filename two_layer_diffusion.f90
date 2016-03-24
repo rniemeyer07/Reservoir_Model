@@ -24,7 +24,7 @@ real, dimension(22645) ::  temp_epil,temp_hypo, temp_out_tot
 real, dimension(22645) :: temp_change_ep, temp_change_hyp, energy
 real, dimension(22645) :: energy_tot, diffusion_tot, T_in_tot, T_out_tot
 
-REAL, PARAMETER :: Pi = 3.1415927, prcnt_flow_epil = 0, prcnt_flow_hypo=1
+REAL, PARAMETER :: Pi = 3.1415927, prcnt_flow_epil = 1, prcnt_flow_hypo=0
 real            :: v_t      !diffusion coefficient (m/day) Input on command line JRY
 !    diffusion coefficient - based on Snodgrass, 1974
 
@@ -170,11 +170,11 @@ volume_h_x = area*depth_h
 !
 ! write(*,*) 'Starting temperature - ',temp_epil(1),temp_hypo(1)
 !
- temp_epil(1) = 15 ! starting epilimnion temperature at 5 C
- temp_hypo(1) = 15 ! starting hypolimnion temperature at 5 C
+ temp_epil(1) = 10 ! starting epilimnion temperature at 5 C
+ temp_hypo(1) = 10 ! starting hypolimnion temperature at 5 C
 
 
-v_t = 0.4
+v_t = 0
 
 ! --------- constant flow paramaeter -------
 ! constant  to change day of flow to go "up and down" with sin wave, 
@@ -218,8 +218,10 @@ do  i=2,nd_total
         read(46, *) year(i),month(i),day(i), Q_in(i) &
               , stream_T_in(i), headw_T_in(i), air_T(i)
 
-        flow_in_hyp_x = Q_in(i)*prcnt_flow_epil
-        flow_in_epi_x = Q_in(i)*prcnt_flow_hypo
+Q_in(i) = 100000
+
+        flow_in_hyp_x = Q_in(i)*prcnt_flow_hypo
+        flow_in_epi_x = Q_in(i)*prcnt_flow_epil
 
 
   ! ------------- calculate flow between epilimnion and hypolimnion  ------------------
@@ -236,12 +238,14 @@ do  i=2,nd_total
             ,  headw_T_out(i), air_T(i)
 
 !	Q_in(i) = Q_in_epil                                                            ! For test
+Q_out(i) = Q_in(i)
 
         flow_out_hyp_x = Q_out(i)*prcnt_flow_hypo
         flow_out_epi_x = Q_out(i)*prcnt_flow_epil
 
 ! ------------- calculate flow between epilimnion and hypolimnion  ------------------
-        flow_epi_hyp_x = flow_in_epi_x
+!        flow_epi_hyp_x = flow_in_epi_x
+
 
   ! ------------------------- read in streamflow temperature ---------------------
 
@@ -257,7 +261,7 @@ do  i=2,nd_total
 
     ! ----------------- read in from VIC data -------------------
 
-     flow_Tin(i) = stream_T_in(i)
+     flow_Tin(i) = 10
 
 
   ! ------------------  calculate incoming net energ to epilimnion ------------
@@ -269,9 +273,9 @@ do  i=2,nd_total
        ! " +0.2)*100": -80 to 120 W/m2
        ! units are  W/m2 or Joules/m2 * sec
        x = i 
-      energy_x  =  cos(((x)/flow_constant)+ Pi )
+!      energy_x  =  cos(((x)/flow_constant)+ Pi )
 !
-!      energy_x = 0      ! Surface flux set to zero for testing JRY
+      energy_x = 1      ! Surface flux set to zero for testing JRY
 !
       energy_x =( (energy_x)*150)*delta_t_sec !converts to Joules/m2 * day
       energy_x = energy_x*area
@@ -337,7 +341,7 @@ do  i=2,nd_total
            temp_change_ep(i) = temp_change_ep(i) * delta_t
 
             !----- update epilimnion volume for next time step -------
-              volume_e_x = volume_e_x + (flow_in_epi_x - flow_out_epi_x)
+              volume_e_x = volume_e_x + (flow_in_epi_x - flow_out_epi_x - flow_epi_hyp_x)
               temp_epil(i) = temp_epil(i-1) +  temp_change_ep(i)
 
 
