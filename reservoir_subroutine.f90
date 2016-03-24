@@ -24,7 +24,7 @@ implicit none
 
   ! --------------------- calculate advection terms --------------------------- 
          advec_in_epix  = flow_in_epi_x * (stream_T_in - T_epil) * delta_t / volume_e_x
-         advec_epi_hyp = flow_epi_hyp_x *  (T_epil - T_hypo) * delta_t / volume_e_x
+         advec_epi_hyp = flow_epi_hyp_x *  (T_epil - T_hypo) * delta_t / volume_h_x
          advec_in_hypx = flow_in_hyp_x * (stream_T_in - T_hypo) * delta_t / volume_h_x
         ! advec_out_hypx = flow_out_hyp_x * T_hypo_temp
  print *, K_z, T_epil, T_hypo, dif_epi_x, advec_in_epix
