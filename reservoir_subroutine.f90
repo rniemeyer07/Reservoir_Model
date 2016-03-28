@@ -8,11 +8,11 @@ implicit none
 !  real :: flow_in_epi_x , flow_in_hyp_x, flow_epi_hyp_x, flow_out_epi_x, flow_out_hyp_x
 
  ! ---------------- turnover loop driven only by T_epil and T_hyp ----------
-        if ( ( T_epil - T_hypo) .lt. (2)  ) then
+        if ( ( T_epil - T_hypo) .lt. (2) .and. month .gt. 8) then
                 if( (T_epil - T_hypo) .lt. (0) ) then
-                         K_z = 10 ! set high K_z when moderately unstable
+                         K_z = 1 ! set high K_z when moderately unstable
                 else
-                         K_z = 1 ! set moderate K_z when system is unstable
+                         K_z = 0.1 ! set moderate K_z when system is unstable
                 end if
         else ! if T_epil greater than T_hypo
                   K_z = 0.0001  ! set the diffusion coeff. in m^2/day

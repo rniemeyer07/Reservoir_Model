@@ -24,7 +24,8 @@ implicit none
        read(57, *) year,month,day, Q_in2 &
              , stream_T_in, headw_T_in, air_T
 
-        Q_in = (Q_in + Q_in2) * ftsec_to_msec * delta_t ! converts ft^3/sec to m^3/sec, multiplys by seconds per time step
+       !  Q_in = (Q_in + Q_in2) * ftsec_to_msec * delta_t ! converts ft^3/sec to m^3/sec, multiplys by seconds per time step
+        Q_in = Q_in  * ftsec_to_msec * delta_t ! converts ft^3/sec to m^3/sec, multiplys by seconds per time step
 
         if ( density_in .le. density_hypo ) then
                 flow_in_hyp_x = 0 
@@ -45,7 +46,7 @@ implicit none
          read(47, *) year,month,day, Q_out, stream_T_out &
             ,  headw_T_out, air_T
 
-
+        Q_out = Q_in
         ! flow_out_hyp_x = Q_out * ftsec_to_msec * delta_t
         ! flow_out_epi_x = 0
         ! flow_epi_hyp_x = flow_in_epi_x - flow_out_epi_x
@@ -60,7 +61,7 @@ implicit none
                flow_out_epi_x = Q_out * ftsec_to_msec * delta_t * (Q_spill/Q_tot)
                flow_epi_hyp_x = flow_in_epi_x - flow_out_epi_x
        else
-           flow_out_hyp_x = Q_out * ftsec_to_msec * delta_t
+           flow_out_hyp_x = Q_out ! * ftsec_to_msec * delta_t
            flow_out_epi_x = 0
            flow_epi_hyp_x = flow_in_epi_x
        end if

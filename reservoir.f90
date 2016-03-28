@@ -169,7 +169,7 @@ do  nd=1, nd_total
             write(30,*) nd, T_epil, T_hypo, temp_out_tot, stream_T_in &
                        , temp_change_ep, advec_in_epix &
                        , advec_out_epix,dif_epi_x, dV_dt_epi, flow_epi_hyp_x, volume_e_x & 
-               , volume_h_x, flow_in_epi_x, flow_out_hyp_x, q_surf, energy_x &
+               , volume_h_x, flow_in_epi_x,flow_in_hyp_x,flow_out_epi_x, flow_out_hyp_x, q_surf, energy_x &
                , advec_out_hypx, advec_in_hypx, advec_epi_hyp, temp_change_hyp
 
 
