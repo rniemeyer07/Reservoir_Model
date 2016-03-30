@@ -36,9 +36,9 @@ allocate (wind(ncell))
 
  nd_total =  22645
 
-! ----------------- read in input file -------
-! Note: the input_file should be entered with fortran executable:
-!   i.e. "two_layer_model input_file"
+! ----------------- read in input and reservoir file -------
+! Note: the input_file and reservoir_file should be entered with fortran executable:
+!   i.e. "./reservoir input_file reservoir_file"
 ! input_file contains paths to VIC files
 
  call getarg (1, input_file)
@@ -65,7 +65,6 @@ delta_t = 86400 ! timestep in seconds,  assumes all units in equations are in se
  ! ----- read in reservoir ------
  read(55, *) dam_number, dam_name, grid_lat, grid_lon, surface_area, length2 &
        ,  depth,  width2, start_node, end_node
- ! print *, dam_name, dam_number
 
 depth_e = depth * depth_e_frac
 depth_h = depth * depth_h_frac
@@ -100,21 +99,15 @@ volume_h_initial = volume_h_x
 !
 ! ------- read in observed stream temperature file -------
   read(45, *) ! skip the observed data
-! read(45, '(A)') observed_stream_temp_file
-!  open(unit=49, file=TRIM(observed_stream_temp_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
 
 ! ------- read in observed stream temperature file -------
   read(45, '(A)') releases_file
   open(unit=56, file=TRIM(releases_file), ACCESS='SEQUENTIAL', FORM='FORMATTED', STATUS='old')
    read(56, *)  !skip the first line of releases file
 
-
 ! ------------------- initial temperature ---------------
 T_epil = 15
 T_hypo = 15
-
-K_z = 5.7E-8 ! set the diffusion coeff. in m^2/sec
-K_z = K_z / (depth_e/2)  ! divide by approximate thickness of thermocline
 
 !*************************************************************************
 !
@@ -165,7 +158,6 @@ do  nd=1, nd_total
       !          write output
       !*************************************************************************
 
-
             write(30,*) nd, T_epil, T_hypo, temp_out_tot, stream_T_in &
                        , temp_change_ep, advec_in_epix &
                        , advec_out_epix,dif_epi_x, dV_dt_epi, flow_epi_hyp_x, volume_e_x & 
@@ -179,6 +171,5 @@ do  nd=1, nd_total
    print *,nd,T_epil,T_hypo ! , flow_out_hyp_x, flow_out_epi_x, volume_e_x,volume_h_x ! print  temperatures in console
 
 end do
-
 
 end program reservoir
