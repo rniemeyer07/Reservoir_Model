@@ -6,15 +6,15 @@
 
 ####To run the model:
 |Note: assuming input_file and reservoir_file are ready and all files for the input_file are present
-  1. enter "make clean" - remove any old compiled fortran code
-  2. enter "make" - compile the fortran code
-  3. enter "./reservoir input_file reservoir_file"
+  1. enter "*make clean*" - remove any old compiled fortran code
+  2. enter "*make*" - compile the fortran code
+  3. enter "*./reservoir input_file reservoir_file*"
 
 ####File descriptions:
-  - *Block_Energy.f90*: parameters for energy subroutine (originated from RBM Block)
-  - Block_Reservoir.f90: parameters for the model
-  - Block_Flow.f90: parameters for the "flow_subroutine.f90" (continuity/mass balance equation)
-  - reservoir.f90: main program that calls each subroutine
+  - **Block_Energy.f90**: parameters for energy subroutine (originated from RBM Block)
+  - **Block_Reservoir.f90**: parameters for the model
+  - **Block_Flow.f90**: parameters for the "flow_subroutine.f90" (continuity/mass balance equation)
+  - **reservoir.f90**: main program that calls each subroutine
   - density_subroutine.f90: calculates density of incoming river flow, epilimnion, and hypolimnion
   - flow_subroutine.f90: continuity/mass balance equation - calculates the flow into hypolimnion 
       and hypolimnion (based on the density) and calculates change in volume of each layer
