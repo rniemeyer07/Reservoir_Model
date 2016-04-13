@@ -1,12 +1,12 @@
 # Two-Layer Reservoir_Model
-##A simple two-layer heat and mass balance reservoir model, written in fortran (90). 
-##Authors: Ryan Niemeyer, Yifan Cheng, John Yearsley, and others
-##  University of Washington - Computational Hydrology Lab
+###A simple two-layer heat and mass balance reservoir model, written in fortran (90). 
+###Authors: Ryan Niemeyer, Yifan Cheng, John Yearsley, and others
+###  University of Washington - Computational Hydrology Lab
   
 ###To run the model (assuming all parameters are ready):
-  1) enter "make clean" - remove any old compiled fortran code
-  2) enter "make" - compile the fortran code
-  3) enter "./reservoir input_file reservoir_file"
+####  1) enter "make clean" - remove any old compiled fortran code
+####  2) enter "make" - compile the fortran code
+####  3) enter "./reservoir input_file reservoir_file"
   
 ###File descriptions:
   Block_Energy.f90: parameters for energy subroutine (originated from RBM Block)
