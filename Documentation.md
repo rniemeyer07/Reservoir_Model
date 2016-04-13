@@ -19,7 +19,11 @@
   3.  Surface Energy
 4. Conclusions
 
-####Introduction:
-Reservoirs in rivers with longer residence times, like lakes, can thermally stratify into a warmer upper layer, called epilimnion, that absorbs incoming radiation and a cooler deeper layer called the hypolimnion. To accurately model stream temperature in a river system with reservoirs, we developed this two-layer reservoir model.  This two-layer reservoir model was derived from equations for changes in temperature in the epilimnion and hypolimnoin from equations 31.2 and 31.3 in "Surface Water Quality Modeling" (Chapra, 1997, McGraw Hill).Since both temperature and volume change between time steps, we added a *dV/dt* component to each layer's equation. The final equations are as follows:
+####1. Introduction:
+Reservoirs in rivers with longer residence times, like lakes, can thermally stratify in the summer. Due to incoming solar and longwave radiation at the surface, the reservoir forms a warmer upper layer, called epilimnion, while a deeper layer called the hypolimnion remains cooler. To accurately model stream temperature in a river system with reservoirs, we developed this two-layer reservoir model. The goal for this model is that it can both be a stand alone simple model and also is being incorporated into the [RBM](http://www.hydro.washington.edu/Lettenmaier/Models/RBM/) distributed stream temperature model. 
 
-where v
+####2. Theoretical Background:
+This two-layer reservoir model was derived from equations for changes in temperature in the epilimnion and hypolimnoin from equations 31.2 and 31.3 in "Surface Water Quality Modeling" (Chapra, 1997, McGraw Hill).Since both temperature and volume change between time steps, we added a *dV/dt* component to each layer's equation. The final equations are as follows:
+
+#### ___i. Theoretical Background:
+This two-layer reservoir 
