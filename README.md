@@ -6,6 +6,7 @@
 ####Conceptual model of stratified reservoir:
 ![alt text](https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_diagram2.png "two-layer reservoir")
 ![test](https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_diagram2.png)
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_diagram2.png" width="48">
 ####Conceptual model of two-layer energy fluxes:
 ![alt text](https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_conceptual_diagram.png "conceptual model of energy fluxes")
 
