@@ -26,3 +26,5 @@ Note: assuming input_file and reservoir_file are ready and all files for the inp
   - **reservoir_file**: file with information about each reservoir to be modeled. line 1-column names,
       line 2 to n-rows of data. Start node is upstream point (where water enters the reservoir), 
       end node is downstream point (where water exits the reservoir)
+
+![alt text](https://github.com/rniemeyer07/Reservoir_Model/blob/master/two-layer_model_flow.png "two-layer diagram")
