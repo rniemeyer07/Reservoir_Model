@@ -25,5 +25,5 @@ Reservoirs in rivers with longer residence times, like lakes, can thermally stra
 ####2. Theoretical Background:
 This two-layer reservoir model was derived from equations for changes in temperature in the epilimnion and hypolimnoin from equations 31.2 and 31.3 in "Surface Water Quality Modeling" (Chapra, 1997, McGraw Hill).Since both temperature and volume change between time steps, we added a *dV/dt* component to each layer's equation. The final equations are as follows:
 
-#### ___i. Theoretical Background:
+#####    i. Theoretical Background:
 This two-layer reservoir 
