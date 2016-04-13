@@ -5,7 +5,7 @@
 
   
 ####To run the model:
-| Note: assuming input_file and reservoir_file are ready and all files for the input_file are present
+|Note: assuming input_file and reservoir_file are ready and all files for the input_file are present
   1. enter "make clean" - remove any old compiled fortran code
   2. enter "make" - compile the fortran code
   3. enter "./reservoir input_file reservoir_file"
