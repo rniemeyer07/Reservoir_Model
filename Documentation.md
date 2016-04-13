@@ -26,6 +26,8 @@ Reservoirs in rivers with longer residence times, like lakes, can thermally stra
 This two-layer reservoir model was derived from equations for changes in temperature in the epilimnion and hypolimnoin from equations 31.2 and 31.3 in "Surface Water Quality Modeling" (Chapra, 1997, McGraw Hill).Since both temperature and volume change between time steps, we added a *dV/dt* component to each layer's equation. The final equations are as follows:
 
 
+where, T<sub>e<sub> is epilimnion temperature, T<sub>h<sub> is hypolimnion temperature, Ve is epilimnion volume, Qein is inflow rate into epilimnion, Tin is inflow temperature, Qvert is advection flow rate between two layers, Qeout is outflow rate from epilimnion, vt is diffusion velocity, At is surface area, J is net energy, ρ is density of water, cp is heat capacity of water
+
 
 #####i. Advection:
 This two-layer reservoir 
