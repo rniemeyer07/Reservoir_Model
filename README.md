@@ -4,12 +4,9 @@
 - **University of Washington - Computational Hydrology Lab**
 
 ####Conceptual model of stratified reservoir:
-![alt text](https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_diagram2.png "two-layer reservoir")
-
-![alt text] (https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_diagram2.png "two-layer reservoir")
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_diagram2.png" width="500"> 
 ####Conceptual model of two-layer energy fluxes:
-![alt text](https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_conceptual_diagram.png "conceptual model of energy fluxes")
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_conceptual_diagram.png" width="500"> 
 
 ####File descriptions:
   - **Block_Energy.f90**: parameters for energy subroutine (originated from RBM Block)
