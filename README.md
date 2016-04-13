@@ -4,6 +4,9 @@
 - **University of Washington - Computational Hydrology Lab**
 
 ####Conceptual model of stratified reservoir:
+This repository is public source code for a simple two-layer reservoir model.  The model does a simple mass and energy balance for a reservoir with two distinct layers: the epilimnion (surface) and hypolimnion (below surface). Inflow is partitioned based on the calculated densities of the incoming water, epilimnion, and hypolimnion.  The net surface energy is calculated with [VIC](http://vic.readthedocs.org)-derived incoming energy and an energy subroutin from RBM.  **The model code comes with no guarantees, expressed or implied, as to suitability, completeness, accuracy, or any claim you would like to make.**
+
+####Conceptual model of stratified reservoir:
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_diagram2.png" width="500"> 
 ####Conceptual model of two-layer energy fluxes:
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_conceptual_diagram.png" width="500"> 
