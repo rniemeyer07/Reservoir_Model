@@ -27,7 +27,7 @@ This repository is public source code for a simple two-layer reservoir model.  T
   - **reservoir_file**: file with information about each reservoir to be modeled. line 1-column names,
       line 2 to n-rows of data. Start node is upstream point (where water enters the reservoir), 
       end node is downstream point (where water exits the reservoir)
-
+  - **makefile**: make file with code to compile all the fortran code and to remove the compiled fortran code
 ####Model code flow diagram:
 ![alt text](https://github.com/rniemeyer07/Reservoir_Model/blob/master/two-layer_model_flow.png "two-layer diagram")
 
