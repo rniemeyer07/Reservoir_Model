@@ -10,9 +10,11 @@ Note: assuming input_file and reservoir_file are ready and all files for the inp
   2. enter "*make*" - compile the fortran code
   3. enter "*./reservoir input_file reservoir_file*"
 
-####Two-layer model diagram:
-![alt text](https://github.com/rniemeyer07/Reservoir_Model/blob/master/two-layer_model_flow.png "two-layer diagram")
+####Conceptual model of stratified reservoir:
+![alt text](https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_diagram2.png "two-layer reservoir")
 
+####Conceptual model of two-layer energy fluxes:
+![alt text](https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_conceptual_diagram.png "conceptual model of energy fluxes")
 
 ####File descriptions:
   - **Block_Energy.f90**: parameters for energy subroutine (originated from RBM Block)
