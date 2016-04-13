@@ -3,13 +3,6 @@
 - **Authors: Ryan Niemeyer, Yifan Cheng, John Yearsley, and others**
 - **University of Washington - Computational Hydrology Lab**
 
-
-####To run the model:
-Note: assuming input_file and reservoir_file are ready and all files for the input_file are present
-  1. enter "*make clean*" - remove any old compiled fortran code
-  2. enter "*make*" - compile the fortran code
-  3. enter "*./reservoir input_file reservoir_file*"
-
 ####Conceptual model of stratified reservoir:
 ![alt text](https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_diagram2.png "two-layer reservoir")
 
@@ -35,3 +28,9 @@ Note: assuming input_file and reservoir_file are ready and all files for the inp
 
 ####Model code flow diagram:
 ![alt text](https://github.com/rniemeyer07/Reservoir_Model/blob/master/two-layer_model_flow.png "two-layer diagram")
+
+####To run the model:
+Note: assuming input_file and reservoir_file are ready and all files for the input_file are present
+  1. enter "*make clean*" - remove any old compiled fortran code
+  2. enter "*make*" - compile the fortran code
+  3. enter "*./reservoir input_file reservoir_file*"
