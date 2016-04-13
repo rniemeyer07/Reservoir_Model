@@ -8,7 +8,7 @@ To run the model (assuming all parameters are ready):
   2) enter "make" - compile the fortran code
   3) enter "./reservoir input_file reservoir_file"
   
-File description:
+File descriptions:
   Block_Energy.f90: parameters for energy subroutine (originated from RBM Block)
   Block_Reservoir.f90: parameters for the model
   Block_Flow.f90: parameters for the "flow_subroutine.f90" (continuity/mass balance equation)
