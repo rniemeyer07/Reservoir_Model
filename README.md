@@ -1,4 +1,4 @@
-## Two-Layer Reservoir_Model
+## Two-Layer Reservoir Model
 - **A simple two-layer heat and mass balance reservoir model, written in fortran (90)**
 - **Authors: Ryan Niemeyer, Yifan Cheng, John Yearsley, and others**
 - **University of Washington - Computational Hydrology Lab**
