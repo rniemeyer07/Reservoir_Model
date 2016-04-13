@@ -10,6 +10,10 @@ Note: assuming input_file and reservoir_file are ready and all files for the inp
   2. enter "*make*" - compile the fortran code
   3. enter "*./reservoir input_file reservoir_file*"
 
+####Two-layer model diagram:
+![alt text](https://github.com/rniemeyer07/Reservoir_Model/blob/master/two-layer_model_flow.png "two-layer diagram")
+
+
 ####File descriptions:
   - **Block_Energy.f90**: parameters for energy subroutine (originated from RBM Block)
   - **Block_Reservoir.f90**: parameters for the model
@@ -27,4 +31,5 @@ Note: assuming input_file and reservoir_file are ready and all files for the inp
       line 2 to n-rows of data. Start node is upstream point (where water enters the reservoir), 
       end node is downstream point (where water exits the reservoir)
 
+####Model code flow diagram:
 ![alt text](https://github.com/rniemeyer07/Reservoir_Model/blob/master/two-layer_model_flow.png "two-layer diagram")
