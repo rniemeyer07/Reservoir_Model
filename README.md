@@ -3,6 +3,15 @@
 - **Authors: Ryan Niemeyer, Yifan Cheng, John Yearsley, and others**
 - **University of Washington - Computational Hydrology Lab**
 
+Section Title
+=============
+The Common Denominator
+======================
+
+Subsection Subtitle
+-------------------
+Titles and Section headers
+--------------------------
   
 ####To run the model:
 |Note: assuming input_file and reservoir_file are ready and all files for the input_file are present
