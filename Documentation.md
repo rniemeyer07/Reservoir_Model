@@ -135,4 +135,4 @@ Snodgrass, W.J. & O’Melia, C.R. (1975) Predictive model for phosphorus in lake
 
 Walters, R.A. (1980) A time-and depth-dependent model for physical chemical and biological cycles in temperate lakes. Ecological Modelling, 8, 79–96.
 
-R.C. Weast (editor), 'CRC Handbook of Chemistry and Physics, 67th Edition', CRC Press, Inc., Boca Raton, Florida, 1968, p. F-5.
+Weast, R.C. (editor). (1968) CRC Handbook of Chemistry and Physics, 67th Edition, CRC Press, Inc., Boca Raton, Florida, p. F-5.
