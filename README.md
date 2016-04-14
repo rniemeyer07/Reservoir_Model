@@ -8,7 +8,7 @@ This repository is public source code for a simple two-layer reservoir model.  T
 
 ####Conceptual model of stratified reservoir:
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_diagram2.png" width="500"> 
-####Conceptual model of two-layer energy fluxes:
+####Conceptual model of two-layer mass and energy fluxes:
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_conceptual_diagram.png" width="500"> 
 
 ####File descriptions:
