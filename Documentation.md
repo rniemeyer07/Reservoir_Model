@@ -47,7 +47,9 @@ Equations 2 and 4 were used in the source code to simulate temperature in our re
 Advection includes inflow, outflow, and flow between the epilimnion and hypolimnion. The portion of Q<sub>in</sub> that flows to the epilimnion or hypolimnion is determined by the density of the inflow, hypolimnion and epilimnion.  The equation to determine density is based on **BLANK (Yifan enter)** and determined by the following equation:
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Eqn%2CHypo1.png" width="500"> (Eqn. 5)
-
+    density_epil = 1.000028*1e-3*((999.83952+16.945176*T_epil)-(7.9870401e-3*(T_epil**2)-46.170461e-6*(T_epil**3))+ &
+                       & (105.56302e-9*(T_epil**4)-280.54235e-12*(T_epil**5)))/(1+16.87985e-3*T_epil)
+                       
 We also assume the volume of the epilimnion stays constant, therefore Q<sub>in,e</sub> = Q<sub>vert</sub>. 
 
 #####ii. Diffusion:
