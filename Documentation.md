@@ -97,11 +97,12 @@ This final subroutine calculates the change in temperature based on advection, d
 *Block_Energy.f90*, *Block_Flow.f90*, and *Block_Energy.f90* are used by the main proram and subroutines to define specific parameters that can then be called and defined in the same way when the Block is called.
 
 ####4. Testing - 
+To test the validity of our model, we conducted both numerical and analytical solutions. 
 
-#####i.Numerical
-To test the validity of our model, we conducted 
+#####i. Numerical
 
-#######a. Advection:
+
+######a. Advection:
 
 
 ######b. Diffusion:
@@ -109,7 +110,7 @@ To test the validity of our model, we conducted
 
 ######c. Surface Energy:
  
-#####ii. Testing - Analytical Solutions
+#####ii. Analytical Solutions
 
 **Yifans analytical solutions**
 
