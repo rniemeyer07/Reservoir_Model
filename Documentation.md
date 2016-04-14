@@ -13,7 +13,7 @@
   2.  Mass Balance
   3.  Surface Energy
   4.  Change in temperature
-3. Justification
+3. Testing
   1.  Advectoin
   2.  Diffusion
   3.  Surface Energy
@@ -44,7 +44,11 @@ where Q<sub>in,h</sub> is inflow discharge into hypolimnion and (Q<sub>out,h</su
 Equations 2 and 4 were used in the source code to simulate temperature in our reservoir model.
 
 #####i. Advection:
-This two-layer reservoir 
+Advection includes inflow, outflow, and flow between the epilimnion and hypolimnion. The portion of Q<sub>in</sub> that flows to the epilimnion or hypolimnion is determined by the density of the inflow, hypolimnion and epilimnion.  The equation to determine density is based on **BLANK (Yifan enter)** and determined by the following equation:
+
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Eqn%2CHypo1.png" width="500"> (Eqn. 5)
+
+We also assume the volume of the epilimnion stays constant, therefore Q<sub>in,e</sub> = Q<sub>vert</sub>. 
 
 #####ii. Diffusion:
 This two-layer reservoir 
@@ -67,7 +71,7 @@ This two-layer reservoir
 #####iv. Change in temperature:
 This two-layer reservoir
 
-####4. Justification:
+####4. Testing:
 This
 
 #####i. Advection:
