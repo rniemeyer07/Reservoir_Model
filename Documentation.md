@@ -50,7 +50,7 @@ where Q<sub>in,h</sub> is inflow discharge into hypolimnion and (Q<sub>out,h</su
 Equations 2 and 4 were used in the source code to simulate temperature in our reservoir model. We assume the epilimnion and hypolimnion are well mixed within the layers, but energy fluxes across the border are controlled by advection and diffusion.
 
 #####i. Advection:
-Advection includes inflow, outflow, and flow between the epilimnion and hypolimnion. The portion of Q<sub>in</sub> that flows to the epilimnion or hypolimnion is determined by the density of the inflow, hypolimnion and epilimnion.  The equation to determine density is based on **BLANK (Yifan enter)** and determined by the following equation:
+Advection includes inflow, outflow, and flow between the epilimnion and hypolimnion. The portion of Q<sub>in</sub> that flows to the epilimnion or hypolimnion is determined by the density of the inflow, hypolimnion and epilimnion.  The equation to determine density is based on 'CRC Handbook of Chemistry and Physics' and determined by the following equation:
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Eqn%2Cdensity.png" width="500"> (Eqn. 5)
 
@@ -135,4 +135,4 @@ Snodgrass, W.J. & O’Melia, C.R. (1975) Predictive model for phosphorus in lake
 
 Walters, R.A. (1980) A time-and depth-dependent model for physical chemical and biological cycles in temperate lakes. Ecological Modelling, 8, 79–96.
 
-
+R.C. Weast (editor), 'CRC Handbook of Chemistry and Physics, 67th Edition', CRC Press, Inc., Boca Raton, Florida, 1968, p. F-5.
