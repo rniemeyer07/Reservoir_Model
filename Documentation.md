@@ -55,9 +55,10 @@ We also assume the volume of the epilimnion stays constant, therefore Q<sub>in,e
 #####ii. Diffusion:
 The diffusion calculation uses K<sub>Z</sub> to calculate the rate of heat transfer via both eddy and molecular diffusion. Diffusion across the thermocline is calculated by:
 
-(Eqn. 6)
+K_Z= K_(Z,i)×D_e (Eqn. 6)
 
-where Ds is the depth of the thermocline. We set K<sub>Z</sub> to 0.0001 m2/day, so K<sub>Z</sub> eventually has the units m/day.
+where K<sub>Z,i</sub> D<sub>e</sub> is the depth of the epilimnion, and represents the depth thermocline which is the distance the energy has to cross between the epilimnion and the hypolimnion. We set K<sub>Z,i</sub> to 0.0001 m2/day, so the estimated diffusion eventually has the units m/day. We estimated K<sub>Z,i</sub> from Quay et al. 1980, Walter et al. 1980, and Benoit and Hemond, 1996
+
 
 Lakes and reservoirs where thermal straitifcation undergo "turnover" in the fall and spring, when the entire water column (i.e. combined epilimnion and hypolimnion) become well-mixed. To simulate this when the date is after August 31st, we set K<sub>Z</sub> to 0.1 if T<sub>e</sub> gets within 2 deg C of T<sub>h</sub>, and K<sub>Z</sub> is set to 1 when T<sub>e</sub> is within 0 deg C of T<sub>h</sub>.
 
@@ -95,3 +96,12 @@ This two-layer reservoir
 
 ####5. Conclusions:
 This
+
+####Citations:
+Benoit, G. & Hemond, H.F. (1996) Vertical eddy diffusion calculated by the flux gradient method: Significance of sediment-water heat exchange. Limnology and oceanography, 41, 157–168.
+
+Quay, P.D., Broecker, W.S., Hesslein, R.H. & Schindler, D.W. (1980) Vertical diffusion rates determined by tritium tracer experiments in the thermocline and hypolimnion of two lakes. Limnology and Oceanography, 25, 201–218.
+
+Walters, R.A. (1980) A time-and depth-dependent model for physical chemical and biological cycles in temperate lakes. Ecological Modelling, 8, 79–96.
+
+
