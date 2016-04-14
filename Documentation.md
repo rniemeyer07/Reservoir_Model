@@ -45,3 +45,39 @@ Equations 2 and 4 were used in the source code to simulate temperature in our re
 
 #####i. Advection:
 This two-layer reservoir 
+
+#####ii. Diffusion:
+This two-layer reservoir 
+
+#####iii. Surface Energy:
+This two-layer reservoir
+
+####3. Subroutines:
+This
+
+#####i. Water Density:
+This two-layer reservoir
+
+#####ii. Mass Balance:
+This two-layer reservoir
+
+#####iii. Surface Energy:
+This two-layer reservoir
+
+#####iv. Change in temperature:
+This two-layer reservoir
+
+####4. Justification:
+This
+
+#####i. Advection:
+This two-layer reservoir
+
+#####ii. Diffusion:
+This two-layer reservoir
+
+#####iii. Surface Energy:
+This two-layer reservoir
+
+####5. Conclusions:
+This
