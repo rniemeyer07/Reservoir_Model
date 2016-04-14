@@ -13,6 +13,7 @@
   2.  Mass Balance
   3.  Surface Energy
   4.  Change in temperature
+  5.  Blocks
 3. Testing
   1.  Advectoin
   2.  Diffusion
@@ -57,30 +58,38 @@ The diffusion calculation uses K<sub>Z</sub> to calculate the rate of heat trans
 
 K_Z= K_(Z,i)×D_e (Eqn. 6)
 
-where K<sub>Z,i</sub> D<sub>e</sub> is the depth of the epilimnion, and represents the depth thermocline which is the distance the energy has to cross between the epilimnion and the hypolimnion. We set K<sub>Z,i</sub> to 0.0001 m2/day, so the estimated diffusion eventually has the units m/day. We estimated K<sub>Z,i</sub> from Quay et al. 1980, Walter et al. 1980, and Benoit and Hemond, 1996
-
+where K<sub>Z,i</sub> D<sub>e</sub> is the depth of the epilimnion, and represents the depth thermocline which is the distance the energy has to cross between the epilimnion and the hypolimnion. We set K<sub>Z,i</sub> to 0.0001 m2/day, so the estimated diffusion eventually has the units m/day. We estimated K<sub>Z,i</sub> from Snodgrass and O'Melia 1975, Quay et al. 1980, Walter et al. 1980, and Benoit and Hemond, 1996 who used either isotopes or numerical estimation based on measured temperatures above and below the thermocline.
 
 Lakes and reservoirs where thermal straitifcation undergo "turnover" in the fall and spring, when the entire water column (i.e. combined epilimnion and hypolimnion) become well-mixed. To simulate this when the date is after August 31st, we set K<sub>Z</sub> to 0.1 if T<sub>e</sub> gets within 2 deg C of T<sub>h</sub>, and K<sub>Z</sub> is set to 1 when T<sub>e</sub> is within 0 deg C of T<sub>h</sub>.
 
--cite the studies and how they estimated KZ
-
 #####iii. Surface Energy:
-This two-layer reservoir
+The net surface energy is based on basic energy physics that includes five components 1) incoming and reflected solar radiation,2) incoming and released longwave radiation, 3) latent heat loss from evaporation, 4) convective energy, and 5) sensible heat gain or loss. This subroutine is the exact same energy subroutine used in RBM, therefore further documentation can be found [here] (http://www.hydro.washington.edu/Lettenmaier/Models/RBM/). Once the net energy is calculated in kcal/sec*m2, the net change in temperature due to net surface energy is calculated with the following equation:
+
+T_energy = (q_surf * delta_t) / (depth_e * density ) heat_c_kcal)  (Eqn. 7)
+
+where .... (**INSERT these values, after the equation **)
 
 ####3. Subroutines:
-This
+
+The main program is *reservoir.f90*. This program then calls the four subroutine that are listed below.
 
 #####i. Water Density:
-This two-layer reservoir
+The water density subroutine uses equation 5 to calculate water density of the inflow, hypolimnion, and epilimnion.
 
 #####ii. Mass Balance:
-This two-layer reservoir
+The flow subroutine is a mass balance (i.e. continuity equation) for the epilimnion and hypolimnion. The inflow is read in from VIC flow data. The flow is partitioned to the epilimnion or hypolimnion based on the density of the inflow and the density of the hypolimnion. If the inflow is less dense than the hypolimnion, the inflow is all Q<sub>in,e</sub>, whereas if the inflow is less dense than the hypolimnion the inflow is Q<sub>in,h</sub>. The outflow data can be set to either be the inflow, or can be based on either downstream flow from VIC or measured releases from the reservoir.  These files should be listed in the *input_file*. If the measured releases includes flow partitioned into spillway flow and penstock or sluiceway flow, that can then partion Q<sub>out,e</sub> and Q<sub>out,h</sub> accordingly. 
+
+Once the inflow and outflow are calculated, the subroutine calcualtes for each layer *dV/dt* and the new volume based on the change in volume due to each Q. (**put in those equations?**)
 
 #####iii. Surface Energy:
-This two-layer reservoir
+This surface energy subroutine is the exact subroutine from RBM.
 
 #####iv. Change in temperature:
-This two-layer reservoir
+This final subroutine calculates the change in temperature based on advection, diffusion, and surface energy. First the subroutine calculates the K<sub>Z</sub> based on the the difference in Te and Th and time of year (see 2ii).  Advection is calculated based on Q terms. Energy is calculated with equation 7. The change in temperature due to advection, diffusion, and surface energy are summed to calculate the net change in energy. The outflow temperature is estimated based on the fraction of total outflow between Q<sub>out,e</sub> and Q<sub>out,h</sub>.
+
+#####v. Blocks
+
+*Block_Energy.f90*, *Block_Flow.f90*, and *Block_Energy.f90* are used by the main proram and subroutines to define specific parameters that can then be called and defined in the same way when the Block is called.
 
 ####4. Testing:
 This
@@ -101,6 +110,8 @@ This
 Benoit, G. & Hemond, H.F. (1996) Vertical eddy diffusion calculated by the flux gradient method: Significance of sediment-water heat exchange. Limnology and oceanography, 41, 157–168.
 
 Quay, P.D., Broecker, W.S., Hesslein, R.H. & Schindler, D.W. (1980) Vertical diffusion rates determined by tritium tracer experiments in the thermocline and hypolimnion of two lakes. Limnology and Oceanography, 25, 201–218.
+
+Snodgrass, W.J. & O’Melia, C.R. (1975) Predictive model for phosphorus in lakes. Environmental Science & Technology, 9, 937–944.
 
 Walters, R.A. (1980) A time-and depth-dependent model for physical chemical and biological cycles in temperate lakes. Ecological Modelling, 8, 79–96.
 
