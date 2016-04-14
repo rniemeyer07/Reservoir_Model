@@ -15,9 +15,14 @@
   4.  Change in temperature
   5.  Blocks
 3. Testing
-  1.  Advectoin
-  2.  Diffusion
-  3.  Surface Energy
+  1.  Numerical
+    1. Advection
+    2. Diffusion
+    3. Surface Energy
+  2.  Analytical
+    1. Advectoin
+    2. Diffusion
+    3. Surface Energy
 4. Conclusions
 
 ####1. Introduction:
@@ -91,20 +96,34 @@ This final subroutine calculates the change in temperature based on advection, d
 
 *Block_Energy.f90*, *Block_Flow.f90*, and *Block_Energy.f90* are used by the main proram and subroutines to define specific parameters that can then be called and defined in the same way when the Block is called.
 
-####4. Testing:
-This
+####4. Testing - 
 
-#####i. Advection:
-This two-layer reservoir
+#####i.Numerical
+To test the validity of our model, we conducted 
 
-#####ii. Diffusion:
-This two-layer reservoir
+#######a. Advection:
 
-#####iii. Surface Energy:
-This two-layer reservoir
 
-####5. Conclusions:
-This
+######b. Diffusion:
+
+
+######c. Surface Energy:
+ 
+#####ii. Testing - Analytical Solutions
+
+**Yifans analytical solutions**
+
+######a. Advection:
+
+
+######b. Diffusion:
+
+
+######c. Surface Energy:
+ 
+
+####6. Conclusions:
+ 
 
 ####Citations:
 Benoit, G. & Hemond, H.F. (1996) Vertical eddy diffusion calculated by the flux gradient method: Significance of sediment-water heat exchange. Limnology and oceanography, 41, 157–168.
