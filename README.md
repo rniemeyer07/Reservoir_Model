@@ -8,8 +8,10 @@ This repository is public source code for a simple two-layer reservoir model.  T
 
 ####Conceptual model of stratified reservoir:
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_diagram2.png" width="500"> 
-####Conceptual model of two-layer mass and energy fluxes:
+####Conceptual model of two-layer mass and energy fluxes*:
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Two_layer_conceptual_diagram.png" width="500"> 
+
+*parameters (i.e. As, Kz, etc.) are defined in the "Documentation" document
 
 ####File descriptions:
   - **Block_Energy.f90**: parameters for energy subroutine (originated from RBM Block)
