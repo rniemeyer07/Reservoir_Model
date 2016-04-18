@@ -61,7 +61,7 @@ We also assume the volume of the epilimnion stays constant, therefore Q<sub>in,e
 #####ii. Diffusion:
 The diffusion calculation uses K<sub>Z</sub> to calculate the rate of heat transfer via both eddy and molecular diffusion. Diffusion across the thermocline is calculated by:
 
-K_Z= K_(Z,i)×D_e (Eqn. 6)
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Eqn%2CK_Z.png" width="500"> (Eqn. 6)
 
 where K<sub>Z,i</sub> D<sub>e</sub> is the depth of the epilimnion, and represents the depth thermocline which is the distance the energy has to cross between the epilimnion and the hypolimnion. We set K<sub>Z,i</sub> to 0.0001 m2/day, so the estimated diffusion eventually has the units m/day. We estimated K<sub>Z,i</sub> from Snodgrass and O'Melia 1975, Quay et al. 1980, Walter et al. 1980, and Benoit and Hemond, 1996 who used either isotopes or numerical estimation based on measured temperatures above and below the thermocline.
 
