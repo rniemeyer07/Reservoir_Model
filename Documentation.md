@@ -116,6 +116,7 @@ In addition to numerical tests, we calculated analyical solutions to validate ou
 
 ######a. Advection:
 For the "advection only" analytical solution, we set the hypolimnion and epilimnion temperature to 0 deg C, and the inflow to a constant 20 deg C. This situation can be seen here: 
+
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Fig%2CAdvec_Only.png" width="500"> 
 
 The simulated T<sub>e</sub> and T<sub>h</sub> and analytical solutions for T<sub>e</sub> and T<sub>h</sub> are plotted below. Simulated temperatures are a solid line and analytical solutions are in a dotted line. We can see that the analytical solutions fit perfectly with the simulated temperature. Therefore we can trust our model indeed is accurate. 
@@ -123,8 +124,16 @@ The simulated T<sub>e</sub> and T<sub>h</sub> and analytical solutions for T<sub
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Advection.png" width="500">
 
 ######b. Diffusion:
+For the "diffusion only" analytical test, we set T<sub>e</sub> to 20 deg C and T<sub>h</sub> to 0 deg C, and isolated diffusion (i.e. set advection and net surface energy to "0"). This idealized situation is represeted in the following conceptual model:
+
+
+The simulated T<sub>e</sub> and T<sub>h</sub> and analytical solutions for T<sub>e</sub> and T<sub>h</sub> are plotted below. We can see that the simulations (solid line) and analytical solutions (dots) fit quite well.
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Diffusion.png" width="500">
+
+However, they were not a perfect fit so we changed dt from 1 day to 1 hour. These update simulations are below. We can see that with an hourly time step, the simulated T<sub>e</sub> and T<sub>h</sub> are nearly identical to the analytical soltuion.
+
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Diffusion2.png" width="500">
 
 ######c. Surface Energy:
  
