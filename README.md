@@ -2,7 +2,7 @@
 - **A simple two-layer heat and mass balance reservoir model, written in fortran (90)**
 - **Authors: Ryan Niemeyer, Yifan Cheng, John Yearsley, Yixin Mao, and Bart Nijssen**
 - **University of Washington - [Computational Hydrology Lab] (http://uw-hydro.github.io/)** 
-[GitHub site] (https://github.com/UW-Hydro)
+([GitHub site] (https://github.com/UW-Hydro))
 
 ####Model Overview:
 This repository is public source code for a simple two-layer reservoir model.  The model does a simple mass and energy balance for a reservoir with two distinct layers: the epilimnion (surface) and hypolimnion (below surface). Inflow is partitioned based on the calculated densities of the incoming water, epilimnion, and hypolimnion. The net surface energy is calculated with [VIC](http://vic.readthedocs.org)-derived incoming energy and an energy subroutine from [RBM](http://www.hydro.washington.edu/Lettenmaier/Models/RBM/). The core subroutine (*reservoir_subroutine.f90*) calculates the change in temperature of each layer based on net change in energy from advection, surface energy (epilimnoin only), and diffusion (see [conceptual model](https://github.com/rniemeyer07/Reservoir_Model#conceptual-model-of-stratified-reservoir-1) below). A more complete documentation of model development and equations can be found [here](https://github.com/rniemeyer07/Reservoir_Model/blob/master/Documentation.md). The model allows for measured releases from a spillway (epilimnion) and penstock/sluiceway (hypolimnion) to be uploaded. **The model code comes with no guarantees, expressed or implied, as to suitability, completeness, accuracy, or any claim you would like to make.**
