@@ -141,7 +141,7 @@ However, they were not a perfect fit so we changed dt from 1 day to 1 hour. Thes
  
  <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Fig%2CSolar_Only.png" width="400">
 
- Since net energy fluctuates from positive in the summer to negative in the winter in typical seasonal climates, we varied the net energy based on a sine function that peaked fluctated between 11.574 and -11.574 J/m<sup>2</sup>/sec. This value was chosen since it was the approximate net energy fluxes at our test site on the Tennessee River Basin in Tennessee, USA. We also simulated a simple sine function variation in energy from 1 to -1 J/m<sup>2</sup>/sec. 
+ Since net energy fluctuates from positive in the summer to negative in the winter in typical seasonal climates, we varied the net energy based on a sine function that peaked fluctated between 11.574 and -11.574 J/m<sup>2</sup>/sec. This value was chosen since it was the approximate net energy fluxes at our test site on the Tennessee River Basin in Tennessee, USA. We also simulated a simple sine function variation in energy from 1 to -1 J/m<sup>2</sup>/sec. We simulated a constant T<sub>in,e</sub> of 15 deg C, and identical Q<sub>in,e</sub> and Q<sub>out,e</sub>.
  
  The simulated T<sub>e</sub> for both the 11.574 and 1  J/m<sup>2</sup>/sec net energy were almost identical to the analytical solutions. This reveals that our incorporation of net energy in the model is accurate.
  
