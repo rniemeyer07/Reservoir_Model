@@ -70,7 +70,7 @@ Lakes and reservoirs where thermal straitifcation undergo "turnover" in the fall
 #####iii. Surface Energy:
 The net surface energy is based on basic energy physics that includes five components 1) incoming and reflected solar radiation,2) incoming and released longwave radiation, 3) latent heat loss from evaporation, 4) convective energy, and 5) sensible heat gain or loss. This subroutine is the exact same energy subroutine used in RBM, therefore further documentation can be found [here] (http://www.hydro.washington.edu/Lettenmaier/Models/RBM/). Once the net energy is calculated in kcal/sec*m2, the net change in temperature due to net surface energy is calculated with the following equation:
 
-<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Eqn%2Cenergy.png" width="300"> (Eqn. 7)
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Eqn%2Cenergy.png" width="400"> (Eqn. 7)
 
 where delta_T<sub>energy</sub> is the net change in temperature due to the net surface energy exchange, q<sub>surf</sub> is the nex surface energy exchange, and dt is change in time (i.e. simulation time step, typically 86400 seconds).
 
