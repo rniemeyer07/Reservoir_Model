@@ -148,7 +148,7 @@ However, they were not a perfect fit so we changed dt from 1 day to 1 hour. Thes
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Solar.png" width="400">
 
 ####6. Conclusions:
-We used previous conceptions of reservoir models to develop a simple two-layer reservoir model. Based on our numerical and analytical tests, our model indeed performs quite well. The ultimate goal for this model is to incorporated into distributed river and river temperature modeling schemes that use VIC, RVIC, and RBM (see [UW-Hydro webiste](http://uw-hydro.github.io/) for description of these models). This reservoir model should indeed be useful for this and other applications to simulate temperature in reservoirs.
+We used previous conceptions of reservoir models to develop a simple two-layer reservoir model. Based on our numerical and analytical tests, our model indeed performs quite well. The ultimate goal for this model is to incorporated into distributed river and river temperature modeling schemes that use VIC, RVIC, and RBM (see [UW-Hydro code site](http://uw-hydro.github.io/code/) for description of these models). This reservoir model should indeed be useful for this and other applications to simulate temperature in reservoirs.
 
 ####Citations:
 Benoit, G. & Hemond, H.F. (1996) Vertical eddy diffusion calculated by the flux gradient method: Significance of sediment-water heat exchange. Limnology and oceanography, 41, 157–168.
