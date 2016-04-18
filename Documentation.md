@@ -1,7 +1,7 @@
 ## Documentation of Two-Layer Reservoir Model
 - **Authors: Ryan Niemeyer, Yifan Cheng, John Yearsley, Yixin Mao, and Bart Nijssen**
 - **University of Washington - [Computational Hydrology Lab] (http://uw-hydro.github.io/)** 
-[GitHub site] (https://github.com/UW-Hydro)
+([GitHub site] (https://github.com/UW-Hydro))
 
 ####Table of Contents:
 1. Introduction
@@ -118,11 +118,11 @@ In addition to numerical tests, we calculated analyical solutions to validate ou
 ######a. Advection:
 For the "advection only" analytical solution, we set the hypolimnion and epilimnion temperature to 0 deg C, and the inflow to a constant 20 deg C. This situation can be seen here: 
 
-<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Fig%2CAdvec_Only.png" width="300"> 
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Fig%2CAdvec_Only.png" width="400"> 
 
 The simulated T<sub>e</sub> and T<sub>h</sub> and analytical solutions for T<sub>e</sub> and T<sub>h</sub> are plotted below. Simulated temperatures are a solid line and analytical solutions are in a dotted line. We can see that the analytical solutions fit perfectly with the simulated temperature. Therefore we can trust our model indeed is accurate. 
 
-<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Advection.png" width="300">
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Advection.png" width="400">
 
 ######b. Diffusion:
 For the "diffusion only" analytical test, we set T<sub>e</sub> to 20 deg C and T<sub>h</sub> to 0 deg C, and isolated diffusion (i.e. set advection and net surface energy to "0"). This idealized situation is represeted in the following conceptual model:
@@ -130,25 +130,25 @@ For the "diffusion only" analytical test, we set T<sub>e</sub> to 20 deg C and T
 
 The simulated T<sub>e</sub> and T<sub>h</sub> and analytical solutions for T<sub>e</sub> and T<sub>h</sub> are plotted below. We can see that the simulations (solid line) and analytical solutions (dots) fit quite well.
 
-<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Diffusion.png" width="300">
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Diffusion.png" width="400">
 
 However, they were not a perfect fit so we changed dt from 1 day to 1 hour. These update simulations are below. We can see that with an hourly time step, the simulated T<sub>e</sub> and T<sub>h</sub> are nearly identical to the analytical soltuion.
 
-<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Diffusion2.png" width="300">
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Diffusion2.png" width="400">
 
 ######c. Surface Energy:
  For the analytical solution for surface energy exchange, we set diffusion and hypolimnion advection to "0". So we simulated a constant net energy and a constant advection input and output. A conceptual model for this idealized scenario is below:
  
- <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Fig%2CSolar_Only.png" width="300">
+ <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Fig%2CSolar_Only.png" width="400">
 
- Since net energy fluctuates from positive in the summer to negative in the winter in typical seasonal climates, we varied the net energy based on a sine function that peaked fluctated between 11.574 and -11.574 J/m<sup>2</sup>/sec. This value was chosen since it was the approximate net energy fluxes at our test site on the Tennessee River Basin in Tennessee, USA. 
+ Since net energy fluctuates from positive in the summer to negative in the winter in typical seasonal climates, we varied the net energy based on a sine function that peaked fluctated between 11.574 and -11.574 J/m<sup>2</sup>/sec. This value was chosen since it was the approximate net energy fluxes at our test site on the Tennessee River Basin in Tennessee, USA. We also simulated a simple sine function variation in energy from 1 to -1 J/m<sup>2</sup>/sec. 
  
- The analytical solutions...
+ The simulated T<sub>e</sub> for both the 11.574 and 1  J/m<sup>2</sup>/sec net energy were almost identical to the analytical solutions. This reveals that our incorporation of net energy in the model is accurate.
  
-<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Solar.png" width="300">
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Solar.png" width="400">
 
 ####6. Conclusions:
-We used previous conceptions of reservoir models to develop a simple two-layer reservoir model. Based on our numerical and analytical tests, our model indeed performs quite well. 
+We used previous conceptions of reservoir models to develop a simple two-layer reservoir model. Based on our numerical and analytical tests, our model indeed performs quite well. The ultimate goal for this model is to incorporated into distributed river and river temperature modeling schemes that use VIC, RVIC, and RBM (see [UW-Hydro webiste](http://uw-hydro.github.io/) for description of these models). This reservoir model should indeed be useful for this and other applications to simulate temperature in reservoirs.
 
 ####Citations:
 Benoit, G. & Hemond, H.F. (1996) Vertical eddy diffusion calculated by the flux gradient method: Significance of sediment-water heat exchange. Limnology and oceanography, 41, 157–168.
