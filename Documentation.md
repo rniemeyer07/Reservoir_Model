@@ -61,7 +61,7 @@ We also assume the volume of the epilimnion stays constant, therefore Q<sub>in,e
 #####ii. Diffusion:
 The diffusion calculation uses K<sub>Z</sub> to calculate the rate of heat transfer via both eddy and molecular diffusion. Diffusion across the thermocline is calculated by:
 
-<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Eqn%2CK_Z.png" width="500"> (Eqn. 6)
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Eqn%2CK_Z.png" width="120"> (Eqn. 6)
 
 where K<sub>Z,i</sub> D<sub>e</sub> is the depth of the epilimnion, and represents the depth thermocline which is the distance the energy has to cross between the epilimnion and the hypolimnion. We set K<sub>Z,i</sub> to 0.0001 m2/day, so the estimated diffusion eventually has the units m/day. We estimated K<sub>Z,i</sub> from Snodgrass and O'Melia 1975, Quay et al. 1980, Walter et al. 1980, and Benoit and Hemond, 1996 who used either isotopes or numerical estimation based on measured temperatures above and below the thermocline.
 
@@ -70,9 +70,9 @@ Lakes and reservoirs where thermal straitifcation undergo "turnover" in the fall
 #####iii. Surface Energy:
 The net surface energy is based on basic energy physics that includes five components 1) incoming and reflected solar radiation,2) incoming and released longwave radiation, 3) latent heat loss from evaporation, 4) convective energy, and 5) sensible heat gain or loss. This subroutine is the exact same energy subroutine used in RBM, therefore further documentation can be found [here] (http://www.hydro.washington.edu/Lettenmaier/Models/RBM/). Once the net energy is calculated in kcal/sec*m2, the net change in temperature due to net surface energy is calculated with the following equation:
 
-<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Eqn%2Cenergy.png" width="500"> (Eqn. 7)
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Eqn%2Cenergy.png" width="300"> (Eqn. 7)
 
-where delta_T<sub>energy</sub> is the net change in temperature due to the net surface energy exchange and dt is change in time (i.e. simulation time step, typically 86400 seconds).
+where delta_T<sub>energy</sub> is the net change in temperature due to the net surface energy exchange, q<sub>surf</sub> is the nex surface energy exchange, and dt is change in time (i.e. simulation time step, typically 86400 seconds).
 
 ####3. Subroutines:
 
