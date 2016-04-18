@@ -3,6 +3,8 @@
 - **University of Washington - [Computational Hydrology Lab] (http://uw-hydro.github.io/)** 
 ([GitHub site] (https://github.com/UW-Hydro))
 
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/UW_Hydro_Logo.png" width="200">
+
 ####Table of Contents:
 1. Introduction
 2. Theoretical Background
