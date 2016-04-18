@@ -100,7 +100,7 @@ This final subroutine calculates the change in temperature based on advection, d
 To test the validity of our model, we conducted both numerical and analytical solutions. 
 
 #####i. Numerical
-
+The goal of numerical solutions is to plot different a) situations or b) compare summarized data to ensure the model is performing as we would expect. 
 
 ######a. Advection:
 
@@ -112,10 +112,15 @@ To test the validity of our model, we conducted both numerical and analytical so
  
 #####ii. Analytical Solutions
 
-**Yifans analytical solutions**
+In addition to numerical tests, we calculated analyical solutions to validate our model. Analyitical solutions use Fourier transforms to calcualte a specific solution for a simplified siutaiton, and then then runs the reseroivr model in that situation and compares that analytical solution and simulated output.  In contrast to numerical solutions, this allows for comparison between the model input and calculated solutions that we know are correct.  Although we briefly cover these analytical solutions here, further detail about the analytical solutions, fourier transforms, etc. can be found in the **BLANK (Yifan's analytical solution document)** file.  
 
 ######a. Advection:
+For the "advection only" analytical solution, we set the hypolimnion and epilimnion temperature to 0 deg C, and the inflow to a constant 20 deg C. This situation can be seen here: 
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Fig%2CAdvec_Only.png" width="100"> 
 
+The simulated T<sub>e</sub> and T<sub>h</sub> and analytical solutions for T<sub>e</sub> and T<sub>h</sub> are plotted below. Simulated temperatures are a solid line and analytical solutions are in a dotted line. We can see that the analytical solutions fit perfectly with the simulated temperature. Therefore we can trust our model indeed is accurate. 
+
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Advection.png" width="100">
 
 ######b. Diffusion:
 
