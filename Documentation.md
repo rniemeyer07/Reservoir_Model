@@ -116,17 +116,19 @@ In addition to numerical tests, we calculated analyical solutions to validate ou
 
 ######a. Advection:
 For the "advection only" analytical solution, we set the hypolimnion and epilimnion temperature to 0 deg C, and the inflow to a constant 20 deg C. This situation can be seen here: 
-<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Fig%2CAdvec_Only.png" width="700"> 
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Fig%2CAdvec_Only.png" width="500"> 
 
 The simulated T<sub>e</sub> and T<sub>h</sub> and analytical solutions for T<sub>e</sub> and T<sub>h</sub> are plotted below. Simulated temperatures are a solid line and analytical solutions are in a dotted line. We can see that the analytical solutions fit perfectly with the simulated temperature. Therefore we can trust our model indeed is accurate. 
 
-<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Advection.png" width="700">
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Advection.png" width="500">
 
 ######b. Diffusion:
 
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Diffusion.png" width="500">
 
 ######c. Surface Energy:
  
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Solar.png" width="500">
 
 ####6. Conclusions:
  
