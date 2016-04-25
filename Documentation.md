@@ -19,9 +19,8 @@
   5.  Blocks
 3. Testing
   1.  Numerical
-    1. Advection
-    2. Diffusion
-    3. Surface Energy
+    1. Energy components: Advection, Diffusion, Surface Energy
+    2. Cherokee Reservoir Example
   2.  Analytical
     1. Advectoin
     2. Diffusion
@@ -105,13 +104,11 @@ To test the validity of our model, we conducted both numerical and analytical so
 #####i. Numerical
 The goal of numerical solutions is to plot different a) situations or b) compare summarized data to ensure the model is performing as we would expect. 
 
-######a. Advection:
+######a. Energy components: Advection, Diffusion, and Surface Energy:
 
 
-######b. Diffusion:
+######b. Cherokee Reservoir Example:
 
-
-######c. Surface Energy:
  
 #####ii. Analytical Solutions
 
