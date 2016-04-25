@@ -106,6 +106,24 @@ The goal of numerical solutions is to plot different a) situations or b) compare
 
 ######a. Energy components: Advection, Diffusion, and Surface Energy:
 
+First, we looked at the weekly surface energy components to A) ensure each component appeared reasonable, and b) that the net surface energy (Q_net) was positive in the summer and negative in the winter.
+
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Wkly_energy_components%2CCherokee_Reservoir.png" width="400"> 
+
+We see clearly that shortwave (S_in) and longwave (L_in) are postive and longwave out (Lw,back) is negative.  Also, we see that the net energy change from latent heat (Q_evap) and convection (Q_conv) are minor.  Finally, the net surface energy goes form positive in the spring and summer (gaining energy) to negative in the fall and winter.
+
+Second, we looked at the energy components for both the epilimnion. 
+
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Weekly_epi_energy_components%2CCherokee_Reservoir.png" width="400"> 
+
+For the epilimnion, we see clearly that advection is the primary energy component.  Surface energy planys a small role, and diffusion plays an even smaller role in controlling energy in the epilimnion.
+
+Finally we looked at the energy components for the hypolimnion. 
+
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Weekly_hyp_energy_components%2CCherokee_Reservoir.png
+" width="400"> 
+
+For the hypolimnion, we see that advection is the dominant energy component.  Diffusion plays a minor role.  Note that advection, in is 0 since in our model advection only enters...
 
 ######b. Cherokee Reservoir Example:
 
