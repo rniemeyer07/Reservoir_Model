@@ -109,6 +109,11 @@ The goal of numerical solutions is to plot different a) situations or b) compare
 
 ######b. Cherokee Reservoir Example:
 
+To test our model, we used Cherokee Reservoir (36°09'55.6"N 83°29'50.8"W), a large reservoir on the Holston River, a major tributary of the Tenessee River.  We simulated inflow from RVIC and the inflow temperature from an RBM simulation.  The observed data is from a four-year period where USGS measured temperature near Knoxvillie, TN, approximately 40 miles downstream of the Cherokee Reseservoir.  Almost all Cherkoee Reservoir releases are from the penstock, therefore the majority of downstream water will come from the hypolimnion. Below is a plot of observed and simulated stream temperature:
+
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Water_temperature%2CCherokee_Reservoir.png" width="400"> 
+
+We can see that indeed the epilimnion is much warmer than the hypolimnion and observed downstream temperature is relatively similar to the hypolimnion temperature. We initially simulated this reservoir with RBM where the Nash-Sutcliffe Model Efficiency was 0.39. When we incorporated this two-layer reservoir model into RBM (i.e. for a cell that was on a reservoir, this two-layer model was used instead of RBM), the Nash-Sutcliffe efficiency was 0.73. 
  
 #####ii. Analytical Solutions
 
