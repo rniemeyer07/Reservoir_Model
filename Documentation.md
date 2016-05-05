@@ -120,8 +120,7 @@ For the epilimnion, we see clearly that advection is the primary energy componen
 
 Finally we looked at the energy components for the hypolimnion. 
 
-<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Weekly_hyp_energy_components%2CCherokee_Reservoir.png
-" width="400"> 
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Weekly_hyp_energy_components%2CCherokee_Reservoir.png" width="400"> 
 
 For the hypolimnion, we see that advection is the dominant energy component.  Diffusion plays a minor role.  Note that advection, in is 0 since in our model advection only enters...
 
