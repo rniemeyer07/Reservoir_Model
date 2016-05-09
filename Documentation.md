@@ -114,15 +114,15 @@ We see clearly that shortwave (S_in) and longwave (L_in) are postive and longwav
 
 Second, we looked at the energy components for both the epilimnion. 
 
-<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Weekly_epi_energy_components%2CCherokee_Reservoir.png" width="400"> 
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Monthly%2CEpilimnion%2CTemperature_Change%2CCherokee_Reservoir.png" width="400"> 
 
-For the epilimnion, we see clearly that advection is the primary energy component.  Surface energy planys a small role, and diffusion plays an even smaller role in controlling energy in the epilimnion.
+For the epilimnion, we see clearly that since in our model, advection in equals advection out, the two terms cancel themselves out.  Furthermore, we see surface energy drives fluctuations in annual temperature, with a net gain in surface energy driving summer warming of epilimnion, and a net surface energy loss driving cooling in the winter.  We also see diffusion being close to 0 during the summers, when stratification occurs and the diffusion coefficient is very low. Conversley we see gain in energy in the winter when the diffusion of energy from hypolimnion enters the epilimnion. 
 
 Finally we looked at the energy components for the hypolimnion. 
 
-<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Weekly_hyp_energy_components%2CCherokee_Reservoir.png" width="400"> 
+<img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Monthly%2CHypolimnion%2CTemperature_Change%2CCherokee_Reservoir.png" width="400"> 
 
-For the hypolimnion, we see that advection is the dominant energy component.  Diffusion plays a minor role.  Note that advection, in is 0 since in our model advection only enters...
+For the hypolimnion, we see that advection is the dominant energy component. Advection from the epilimnion warms the hypolimnion in the spring and summer. In the winter, diffusion of energy from hypolimnion to epilimnion clearly cools the hypolimnion.
 
 ######b. Cherokee Reservoir Example:
 
