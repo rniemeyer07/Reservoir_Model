@@ -112,7 +112,7 @@ First, we looked at the weekly surface energy components to A) ensure each compo
 
 We see clearly that shortwave (S_in) and longwave (L_in) are postive and longwave out (Lw,back) is negative.  Also, we see that the net energy change from latent heat (Q_evap) and convection (Q_conv) are minor.  Finally, the net surface energy goes form positive in the spring and summer (gaining energy) to negative in the fall and winter.
 
-Second, we looked at the energy components for both the epilimnion. 
+Second, we looked at the energy components for the epilimnion. 
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Monthly%2CEpilimnion%2CTemperature_Change%2CCherokee_Reservoir.png" width="400"> 
 
