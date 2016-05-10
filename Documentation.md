@@ -56,7 +56,7 @@ Advection includes inflow, outflow, and flow between the epilimnion and hypolimn
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Eqn%2Cdensity.png" width="500"> (Eqn. 5)
 
-where T<sub>x</sub> is temperature of inflow, epilimnion, or hypolimnion, and a - h are constants: a = 1.0000281e-3, b = 999.83952, c = 16.945176, d = 7.9870401e-3, e = 46.170461e-6, f = 105.56302e-9, g = 280.54235e-12, h = 16.87985e-3. 
+where T<sub>x</sub> is temperature of inflow, epilimnion, or hypolimnion, and a - h are constants given in <b>REFERENCE instead</b>
 
 We also assume the volume of the epilimnion stays constant, therefore Q<sub>in,e</sub> = Q<sub>vert</sub>. 
 
