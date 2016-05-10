@@ -49,6 +49,8 @@ where Q<sub>in,h</sub> is inflow discharge into hypolimnion and (Q<sub>out,h</su
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Eqn%2CHypo2.png" width="550"> (Eqn. 4)
 
+(<b> I THOUGHT WE WERE USING THE BART/YIFAN FORMULATION</b>)
+
 Equations 2 and 4 were used in the source code to simulate temperature in our reservoir model. We assume the epilimnion and hypolimnion are well mixed within the layers, but energy fluxes across the border are controlled by advection and diffusion.
 
 #####i. Advection:
@@ -56,7 +58,7 @@ Advection includes inflow, outflow, and flow between the epilimnion and hypolimn
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Eqn%2Cdensity.png" width="500"> (Eqn. 5)
 
-where T<sub>x</sub> is temperature of inflow, epilimnion, or hypolimnion, and a - h are constants given in <b>REFERENCE instead</b>
+where T<sub>x</sub> is temperature of inflow, epilimnion, or hypolimnion, and a - h are constants given in (<b>REFERENCE here</b>)
 
 We also assume the volume of the epilimnion stays constant, therefore Q<sub>in,e</sub> = Q<sub>vert</sub>. 
 
