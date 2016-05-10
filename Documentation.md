@@ -22,16 +22,16 @@
     1. Energy components: Advection, Diffusion, Surface Energy
     2. Cherokee Reservoir Example
   2.  Analytical
-    1. Advectoin
+    1. Advection
     2. Diffusion
     3. Surface Energy
 4. Conclusions
 
 ####1. Introduction:
-Lakes and reservoirs in rivers stratify thermally in the summer depending upon a number of physical processes that include the residence time, Q/V (DEFINE), wind stress, reservoir depth and transfer of thermal energy across the air-water interface (REF needed here).   incoming solar and longwave radiation at the surface, the reservoir forms a warmer upper layer, called epilimnion, while a deeper layer called the hypolimnion remains cooler. When stratification occurs, a sharp change in temperature is observed between the epilimnion and hypolimnion. This border is called the thermocline. To accurately model stream temperature in a river system with reservoirs, we developed this two-layer reservoir model. The goal for this model is that it can both be a stand alone simple model and also is being incorporated into the [RBM](http://www.hydro.washington.edu/Lettenmaier/Models/RBM/) distributed stream temperature model. 
+Lakes and reservoirs in rivers stratify thermally in the summer depending upon physical processes that include the residence time, Q/V (<i>DEFINE</i>), wind stress, reservoir depth and transfer of thermal energy across the air-water interface (REF needed here). Reservoir/lake stratification is characterized by a rapid change in water temperature with depth. The depth of the maximum temperature  gradient is the thermocline. For purposes of describing reservoir/lake processes, limnologists define the layer above the thermocline as the eplimnion and the layer below as the hypolimnion. Water temperatures in the layer above the thermocline can be nearly uniform, while water temperatures in the hypolimnion generally very with depth. The model described here is a two-layer model of the epilimnion and hypolimnion and assumes that water temperature in each layer is uniform. The goal for this model is that it can both be a stand alone simple model and also is being incorporated into the [RBM](http://www.hydro.washington.edu/Lettenmaier/Models/RBM/) distributed stream temperature model. 
 
 ####2. Theoretical Background:
-This two-layer reservoir model was derived from equations for changes in temperature in the epilimnion and hypolimnoin from equations 31.2 and 31.3 in "Surface Water Quality Modeling" (Chapra, 1997, McGraw Hill).Since both temperature and volume change between time steps, we added a *dV/dt* component to each layer's equation. The change in epilimion temperature equations is as follows:
+This two-layer reservoir model was derived from equations for changes in temperature in the epilimnion and hypolimnion from equations 31.2 and 31.3 in "Surface Water Quality Modeling" (Chapra, 1997, McGraw Hill). The change in epilimion temperature equations is as follows:
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Eqn%2CEpil1.png" width="520"> (Eqn. 1)
 
