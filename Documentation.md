@@ -28,10 +28,10 @@
 4. Conclusions
 
 ####1. Introduction:
-Lakes and reservoirs in rivers stratify thermally in the summer depending upon physical processes that include the residence time, Q/V (<b>DEFINE</b>), wind stress, reservoir depth and transfer of thermal energy across the air-water interface (<b>REF needed here</b>). Reservoir/lake stratification is characterized by a rapid change in water temperature with depth. The depth of the maximum temperature  gradient is the thermocline. For purposes of describing reservoir/lake processes, limnologists define the layer above the thermocline as the eplimnion and the layer below as the hypolimnion. Water temperatures in the layer above the thermocline can be nearly uniform, while water temperatures in the hypolimnion generally very with depth. The model described here is a two-layer model of the epilimnion and hypolimnion and assumes that water temperature in each layer is uniform. The goal for this model is that it can both be a stand alone simple model and also is being incorporated into the [RBM](http://www.hydro.washington.edu/Lettenmaier/Models/RBM/) distributed stream temperature model. 
+Lakes and reservoirs in rivers stratify thermally in the summer depending upon physical processes that include the residence time, V/Q (<b>DEFINE</b>), wind stress, reservoir depth and transfer of thermal energy across the air-water interface (<b>REF needed here</b>). Reservoir/lake stratification is characterized by the maximum temperature gradient at a depth defined as the thermocline For purposes of describing reservoir/lake processes, limnologists define the layer above the thermocline as the eplimnion and the layer below as the hypolimnion. Water temperatures in the layer above the thermocline can be nearly uniform, while water temperatures in the hypolimnion generally very with depth. For purposes of capturing important features of the thermal regime of a stratified reservoir, we describe here a two-layer water temperature model of the epilimnion and hypolimnion and assume that the temperature is uniform in both layers. Other important dynamic features of stratified reservoirs in the model include a mechanism for simulating the conditions for which a stratified reservoir overturns and a method for modeling density flow. We have developed the model for applications in river basins for which there can be any configuration of freely-flowing segments and stratified reservoirs.
 
 ####2. Theoretical Background:
-This two-layer reservoir model was derived from equations for changes in temperature in the epilimnion and hypolimnion from equations 31.2 and 31.3 in "Surface Water Quality Modeling" (Chapra, 1997, McGraw Hill). The change in epilimion temperature equations is as follows:
+This two-layer reservoir model simulates water temperature in the epilimnion and hypolimnion based on the methods in (Chapra, 1997). The change in epilimion temperature equations is as follows:
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/Eqn%2CEpil1.png" width="520"> (Eqn. 1)
 
@@ -51,7 +51,7 @@ where Q<sub>in,h</sub> is inflow discharge into hypolimnion and (Q<sub>out,h</su
 
 (<b> I THOUGHT WE WERE USING THE BART/YIFAN FORMULATION</b>)
 
-Equations 2 and 4 were used in the source code to simulate temperature in our reservoir model. We assume the epilimnion and hypolimnion are well mixed within the layers, but energy fluxes across the border are controlled by advection and diffusion.
+Equations 2 and 4 were used in the source code to simulate temperature in our reservoir model. We assume the epilimnion and hypolimnion are well mixed within the layers, but energy fluxes across the bounday between the two are controlled by advection and diffusion.
 
 #####i. Advection:
 Advection includes inflow, outflow, and flow between the epilimnion and hypolimnion. The portion of Q<sub>in</sub> that flows to the epilimnion or hypolimnion is determined by the density of the inflow, hypolimnion and epilimnion.  The equation to determine density is based on 'CRC Handbook of Chemistry and Physics' and determined by the following equation:
@@ -67,12 +67,12 @@ The diffusion calculation uses K<sub>Z</sub> to calculate the rate of heat trans
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Eqn%2CK_Z.png" width="120"> (Eqn. 6)
 
-where K<sub>Z,i</sub> D<sub>e</sub> is the depth of the epilimnion, and represents the depth thermocline which is the distance the energy has to cross between the epilimnion and the hypolimnion. We set K<sub>Z,i</sub> to 0.0001 m2/day, so the estimated diffusion eventually has the units m/day. We estimated K<sub>Z,i</sub> from Snodgrass and O'Melia 1975, Quay et al. 1980, Walter et al. 1980, and Benoit and Hemond, 1996 who used either isotopes or numerical estimation based on measured temperatures above and below the thermocline. A comprehensive discussion of the state of the art can be found at [CEQUAL-W2](http://www.ce.pdx.edu/w2/).
+where K<sub>Z,i</sub> D<sub>e</sub> is the depth of the epilimnion, and represents the depth thermocline which is the distance the energy has to cross between the epilimnion and the hypolimnion. We set K<sub>Z,i</sub> to 0.0001 m2/day, so the estimated diffusion eventually has the units m/day. We estimated K<sub>Z,i</sub> from Snodgrass and O'Melia 1975, Quay et al. 1980, Walter et al. 1980, and Benoit and Hemond, 1996 who used either isotopes or numerical estimation based on measured temperatures above and below the thermocline. A comprehensive discussion of methods estimating eddy viscosity and eddy diffusivity can be found at [CEQUAL-W2](http://www.ce.pdx.edu/w2/).
 
-Lakes and reservoirs where thermal straitifcation undergo "turnover" in the fall and spring, when the entire water column (i.e. combined epilimnion and hypolimnion) become well-mixed. To simulate this when the date is after August 31st, we set K<sub>Z</sub> to 0.1 if T<sub>e</sub> gets within 2 deg C of T<sub>h</sub>, and K<sub>Z</sub> is set to 1 when T<sub>e</sub> is within 0 deg C of T<sub>h</sub>.
+In lakes and reservoirs where thermal straitifcation that overturn in the fall and spring, the entire water column becomes well-mixed. To simulate this when the date is after August 31st, we set K<sub>Z</sub> to 0.1 if T<sub>e</sub> gets within 2 deg C of T<sub>h</sub>, and K<sub>Z</sub> is set to 1 when T<sub>e</sub> is within 0 deg C of T<sub>h</sub>. (<b> NEED A REFERENCE HERE </b>) 
 
 #####iii. Surface Energy:
-The net surface energy is based on basic energy physics that includes five components 1) incoming and reflected solar radiation,2) incoming and released longwave radiation, 3) latent heat loss from evaporation, 4) convective energy, and 5) sensible heat gain or loss. This subroutine is the exact same energy subroutine used in RBM, therefore further documentation can be found [here] (http://www.hydro.washington.edu/Lettenmaier/Models/RBM/). Once the net energy is calculated in kcal/sec*m2, the net change in temperature due to net surface energy is calculated with the following equation:
+The transfer of thermal energy across the air-water interface is based includes five components 1) incoming and reflected solar radiation,2) incoming and released longwave radiation, 3) latent heat loss from evaporation, 4) convective energy, and 5) sensible heat gain or loss. This subroutine is the exact same energy subroutine used in RBM, therefore further documentation can be found [here] (http://www.hydro.washington.edu/Lettenmaier/Models/RBM/). Once the net energy is calculated in kcal/sec*m2, the net change in temperature due to net surface energy is calculated with the following equation:
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Eqn%2Cenergy.png" width="400"> (Eqn. 7)
 
@@ -108,19 +108,19 @@ The goal of numerical solutions is to plot different a) situations or b) compare
 
 ######a. Energy components: Advection, Diffusion, and Surface Energy:
 
-First, we looked at the weekly surface energy components to A) ensure each component appeared reasonable, and b) that the net surface energy (Q_net) was positive in the summer and negative in the winter.
+Initially, we calcluated the weekly surface energy components to ensure: a) that each component appeared reasonable, and b) that the net surface energy (Q_net) was positive in the summer and negative in the winter.
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Wkly_energy_components%2CCherokee_Reservoir.png" width="400"> 
 
-We see clearly that shortwave (S_in) and longwave (L_in) are postive and longwave out (Lw,back) is negative.  Also, we see that the net energy change from latent heat (Q_evap) and convection (Q_conv) are minor.  Finally, the net surface energy goes form positive in the spring and summer (gaining energy) to negative in the fall and winter.
+We see clearly that shortwave (S_in) and longwave (L_in) are positive and longwave out (Lw,back) is negative.  Also, we see that the net energy change from latent heat (Q_evap) and convection (Q_conv) are minor.  Finally, the net surface energy goes from positive in the spring and summer (gaining energy) to negative in the fall and winter.
 
-Second, we looked at the energy components for the epilimnion. 
+Next, we calculated the energy components for the epilimnion. 
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Monthly%2CEpilimnion%2CTemperature_Change%2CCherokee_Reservoir.png" width="400"> 
 
-For the epilimnion, we see clearly that since in our model, advection in equals advection out, the two terms cancel themselves out.  Furthermore, we see surface energy drives fluctuations in annual temperature, with a net gain in surface energy driving summer warming of epilimnion, and a net surface energy loss driving cooling in the winter.  We also see diffusion being close to 0 during the summers, when stratification occurs and the diffusion coefficient is very low. Conversley we see gain in energy in the winter when the diffusion of energy from hypolimnion enters the epilimnion. 
+For the epilimnion, we see clearly that since in our model, advection in equals advection out, the two terms cancel themselves out.  Furthermore, we see surface energy drives fluctuations in annual temperature, with a net gain in surface energy driving summer warming of epilimnion, and a net surface energy loss driving cooling in the winter.  We also see diffusion being close to 0 during the summers, when stratification occurs and the diffusion coefficient is very low. Conversely we see gain in energy in the winter when the diffusion of energy from hypolimnion enters the epilimnion. 
 
-Finally we looked at the energy components for the hypolimnion. 
+Finally we examined the energy components for the hypolimnion. 
 
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Monthly%2CHypolimnion%2CTemperature_Change%2CCherokee_Reservoir.png" width="400"> 
 
@@ -170,11 +170,15 @@ However, they were not a perfect fit so we changed dt from 1 day to 1 hour. Thes
  
 <img src="https://github.com/rniemeyer07/Reservoir_Model/blob/master/figures/Analytical_Solar.png" width="400">
 
+(<b> THERE SHOULD BE A LINK TO YIFAN'S ANALYTICAL SOLUTIONS </b>)
+
 ####6. Conclusions:
-We used previous conceptions of reservoir models to develop a simple two-layer reservoir model. Based on our numerical and analytical tests, our model indeed performs quite well. The ultimate goal for this model is to incorporated into distributed river and river temperature modeling schemes that use VIC, RVIC, and RBM (see [UW-Hydro code site](http://uw-hydro.github.io/code/) for description of these models). This reservoir model should indeed be useful for this and other applications to simulate temperature in reservoirs.
+We used previous conceptions of reservoir models to develop a simple two-layer reservoir model. Based on our numerical and analytical tests, our model indeed performs quite well. The ultimate goal for this model is to incorporated into distributed river and river temperature modeling schemes that use VIC, RVIC, and RBM (see [UW-Hydro code site](http://uw-hydro.github.io/code/) for description of these models). 
 
 ####Citations:
 Benoit, G. & Hemond, H.F. (1996) Vertical eddy diffusion calculated by the flux gradient method: Significance of sediment-water heat exchange. Limnology and oceanography, 41, 157–168.
+
+Chapra, S. C. (1997), Surface Water-Quality Modeling, McGraw-Hill, New York.
 
 Quay, P.D., Broecker, W.S., Hesslein, R.H. & Schindler, D.W. (1980) Vertical diffusion rates determined by tritium tracer experiments in the thermocline and hypolimnion of two lakes. Limnology and Oceanography, 25, 201–218.
 
